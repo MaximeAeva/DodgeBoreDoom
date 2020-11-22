@@ -14,7 +14,7 @@ class hero{
         void initialize();
         void place(const int &x, const int &y, const int &look = 0);
         void move(const int &x, const int &y, const int &look = 0);
-        void attack();
+        void attack(int dir);
         inline std::vector<object*> getBackPack(){return this->backPack;};
 
     private:

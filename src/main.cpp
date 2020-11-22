@@ -5,6 +5,7 @@
 #include <PDCurses-3.8/curses.h>
 
 #include <stdlib.h>
+#include <windows.h>
 #include <time.h>
 
 #include "hero.hpp"
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 {
     time_t seed;
     int x, y, j, r, c;
-    static int xpos[5], ypos[5];
+
 
 #ifdef XCURSES
     Xinitscr(argc, argv);
@@ -47,14 +48,8 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
-    for (j = 5; --j >= 0;)
-    {
-        xpos[j] = rand() % c + 2;
-        ypos[j] = rand() % r + 2;
-    }
-
-    x = rand() % c + 2;
-    y = rand() % r + 2;
+    x = 50;
+    y = 20;
 
     hero Vanessa;
     Vanessa.place(x, y);
@@ -63,50 +58,67 @@ int main(int argc, char *argv[])
     {
         for(int i = 0; i<Vanessa.getBackPack().size(); i++)
             Vanessa.getBackPack()[i]->updateFlyingObj();
+        
 
-        attrset(COLOR_PAIR(2));
         switch (getch())
         {
-        case 'q':
-        case 'Q':
+        case 'p':
+        case 'P':
             curs_set(1);
             endwin();
             return EXIT_SUCCESS;
-        case 'b':
-            Vanessa.attack();
-            flushinp();
-            break;
-        case KEY_UP:    // key up
-            Vanessa.move(0, -1, 2);
-            flushinp();
-        break;
-        case KEY_DOWN:    // key down
-            Vanessa.move(0, 1, 4);
-            flushinp();
-        break;
-        case KEY_RIGHT:    // key right
-            Vanessa.move(1, 0, 1);
-            flushinp();
-        break;
-        case KEY_LEFT:    // key left
-            Vanessa.move(-1, 0, 3);
-            flushinp();
-        break;
-        case 's':
-            nodelay(stdscr, FALSE);
-            break;
-        case ' ':
-            nodelay(stdscr, TRUE);
-#ifdef KEY_RESIZE
+        #ifdef KEY_RESIZE
             break;
         case KEY_RESIZE:
-# ifdef PDCURSES
-            resize_term(0, 0);
-# endif
-            r = LINES - 4;
-            c = COLS - 4;
-#endif
+            # ifdef PDCURSES
+                        resize_term(0, 0);
+            # endif
+                        r = LINES - 4;
+                        c = COLS - 4;
+            #endif
         }
+        if(GetAsyncKeyState(0x5A))   
+        {
+            Vanessa.attack(2);
+            flushinp();
+        }
+        if(GetAsyncKeyState(0x51))   
+        {
+            Vanessa.attack(3);
+            flushinp();
+        }
+        if(GetAsyncKeyState(0x53))   
+        {
+            Vanessa.attack(4);
+            flushinp();
+        }
+        if(GetAsyncKeyState(0x44))   
+        {
+            Vanessa.attack(1);
+            flushinp();
+        }
+        if(GetAsyncKeyState(VK_UP))   
+        {
+            Vanessa.move(0, -1, 2);
+            flushinp();
+        }
+        if(GetAsyncKeyState(VK_DOWN))   
+        {
+            Vanessa.move(0, 1, 4);
+            flushinp();
+        }
+        if(GetAsyncKeyState(VK_RIGHT))
+        {
+            Vanessa.move(1, 0, 1);
+            flushinp();
+        }
+        if(GetAsyncKeyState(VK_LEFT))
+        {
+            Vanessa.move(-1, 0, 3);
+            flushinp();
+        }
+
+        
         napms(50);
     }
 }

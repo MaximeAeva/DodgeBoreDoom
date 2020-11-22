@@ -125,9 +125,9 @@ void hero::move(const int &x, const int &y, const int &look)
  * @brief Attack !!
  * 
  */
-void hero::attack()
+void hero::attack(int dir)
 {
     this->backPack[this->selectedObj]->attack(this->position.first, 
-            this->position.second, this->lookTo);
+            this->position.second, dir);
 }
 
