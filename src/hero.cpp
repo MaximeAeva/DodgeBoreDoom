@@ -56,6 +56,8 @@ void hero::initialize()
  */
 void hero::place(const int &x, const int &y, const int &look)
 {
+    init_pair(heroColor, COLOR_WHITE, COLOR_BLACK);
+    attrset(COLOR_PAIR(heroColor));
     this->position.first=x;
     this->position.second=y;
     mvaddch(y, x, 0x0273);
@@ -73,6 +75,7 @@ void hero::place(const int &x, const int &y, const int &look)
  */
 void hero::move(const int &x, const int &y, const int &look)
 {
+    init_pair(heroColor, COLOR_WHITE, COLOR_BLACK);
     mvaddstr(this->position.second, this->position.first-2, "     ");
     mvaddstr(this->position.second+1, this->position.first-2, "     ");
     mvaddstr(this->position.second+2, this->position.first-2, "     ");
@@ -82,6 +85,8 @@ void hero::move(const int &x, const int &y, const int &look)
     if(look) this->lookTo = look;
     this->backPack[this->selectedObj]->display(this->position.first, 
             this->position.second, this->lookTo);
+            
+    attrset(COLOR_PAIR(heroColor));
     switch (this->lookTo)
     {
         case 1:
@@ -122,36 +127,7 @@ void hero::move(const int &x, const int &y, const int &look)
  */
 void hero::attack()
 {
-    switch(this->lookTo)
-    {
-    case 3:
-        mvaddch(this->position.second,
-        this->position.first-1, '_');
-        mvaddch(this->position.second,
-        this->position.first-2, '(');
-        break;
-    case 1:
-        mvaddch(this->position.second,
-        this->position.first+1, '_');
-        mvaddch(this->position.second,
-        this->position.first+2, ')');
-        break;
-    case 2:
-        mvaddch(this->position.second,
-        this->position.first+1, ' ');   
-        mvaddch(this->position.second,
-        this->position.first-1, '_');
-        mvaddch(this->position.second-1,
-        this->position.first, '_');
-        break;
-    case 4:
-        mvaddch(this->position.second+1,
-        this->position.first-1, ' ');
-        mvaddch(this->position.second,
-        this->position.first+1, '_');
-        mvaddch(this->position.second+2,
-        this->position.first, '-');
-        break;
-    }
+    this->backPack[this->selectedObj]->attack(this->position.first, 
+            this->position.second, this->lookTo);
 }
 

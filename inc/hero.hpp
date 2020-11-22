@@ -6,6 +6,8 @@
 #include "weapon.hpp"
 #include <PDCurses-3.8/curses.h>
 
+#define heroColor 0
+
 class hero{
     public:
         hero();
@@ -13,6 +15,7 @@ class hero{
         void place(const int &x, const int &y, const int &look = 0);
         void move(const int &x, const int &y, const int &look = 0);
         void attack();
+        inline std::vector<object*> getBackPack(){return this->backPack;};
 
     private:
         std::pair<int, int> position;

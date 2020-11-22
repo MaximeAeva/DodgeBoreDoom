@@ -61,7 +61,9 @@ int main(int argc, char *argv[])
 
     for (j = 0;;)
     {
-        //Vanessa.initialize();
+        for(int i = 0; i<Vanessa.getBackPack().size(); i++)
+            Vanessa.getBackPack()[i]->updateFlyingObj();
+
         attrset(COLOR_PAIR(2));
         switch (getch())
         {

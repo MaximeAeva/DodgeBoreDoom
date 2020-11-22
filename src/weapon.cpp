@@ -43,7 +43,6 @@ void weapon::display(const int &x, const int &y,
     init_pair(godLike, COLOR_BLUE, COLOR_BLACK);
     init_pair(legendary, COLOR_CYAN, COLOR_BLACK);
 
-    std::cout << this->damage;
     switch(this->id)
     {
         case 1:
@@ -103,9 +102,83 @@ void weapon::display(const int &x, const int &y,
         break;
     }
 }
-void attack(const int &x, const int &y,
+
+void weapon::attack(const int &x, const int &y,
          const int &look)
 {
+    init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);
+    init_pair(common, COLOR_RED, COLOR_BLACK);
+    init_pair(supp, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(topTier, COLOR_GREEN, COLOR_BLACK);
+    init_pair(godLike, COLOR_BLUE, COLOR_BLACK);
+    init_pair(legendary, COLOR_CYAN, COLOR_BLACK);
 
+    switch(this->id)
+    {
+        case 1:
+            switch(look)
+            {
+                case 1: //right
+                    addFlyingObject({x+2, y}, COLOR_PAIR(floor(this->damage)-4), 
+                        {1, 0}, this->id, look);
+                    break;
+                case 2: //up
+                    addFlyingObject({x, y-1}, COLOR_PAIR(floor(this->damage)-4), 
+                        {0, -1}, this->id, look);
+                    break;
+                case 3: //left
+                    addFlyingObject({x-2, y}, COLOR_PAIR(floor(this->damage)-4), 
+                        {-1, 0}, this->id, look);
+                    break;
+                case 4: //down (sad man ?)
+                    addFlyingObject({x, y+2}, COLOR_PAIR(floor(this->damage)-4), 
+                        {0, 1}, this->id, look);
+                    break;
+            }
+        break;
+        case 2:
+        case 3:
+            switch(look)
+            {
+                case 1: //right
+                    addFlyingObject({x+2, y}, COLOR_PAIR(floor((this->damage-2)*2)), 
+                        {1, 0}, this->id, look);
+                    break;
+                case 2: //up
+                    addFlyingObject({x, y-1}, COLOR_PAIR(floor((this->damage-2)*2)), 
+                        {0, -1}, this->id, look);
+                    break;
+                case 3: //left
+                    addFlyingObject({x-2, y}, COLOR_PAIR(floor((this->damage-2)*2)), 
+                        {-1, 0}, this->id, look);
+                    break;
+                case 4: //down (sad man ?)
+                    addFlyingObject({x, y+2}, COLOR_PAIR(floor((this->damage-2)*2)), 
+                        {0, 1}, this->id, look);
+                    break;
+            }
+        break;
+        default:
+            switch(look)
+            {
+                case 1: //right
+                    addFlyingObject({x+2, y}, COLOR_PAIR(floor((this->damage-1)*6)), 
+                        {1, 0}, this->id, look);
+                    break;
+                case 2: //up
+                    addFlyingObject({x, y-1}, COLOR_PAIR(floor((this->damage-1)*6)), 
+                        {0, -1}, this->id, look);
+                    break;
+                case 3: //left
+                    addFlyingObject({x-2, y}, COLOR_PAIR(floor((this->damage-1)*6)), 
+                        {-1, 0}, this->id, look);
+                    break;
+                case 4: //down (sad man ?)
+                    addFlyingObject({x, y+2}, COLOR_PAIR(floor((this->damage-1)*6)), 
+                        {0, 1}, this->id, look);
+                    break;
+            }
+        break;
+    }
 }
 
