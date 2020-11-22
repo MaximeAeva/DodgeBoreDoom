@@ -11,7 +11,9 @@ OBJ_DIR =       obj
 PROJ_SRC_LIST = main.cpp \
 				hero.cpp \
 				mob.cpp	\
-				map.cpp
+				map.cpp \
+				weapon.cpp \
+				object.cpp
 
 # objects
 PROJ_OBJ_LIST = $(PROJ_SRC_LIST:.cpp=.o)

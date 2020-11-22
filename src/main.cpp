@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
             return EXIT_SUCCESS;
         case 'b':
             Vanessa.attack();
+            flushinp();
             break;
         case KEY_UP:    // key up
             Vanessa.move(0, -1, 2);

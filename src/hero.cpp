@@ -8,8 +8,11 @@ hero::hero()
 {
     this->life = 3;
     this->currentLife = 3;
-    this->lookTo = 0;
+    this->lookTo = 1;
     this->footPos = false;
+    this->selectedObj = 0;
+    weapon *myWeapon = new weapon;
+    this->backPack.push_back(myWeapon);
 }
 
 void hero::initialize()
@@ -56,8 +59,9 @@ void hero::place(const int &x, const int &y, const int &look)
     this->position.first=x;
     this->position.second=y;
     mvaddch(y, x, 0x0273);
-    mvaddch(y, x+1, '/');
     mvaddch(y+1, x, 0x0245);
+    this->backPack[this->selectedObj]->display(this->position.first, 
+            this->position.second, this->lookTo);
 }
 
 /**
@@ -76,34 +80,26 @@ void hero::move(const int &x, const int &y, const int &look)
     this->position.first+=x;
     this->position.second+=y;
     if(look) this->lookTo = look;
+    this->backPack[this->selectedObj]->display(this->position.first, 
+            this->position.second, this->lookTo);
     switch (this->lookTo)
     {
-    case 1:
-        mvaddch(this->position.second,
-         this->position.first, 0x0273);
-        mvaddch(this->position.second,
-         this->position.first+1, '/');
-        break;
-    case 2:
-        mvaddch(this->position.second,
-         this->position.first, 0x0273);
-        mvaddch(this->position.second,
-         this->position.first+1, '/');
-        break;
-    case 3:
-       mvaddch(this->position.second,
-         this->position.first, 0x0272);
-        mvaddch(this->position.second,
-         this->position.first-1, 0x005C);//modify to weapon class
-        break;
-    case 4:
-       mvaddch(this->position.second,
-         this->position.first, 0x0272);
-        mvaddch(this->position.second+1,
-         this->position.first-1, '/');//modify to weapon class
-        break;
-    default:
-        break;
+        case 1:
+            mvaddch(this->position.second,
+            this->position.first, 0x0273);
+            break;
+        case 2:
+            mvaddch(this->position.second,
+            this->position.first, 0x0273);
+            break;
+        case 3:
+            mvaddch(this->position.second,
+            this->position.first, 0x0272);
+            break;
+        case 4:
+            mvaddch(this->position.second,
+            this->position.first, 0x0272);
+            break;
     }
     
     if(this->footPos)
@@ -114,7 +110,7 @@ void hero::move(const int &x, const int &y, const int &look)
     }
     else
     {   
-        mvaddch(this->position.second+1, this->position.first, 0x0245);
+        mvaddch(this->position.second+1, this->position.first, '|');
         this->footPos = true;
     }
         
