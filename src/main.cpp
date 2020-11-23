@@ -26,9 +26,6 @@ int main(int argc, char *argv[])
     srand(seed);
 
     map gameMap(15);
-    for(int i = 0; i<gameMap.getMapSize(); i++) 
-        std::cout << gameMap.getRoom(i)->position.first << 
-            ", " << gameMap.getRoom(i)->position.second << std::endl;
 
     if (has_colors())
     {
@@ -54,11 +51,8 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
-    x = round(COLS/2);
-    y = round(LINES/2);
-
     hero Vanessa;
-    Vanessa.place(x, y);
+    Vanessa.place(round(COLS/2), round(LINES/2));
 
     for (j = 0;;)
     {
