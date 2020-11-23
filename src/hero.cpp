@@ -6,8 +6,8 @@
  */
 hero::hero()
 {
-    this->life = 3;
-    this->currentLife = 3;
+    this->life = 12;
+    this->currentLife = 12;
     this->lookTo = 1;
     this->footPos = false;
     this->selectedObj = 0;
@@ -73,15 +73,88 @@ void hero::place(const int &x, const int &y, const int &look)
  * @param y 
  * @param look 
  */
-void hero::move(const int &x, const int &y, const int &look)
+void hero::move(const int &look, map* myMap)
 {
+    room *r = myMap->getCurrentRoom();
+    int x, y;
+    if(look == 1 && this->position.first < COLS-7)
+    {
+        x = 1;
+        y = 0;
+    }
+    else if(look == 2 && this->position.second > 3)
+    {
+        x = 0;
+        y = -1;
+    }
+    else if(look == 3 && this->position.first > 5)
+    {
+        x = -1;
+        y = 0;
+    }
+    else if(look == 4 && this->position.second < LINES-5)
+    {
+        x = 0;
+        y = 1;
+    }
+    else
+    {
+        if(look == 1 && r->neighboors[0]==1 && abs(this->position.second-(LINES/2)<2))
+        {
+            x = 1;
+            y = 0;
+        }   
+        else if(look == 2 && r->neighboors[1]==1 && abs(this->position.first-(COLS/2)<2))
+        {
+            x = 0;
+            y = -1;
+        }
+        else if(look == 3 && r->neighboors[2]==1 && abs(this->position.second-(LINES/2)<2))
+        {
+            x = -1;
+            y = 0;
+        }
+        else if(look == 4 && r->neighboors[3]==1 && abs(this->position.first-(COLS/2)<2))
+        {
+            x = 0;
+            y = 1;
+        }
+        else return;
+    }
     init_pair(heroColor, COLOR_WHITE, COLOR_BLACK);
-    mvaddstr(this->position.second, this->position.first-2, "     ");
-    mvaddstr(this->position.second+1, this->position.first-2, "     ");
-    mvaddstr(this->position.second+2, this->position.first-2, "     ");
-    mvaddstr(this->position.second-1, this->position.first-2, "     ");
-    this->position.first+=x;
-    this->position.second+=y;
+    if(this->position.first + x == COLS)
+    {
+        myMap->setCurrentRoom({r->position.first+1, r->position.second});
+        for(int u = 0; u<this->getBackPack().size(); u++) 
+            this->getBackPack()[u]->killFlyingObj();
+    }
+    else if(this->position.first + x == -1)
+    {
+        myMap->setCurrentRoom({r->position.first-1, r->position.second});
+        for(int u = 0; u<this->getBackPack().size(); u++) 
+            this->getBackPack()[u]->killFlyingObj();
+    }
+    else if(this->position.second + y == LINES)
+    {
+        myMap->setCurrentRoom({r->position.first, r->position.second+1});
+        for(int u = 0; u<this->getBackPack().size(); u++) 
+            this->getBackPack()[u]->killFlyingObj();
+    }
+    else if(this->position.second + y == -1)
+    {
+        myMap->setCurrentRoom({r->position.first, r->position.second-1});
+        for(int u = 0; u<this->getBackPack().size(); u++) 
+            this->getBackPack()[u]->killFlyingObj();
+    }
+    int k;
+    if(this->position.first < 3) k = this->position.first;
+    else k = 2;
+    mvaddstr(this->position.second, this->position.first-k, "     ");
+    mvaddstr(this->position.second+1, this->position.first-k, "     ");
+    mvaddstr(this->position.second+2, this->position.first-k, "     ");
+    mvaddstr(this->position.second-1, this->position.first-k, "     ");
+    this->position.first = (COLS + this->position.first + x)%COLS;
+    this->position.second = (LINES + this->position.second+y)%LINES;
     if(look) this->lookTo = look;
     this->backPack[this->selectedObj]->display(this->position.first, 
             this->position.second, this->lookTo);
@@ -110,7 +183,7 @@ void hero::move(const int &x, const int &y, const int &look)
     if(this->footPos)
     {   
         mvaddch(this->position.second+1,
-         this->position.first, 0x0245);
+        this->position.first, 0x0245);
         this->footPos = false;
     }
     else
@@ -118,7 +191,6 @@ void hero::move(const int &x, const int &y, const int &look)
         mvaddch(this->position.second+1, this->position.first, '|');
         this->footPos = true;
     }
-        
 }
 
 /**
@@ -131,3 +203,35 @@ void hero::attack(int dir)
             this->position.second, dir);
 }
 
+void hero::overlay()
+{
+    init_pair(11, COLOR_RED, COLOR_RED);
+    init_pair(10, COLOR_BLACK, COLOR_BLACK);
+    attrset(COLOR_PAIR(10));
+    int k = 5; 
+    int l = 0;
+    for(int i = 1; i<life+1; i++)
+    {
+        mvaddch(l,k,' ');
+        if((i%2)) l = (l+1)%2;
+        else 
+        {
+            if(!(i%4)) k+=2;
+            else k++;
+        }
+    }
+    attrset(COLOR_PAIR(11));
+    k = 5;
+    l = 0;
+    for(int i = 1; i<currentLife+1; i++)
+    {
+        mvaddch(l,k,' ');
+        if((i%2)) l = (l+1)%2;
+        else 
+        {
+            if(!(i%4)) k+=2;
+            else k++;
+        }
+    }
+    attrset(heroColor);
+}

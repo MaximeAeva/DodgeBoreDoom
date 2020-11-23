@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     int x, y, j, r, c;
 
 
+
 #ifdef XCURSES
     Xinitscr(argc, argv);
 #else
@@ -23,6 +24,11 @@ int main(int argc, char *argv[])
 #endif
     seed = time((time_t *)0);
     srand(seed);
+
+    map gameMap(15);
+    for(int i = 0; i<gameMap.getMapSize(); i++) 
+        std::cout << gameMap.getRoom(i)->position.first << 
+            ", " << gameMap.getRoom(i)->position.second << std::endl;
 
     if (has_colors())
     {
@@ -48,8 +54,8 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
-    x = 50;
-    y = 20;
+    x = round(COLS/2);
+    y = round(LINES/2);
 
     hero Vanessa;
     Vanessa.place(x, y);
@@ -58,7 +64,8 @@ int main(int argc, char *argv[])
     {
         for(int i = 0; i<Vanessa.getBackPack().size(); i++)
             Vanessa.getBackPack()[i]->updateFlyingObj();
-        
+        gameMap.designRoom();
+        Vanessa.overlay();
 
         switch (getch())
         {
@@ -97,24 +104,29 @@ int main(int argc, char *argv[])
             Vanessa.attack(1);
             flushinp();
         }
+        if(GetAsyncKeyState(0x45))   
+        {
+            Vanessa.dash(&gameMap);
+            flushinp();
+        }
         if(GetAsyncKeyState(VK_UP))   
         {
-            Vanessa.move(0, -1, 2);
+            Vanessa.move(2, &gameMap);
             flushinp();
         }
         if(GetAsyncKeyState(VK_DOWN))   
         {
-            Vanessa.move(0, 1, 4);
+            Vanessa.move(4, &gameMap);
             flushinp();
         }
         if(GetAsyncKeyState(VK_RIGHT))
         {
-            Vanessa.move(1, 0, 1);
+            Vanessa.move(1, &gameMap);
             flushinp();
         }
         if(GetAsyncKeyState(VK_LEFT))
         {
-            Vanessa.move(-1, 0, 3);
+            Vanessa.move(3, &gameMap);
             flushinp();
         }
 

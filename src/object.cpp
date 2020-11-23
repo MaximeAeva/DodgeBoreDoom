@@ -24,7 +24,7 @@ void object::updateFlyingObj()
     {
         attrset(flyControl[i]->color);
         mvaddch(flyControl[i]->currentPosition.second,
-         flyControl[i]->currentPosition.first, ' ');
+                flyControl[i]->currentPosition.first, ' ');
         flyControl[i]->currentPosition.first += flyControl[i]->direction.first;
         flyControl[i]->currentPosition.second += flyControl[i]->direction.second;
         switch(flyControl[i]->id)
@@ -107,4 +107,13 @@ void object::addFlyingObject(const std::pair<int, int> &currentPosition, const c
     ufo->id = id;
     ufo->look = look;
     this->flyControl.push_back(ufo);
+}
+
+void object::killFlyingObj()
+{
+    for(int i = 0; i<this->flyControl.size(); i++)
+        mvaddch(this->flyControl[i]->currentPosition.second,
+                this->flyControl[i]->currentPosition.first, ' ');
+
+    this->flyControl.clear();
 }

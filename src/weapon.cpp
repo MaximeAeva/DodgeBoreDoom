@@ -120,19 +120,19 @@ void weapon::attack(const int &x, const int &y,
             {
                 case 1: //right
                     addFlyingObject({x+2, y}, COLOR_PAIR(floor(this->damage)-4), 
-                        {1, 0}, this->id, look);
+                        {2, 0}, this->id, look);
                     break;
                 case 2: //up
                     addFlyingObject({x, y-1}, COLOR_PAIR(floor(this->damage)-4), 
-                        {0, -1}, this->id, look);
+                        {0, -2}, this->id, look);
                     break;
                 case 3: //left
                     addFlyingObject({x-2, y}, COLOR_PAIR(floor(this->damage)-4), 
-                        {-1, 0}, this->id, look);
+                        {-2, 0}, this->id, look);
                     break;
                 case 4: //down (sad man ?)
                     addFlyingObject({x, y+2}, COLOR_PAIR(floor(this->damage)-4), 
-                        {0, 1}, this->id, look);
+                        {0, 2}, this->id, look);
                     break;
             }
         break;
@@ -142,19 +142,19 @@ void weapon::attack(const int &x, const int &y,
             {
                 case 1: //right
                     addFlyingObject({x+2, y}, COLOR_PAIR(floor((this->damage-2)*2)), 
-                        {1, 0}, this->id, look);
+                        {2, 0}, this->id, look);
                     break;
                 case 2: //up
                     addFlyingObject({x, y-1}, COLOR_PAIR(floor((this->damage-2)*2)), 
-                        {0, -1}, this->id, look);
+                        {0, -2}, this->id, look);
                     break;
                 case 3: //left
                     addFlyingObject({x-2, y}, COLOR_PAIR(floor((this->damage-2)*2)), 
-                        {-1, 0}, this->id, look);
+                        {-2, 0}, this->id, look);
                     break;
                 case 4: //down (sad man ?)
                     addFlyingObject({x, y+2}, COLOR_PAIR(floor((this->damage-2)*2)), 
-                        {0, 1}, this->id, look);
+                        {0, 2}, this->id, look);
                     break;
             }
         break;
@@ -163,19 +163,19 @@ void weapon::attack(const int &x, const int &y,
             {
                 case 1: //right
                     addFlyingObject({x+2, y}, COLOR_PAIR(floor((this->damage-1)*6)), 
-                        {1, 0}, this->id, look);
+                        {2, 0}, this->id, look);
                     break;
                 case 2: //up
                     addFlyingObject({x, y-1}, COLOR_PAIR(floor((this->damage-1)*6)), 
-                        {0, -1}, this->id, look);
+                        {0, -2}, this->id, look);
                     break;
                 case 3: //left
                     addFlyingObject({x-2, y}, COLOR_PAIR(floor((this->damage-1)*6)), 
-                        {-1, 0}, this->id, look);
+                        {-2, 0}, this->id, look);
                     break;
                 case 4: //down (sad man ?)
                     addFlyingObject({x, y+2}, COLOR_PAIR(floor((this->damage-1)*6)), 
-                        {0, 1}, this->id, look);
+                        {0, 2}, this->id, look);
                     break;
             }
         break;

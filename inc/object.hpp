@@ -29,6 +29,7 @@ class object{
                 const std::pair<int, int> &direction,
                 const int &id,
                 const int &look);
+        void killFlyingObj();
     private:
         std::vector<flyingObject *> flyControl;
 };
