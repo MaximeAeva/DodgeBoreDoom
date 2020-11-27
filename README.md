@@ -1,13 +1,9 @@
-# Product Name
-> Short blurb about what your product does.
+# DodgeBoredoom
+> A cmd game to dodge boredom
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+A fully rand() environnement to never get bored out.
 
-One to two paragraph statement about your product and what it does.
-
-![](header.png)
+![GameView](https://github.com/MaximeAeva/DodgeBoreDoom/blob/master/res/hello.PNG)
 
 ## Installation
 
@@ -25,54 +21,36 @@ edit autoexec.bat
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+Imagine a long period stuck at home while sun is gone and work is in stand by..
+This is it !
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
-```
+PDCurses is used to quickly display a beautiful command line environmment.
 
 ## Release History
 
 * 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
+    * Deal with doors and SIGSEGV
 * 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
+    * Move in the generated map
 * 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
+    * Shoot
 * 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
+    * Random weapon -> 1/10 sword, 2/10 bow, 7/10 sadBox
 * 0.0.1
-    * Work in progress
+    * Move
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
-
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+[https://github.com/MaximeAeva/github-link](https://github.com/dbader/)
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it (<https://github.com/MaximeAeva/yourproject/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
-
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki

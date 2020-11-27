@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 struct room{
     std::vector<int> neighboors;
@@ -23,39 +24,45 @@ struct room{
 };
 
 struct door{
+    door(int id, int st, std::pair<int, int> r1, std::pair<int, int> r2)
+    {
+        this->id = id;
+        this->state = st;
+        this->r1 = r1;
+        this->r2 = r2;    };
     int id;
     bool state;
-    room *r1;
-    room *r2;
+    std::pair<int, int> r1 = {0, 0};
+    std::pair<int, int> r2 = {0, 0};
 };
 
 class map{
     public:
         //general mapping 
         map(const int &number_room);
-        //~map();
+        ~map();
         inline int getMapSize(){return this->rooms.size();};
 
         //Rooms management
-        inline room * getRoom(const int &i){return this->rooms[i];};
+        inline room getRoom(const int &i){return this->rooms[i];};
         void designRoom();
-        room* findRoom(std::pair<int, int> position);
-        inline room * getCurrentRoom(){return findRoom(currentPosition);};
+        room getCurrentRoom(){return findRoom(this->currentPosition);};
+        room findRoom(std::pair<int, int> &position);
         inline void setCurrentRoom(std::pair<int, int> crtRoom){this->currentPosition = crtRoom;};
 
         //Doors management
-        door* getDoorInPosition(const room* r, const int &position);
-        door* getCommonDoor(const room *r1, const room *r2);
-        std::vector<door*> getRoomDoors(const room* r);
+        door getDoorInPosition(room *r, const int &position);
+        door getCommonDoor(room *r, room *r2);
+        std::vector<door*> getRoomDoors(room *r);
         void doorDisplay(const int &position);
 
     private:
         void placeARoom(const int &number, const int &ind);
 
-        std::vector<door *> doors;
+        std::vector<door> doors;
         std::pair<int, int> currentPosition;
         std::pair<int, int> max_size = {LINES, COLS};
-        std::vector<room *> rooms;
+        std::vector<room> rooms;
 };
 
 #endif

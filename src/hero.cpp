@@ -15,6 +15,12 @@ hero::hero()
     this->backPack.push_back(myWeapon);
 }
 
+hero::~hero()
+{
+    for(int i = 0; i<this->backPack.size(); i++)
+        delete this->backPack[i];
+}
+
 void hero::initialize()
 {
     mvaddstr(this->position.second, this->position.first-2, "     ");
@@ -75,7 +81,7 @@ void hero::place(const int &x, const int &y, const int &look)
  */
 void hero::move(const int &look, map* myMap)
 {
-    room *r = myMap->getCurrentRoom();
+    room r = myMap->getCurrentRoom();
     int x, y;
     if(look == 1 && this->position.first < COLS-7)
     {
@@ -99,22 +105,22 @@ void hero::move(const int &look, map* myMap)
     }
     else
     {
-        if(look == 1 && r->neighboors[0]==1 && abs(this->position.second-(LINES/2)<2))
+        if(look == 1 && r.neighboors[0]==1 && abs(this->position.second-(LINES/2)<2))
         {
             x = 1;
             y = 0;
         }   
-        else if(look == 2 && r->neighboors[1]==1 && abs(this->position.first-(COLS/2)<2))
+        else if(look == 2 && r.neighboors[1]==1 && abs(this->position.first-(COLS/2)<2))
         {
             x = 0;
             y = -1;
         }
-        else if(look == 3 && r->neighboors[2]==1 && abs(this->position.second-(LINES/2)<2))
+        else if(look == 3 && r.neighboors[2]==1 && abs(this->position.second-(LINES/2)<2))
         {
             x = -1;
             y = 0;
         }
-        else if(look == 4 && r->neighboors[3]==1 && abs(this->position.first-(COLS/2)<2))
+        else if(look == 4 && r.neighboors[3]==1 && abs(this->position.first-(COLS/2)<2))
         {
             x = 0;
             y = 1;
@@ -124,25 +130,25 @@ void hero::move(const int &look, map* myMap)
     init_pair(heroColor, COLOR_WHITE, COLOR_BLACK);
     if(this->position.first + x == COLS)
     {
-        myMap->setCurrentRoom({r->position.first+1, r->position.second});
+        myMap->setCurrentRoom({r.position.first+1, r.position.second});
         for(int u = 0; u<this->getBackPack().size(); u++) 
             this->getBackPack()[u]->killFlyingObj();
     }
     else if(this->position.first + x == -1)
     {
-        myMap->setCurrentRoom({r->position.first-1, r->position.second});
+        myMap->setCurrentRoom({r.position.first-1, r.position.second});
         for(int u = 0; u<this->getBackPack().size(); u++) 
             this->getBackPack()[u]->killFlyingObj();
     }
     else if(this->position.second + y == LINES)
     {
-        myMap->setCurrentRoom({r->position.first, r->position.second+1});
+        myMap->setCurrentRoom({r.position.first, r.position.second+1});
         for(int u = 0; u<this->getBackPack().size(); u++) 
             this->getBackPack()[u]->killFlyingObj();
     }
     else if(this->position.second + y == -1)
     {
-        myMap->setCurrentRoom({r->position.first, r->position.second-1});
+        myMap->setCurrentRoom({r.position.first, r.position.second-1});
         for(int u = 0; u<this->getBackPack().size(); u++) 
             this->getBackPack()[u]->killFlyingObj();
     }

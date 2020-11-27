@@ -12,6 +12,7 @@
 class hero{
     public:
         hero();
+        ~hero();
         void initialize();
         void place(const int &x, const int &y, const int &look = 0);
         void move(const int &look, map* gameMap);
@@ -19,10 +20,12 @@ class hero{
         void overlay();
         inline void dash(map* gameMap){for(int i = 0; i<3; i++) move(lookTo, gameMap);};
         inline std::vector<object*> getBackPack(){return this->backPack;};
+        int attackSpeed = 5;
+        int dashSpeed = 10;
+        int speed = 0;
 
     private:
         std::pair<int, int> position;
-        int speed = 5;
         int selectedObj;
         bool footPos;
         int lookTo;
