@@ -105,25 +105,37 @@ void hero::move(const int &look, map* myMap)
     }
     else
     {
-        if(look == 1 && r.neighboors[0]==1 && abs(this->position.second-(LINES/2)<2))
+        if(look == 1 && r.neighboors[0]==1 && abs(this->position.second-(LINES/2))<3)
         {
-            x = 1;
-            y = 0;
+            if(myMap->getDoorInPosition(&r, 0).state)
+            {
+                x = 1;
+                y = 0;
+            } else return;
         }   
-        else if(look == 2 && r.neighboors[1]==1 && abs(this->position.first-(COLS/2)<2))
+        else if(look == 2 && r.neighboors[1]==1 && abs(this->position.first-(COLS/2))<3)
         {
-            x = 0;
-            y = -1;
+            if(myMap->getDoorInPosition(&r, 1).state)
+            {
+                x = 0;
+                y = -1;
+            } else return;
         }
-        else if(look == 3 && r.neighboors[2]==1 && abs(this->position.second-(LINES/2)<2))
+        else if(look == 3 && r.neighboors[2]==1 && abs(this->position.second-(LINES/2))<3)
         {
-            x = -1;
-            y = 0;
+            if(myMap->getDoorInPosition(&r, 2).state)
+            {
+                x = -1;
+                y = 0;
+            } else return;
         }
-        else if(look == 4 && r.neighboors[3]==1 && abs(this->position.first-(COLS/2)<2))
+        else if(look == 4 && r.neighboors[3]==1 && abs(this->position.first-(COLS/2))<3)
         {
-            x = 0;
-            y = 1;
+            if(myMap->getDoorInPosition(&r, 3).state)
+            {
+                x = 0;
+                y = 1;
+            } else return;
         }
         else return;
     }

@@ -9,6 +9,7 @@
 #define legendary 5
 
 #include <PDCurses-3.8/curses.h>
+#include <mob.hpp>
 #include <utility>
 #include <vector>
 #include <cmath>
@@ -16,11 +17,33 @@
 
 struct room{
     std::vector<int> neighboors;
+    std::vector<mob> mobIn;
     std::pair<int, int> position = {0, 0};
     int mob_number = 0;
     int chest_number = 0;
     bool secret = false;
     int buildSeed = rand();
+    void genMob()
+    {
+        for(int i = 0; i<this->mob_number; i++) 
+        {
+            mob m;
+            mobIn.push_back(m);
+            mobIn[i].place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));
+        }
+    }
+    void killMob()
+    {
+        
+        for(int i = 0; i<mob_number; i++)
+        {
+            mvaddch(mobIn[i].getPosition().second, 
+                        mobIn[i].getPosition().first, ' ');
+            mvaddch(mobIn[i].getPosition().second, 
+                        mobIn[i].getPosition().first, ' ');
+        }
+        mobIn.clear();
+    }
 };
 
 struct door{
@@ -48,7 +71,8 @@ class map{
         void designRoom();
         room getCurrentRoom(){return findRoom(this->currentPosition);};
         room findRoom(std::pair<int, int> &position);
-        inline void setCurrentRoom(std::pair<int, int> crtRoom){this->currentPosition = crtRoom;};
+        void setCurrentRoom(std::pair<int, int> crtRoom);
+        void updateRoomNMobs(std::pair <int, int> heroPos);
 
         //Doors management
         door getDoorInPosition(room *r, const int &position);

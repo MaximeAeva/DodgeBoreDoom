@@ -20,6 +20,7 @@ class hero{
         void overlay();
         inline void dash(map* gameMap){for(int i = 0; i<3; i++) move(lookTo, gameMap);};
         inline std::vector<object*> getBackPack(){return this->backPack;};
+        inline std::pair<int, int> getPosition(){return this->position;};
         int attackSpeed = 5;
         int dashSpeed = 10;
         int speed = 0;

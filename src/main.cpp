@@ -57,16 +57,26 @@ int main(int argc, char *argv[])
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
+    int mob_tempo = 0;
+    gameMap.designRoom();
     for (j = 0;;)
     {
-        for(int i = 0; i<Vanessa.getBackPack().size(); i++)
-            Vanessa.getBackPack()[i]->updateFlyingObj();
-        gameMap.designRoom();
-        Vanessa.overlay();
         att_tempo++;
         av_tempo++;
         dsh_tempo++;
+        mob_tempo++;
 
+        for(int i = 0; i<Vanessa.getBackPack().size(); i++)
+            Vanessa.getBackPack()[i]->updateFlyingObj();
+        
+        Vanessa.overlay();
+        if(mob_tempo >= 10)
+        {
+            gameMap.updateRoomNMobs(Vanessa.getPosition());                
+            mob_tempo = 0;
+        }
+
+        
         switch (getch())
         {
         case 'p':

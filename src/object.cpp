@@ -40,19 +40,19 @@ void object::updateFlyingObj()
                 {
                     case 1: //right
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, ')');
+                        flyControl[i]->currentPosition.first, '}');
                         break;
                     case 2: //up
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '_');
+                        flyControl[i]->currentPosition.first, '^');
                         break;
                     case 3: //left
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '(');
+                        flyControl[i]->currentPosition.first, '{');
                         break;
                     case 4: //down (sad man ?)
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '_');
+                        flyControl[i]->currentPosition.first, 'v');
                         break;
                 }
             break;
@@ -62,19 +62,19 @@ void object::updateFlyingObj()
                 {
                     case 1: //right
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '-');
+                        flyControl[i]->currentPosition.first, 0x2192);
                         break;
                     case 2: //up
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '|');
+                        flyControl[i]->currentPosition.first, 0x2191);
                         break;
                     case 3: //left
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '-');
+                        flyControl[i]->currentPosition.first, 0x2190);
                         break;
                     case 4: //down (sad man ?)
                         mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '|');
+                        flyControl[i]->currentPosition.first, 0x2193);
                         break;
                 }
             break;
@@ -104,7 +104,7 @@ void object::updateFlyingObj()
 }
 
 void object::addFlyingObject(const std::pair<int, int> &currentPosition, const chtype &color,
-                const std::pair<int, int> &direction, const int &id, const int &look)
+                const std::pair<int, int> &direction, const int &id, const int &look, const float &dmg)
 {
     flyingObject *ufo = new flyingObject;
     ufo->color = color;
@@ -112,6 +112,7 @@ void object::addFlyingObject(const std::pair<int, int> &currentPosition, const c
     ufo->direction = direction;
     ufo->id = id;
     ufo->look = look;
+    ufo->dmg = dmg;
     this->flyControl.push_back(ufo);
 }
 
