@@ -28,77 +28,82 @@ void object::updateFlyingObj()
     init_pair(5, COLOR_CYAN, COLOR_BLACK);
     for(int i = 0; i<flyControl.size(); i++)
     {
-        attrset(flyControl[i]->color);
-        mvaddch(flyControl[i]->currentPosition.second,
-                flyControl[i]->currentPosition.first, ' ');
-        flyControl[i]->currentPosition.first += flyControl[i]->direction.first;
-        flyControl[i]->currentPosition.second += flyControl[i]->direction.second;
-        switch(flyControl[i]->id)
+        if(flyControl[i]->currentPosition.first< COLS-6 && flyControl[i]->currentPosition.first>5
+                && flyControl[i]->currentPosition.second < LINES-4 && flyControl[i]->currentPosition.second>3)
         {
-            case 1:
-                switch(flyControl[i]->look)
-                {
-                    case 1: //right
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '}');
-                        break;
-                    case 2: //up
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '^');
-                        break;
-                    case 3: //left
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, '{');
-                        break;
-                    case 4: //down (sad man ?)
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 'v');
-                        break;
-                }
-            break;
-            case 2:
-            case 3:
-                switch(flyControl[i]->look)
-                {
-                    case 1: //right
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 0x2192);
-                        break;
-                    case 2: //up
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 0x2191);
-                        break;
-                    case 3: //left
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 0x2190);
-                        break;
-                    case 4: //down (sad man ?)
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 0x2193);
-                        break;
-                }
-            break;
-            default:
-                switch(flyControl[i]->look)
-                {
-                    case 1: //right
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 'x');
-                        break;
-                    case 2: //up
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 'x');
-                        break;
-                    case 3: //left
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 'x');
-                        break;
-                    case 4: //down (sad man ?)
-                        mvaddch(flyControl[i]->currentPosition.second, 
-                        flyControl[i]->currentPosition.first, 'x');
-                        break;
-                }
-            break;
+            attrset(flyControl[i]->color);
+            mvaddch(flyControl[i]->currentPosition.second,
+                    flyControl[i]->currentPosition.first, ' ');
+            flyControl[i]->currentPosition.first += flyControl[i]->direction.first;
+            flyControl[i]->currentPosition.second += flyControl[i]->direction.second;
+            
+            switch(flyControl[i]->id)
+            {
+                case 1:
+                    switch(flyControl[i]->look)
+                    {
+                        case 1: //right
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, '}');
+                            break;
+                        case 2: //up
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, '^');
+                            break;
+                        case 3: //left
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, '{');
+                            break;
+                        case 4: //down (sad man ?)
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 'v');
+                            break;
+                    }
+                break;
+                case 2:
+                case 3:
+                    switch(flyControl[i]->look)
+                    {
+                        case 1: //right
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 0x2192);
+                            break;
+                        case 2: //up
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 0x2191);
+                            break;
+                        case 3: //left
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 0x2190);
+                            break;
+                        case 4: //down (sad man ?)
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 0x2193);
+                            break;
+                    }
+                break;
+                default:
+                    switch(flyControl[i]->look)
+                    {
+                        case 1: //right
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 'x');
+                            break;
+                        case 2: //up
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 'x');
+                            break;
+                        case 3: //left
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 'x');
+                            break;
+                        case 4: //down (sad man ?)
+                            mvaddch(flyControl[i]->currentPosition.second, 
+                            flyControl[i]->currentPosition.first, 'x');
+                            break;
+                    }
+                break;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
 #define legendary 5
 
 #include <PDCurses-3.8/curses.h>
-#include <mob.hpp>
+#include "mob.hpp"
 #include <utility>
 #include <vector>
 #include <cmath>
@@ -17,33 +17,12 @@
 
 struct room{
     std::vector<int> neighboors;
-    std::vector<mob> mobIn;
+    
     std::pair<int, int> position = {0, 0};
     int mob_number = 0;
     int chest_number = 0;
     bool secret = false;
     int buildSeed = rand();
-    void genMob()
-    {
-        for(int i = 0; i<this->mob_number; i++) 
-        {
-            mob m;
-            mobIn.push_back(m);
-            mobIn[i].place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));
-        }
-    }
-    void killMob()
-    {
-        
-        for(int i = 0; i<mob_number; i++)
-        {
-            mvaddch(mobIn[i].getPosition().second, 
-                        mobIn[i].getPosition().first, ' ');
-            mvaddch(mobIn[i].getPosition().second, 
-                        mobIn[i].getPosition().first, ' ');
-        }
-        mobIn.clear();
-    }
 };
 
 struct door{
@@ -52,7 +31,8 @@ struct door{
         this->id = id;
         this->state = st;
         this->r1 = r1;
-        this->r2 = r2;    };
+        this->r2 = r2;    
+    }
     int id;
     bool state;
     std::pair<int, int> r1 = {0, 0};
@@ -69,7 +49,7 @@ class map{
         //Rooms management
         inline room getRoom(const int &i){return this->rooms[i];};
         void designRoom();
-        room getCurrentRoom(){return findRoom(this->currentPosition);};
+        inline std::pair<int, int> getCurrentPosition(){return this->currentPosition;};
         room findRoom(std::pair<int, int> &position);
         void setCurrentRoom(std::pair<int, int> crtRoom);
         void updateRoomNMobs(std::pair <int, int> heroPos);
@@ -80,9 +60,13 @@ class map{
         std::vector<door*> getRoomDoors(room *r);
         void doorDisplay(const int &position);
 
+        //Mobs management
+        void genMobs(room *r);
+        inline void killAll(){mobs.clear();};
+
     private:
         void placeARoom(const int &number, const int &ind);
-
+        std::vector<mob*> mobs;
         std::vector<door> doors;
         std::pair<int, int> currentPosition;
         std::pair<int, int> max_size = {LINES, COLS};

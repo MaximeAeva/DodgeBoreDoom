@@ -81,7 +81,8 @@ void hero::place(const int &x, const int &y, const int &look)
  */
 void hero::move(const int &look, map* myMap)
 {
-    room r = myMap->getCurrentRoom();
+    std::pair<int, int> p = myMap->getCurrentPosition();
+    room r = myMap->findRoom(p);
     int x, y;
     if(look == 1 && this->position.first < COLS-7)
     {
@@ -93,7 +94,7 @@ void hero::move(const int &look, map* myMap)
         x = 0;
         y = -1;
     }
-    else if(look == 3 && this->position.first > 5)
+    else if(look == 3 && this->position.first > 6)
     {
         x = -1;
         y = 0;
@@ -166,11 +167,9 @@ void hero::move(const int &look, map* myMap)
     }
     int k;
     if(this->position.first < 3) k = this->position.first;
-    else k = 2;
-    mvaddstr(this->position.second, this->position.first-k, "     ");
-    mvaddstr(this->position.second+1, this->position.first-k, "     ");
-    mvaddstr(this->position.second+2, this->position.first-k, "     ");
-    mvaddstr(this->position.second-1, this->position.first-k, "     ");
+    else k = 1;
+    mvaddstr(this->position.second, this->position.first-k, "   ");
+    mvaddstr(this->position.second+1, this->position.first-k, "   ");
     this->position.first = (COLS + this->position.first + x)%COLS;
     this->position.second = (LINES + this->position.second+y)%LINES;
     if(look) this->lookTo = look;

@@ -15,6 +15,10 @@ map::map(const int &room_number)
 map::~map()
 {
     this->rooms.clear();
+    this->doors.clear();
+    for(int i = 0; i<mobs.size(); i++)
+        delete [] mobs[i];
+    this->mobs.clear();
 }
 
 void map::placeARoom(const int &number, const int &ind)
@@ -96,9 +100,11 @@ void map::placeARoom(const int &number, const int &ind)
 
 void map::designRoom()
 {
+    std::cout << "in";
     room r = findRoom(currentPosition);
-    r.genMob();
-    
+    std::cout << r.mob_number << std::endl;
+    genMobs(&r);
+    std::cout << "in";
     attrset(COLOR_WHITE);
     for(int i = 0; i<COLS; i++)
     {
@@ -310,19 +316,33 @@ door map::getDoorInPosition(room *r, const int &position)
 
 void map::setCurrentRoom(std::pair<int, int> crtRoom)
 {
-    
-    room r = findRoom(currentPosition);
-    std::cout << r.position.first << ", " << r.position.second << std::endl;
-    r.killMob();
+    std::cout << "changing";
+    killAll();
+    wclear(stdscr);
     this->currentPosition = crtRoom;
     designRoom();
-    std::cout << "out";
 }
 
-void map::updateRoomNMobs(std::pair <int, int> heroPos)
+void map::updateRoomNMobs(std::pair<int, int> heroPos)
 {
-    room r = findRoom(currentPosition);
-    
-    for(int i = 0; i<r.mobIn.size(); i++)
-        r.mobIn[i].move(heroPos);
+    for(int i = 0; i<mobs.size(); i++)
+    {
+        std::cout << mobs[i]->getPosition().first;
+        mobs[i]->move(&heroPos);
+    }
+}
+
+void map::genMobs(room *r)
+{
+    std::cout << r->mob_number << std::endl;
+    for(int i = 0; i<r->mob_number; i++)
+    {
+        std::cout << "LOOP";
+        mob m;
+        std::cout << "mobed";
+        m.place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));
+        std::cout << " placed";
+        mobs.push_back(&m);
+        std::cout << " Added" << std::endl;
+    }
 }

@@ -70,9 +70,10 @@ int main(int argc, char *argv[])
             Vanessa.getBackPack()[i]->updateFlyingObj();
         
         Vanessa.overlay();
-        if(mob_tempo >= 10)
+        if(mob_tempo >= 2000)
         {
-            gameMap.updateRoomNMobs(Vanessa.getPosition());                
+            std::pair<int, int> pos = Vanessa.getPosition();
+            gameMap.updateRoomNMobs(pos);                
             mob_tempo = 0;
         }
 

@@ -2,6 +2,7 @@
 
 mob::mob()
 {
+    std::cout << "A new mob is born" << std::endl;
     this->life = 20;
     this->currentLife = 20;
     this->lookTo = 1;
@@ -18,6 +19,7 @@ mob::~mob()
 
 void mob::place(const int &x, const int &y, const int &look)
 {
+    std::cout << "And placed !" << std::endl;
     init_pair(MobColor, COLOR_GREEN, COLOR_BLACK);
     attrset(COLOR_PAIR(MobColor));
     this->position.first=x;
@@ -35,24 +37,28 @@ void mob::place(const int &x, const int &y, const int &look)
  * @param y 
  * @param look 
  */
-void mob::move(std::pair<int, int> Heropos)
+void mob::move(std::pair<int, int> *Heropos)
 {
-    std::cout << "in";
-    int x = 0, y = 0;
+    int x = 0; int y = 0;
     std::pair<int, int> dir;
-    dir.first = this->position.first-Heropos.first;
-    dir.second = this->position.second-Heropos.second;
+    std::cout << "mob : " << position.first << ", " << position.second << std::endl;
+    dir.first = this->position.first-Heropos->first;
+    std::cout << "3";
+    dir.second = this->position.second-Heropos->second;
+    std::cout << "da";
     if(!dir.first)
     {
         if(dir.second>0)
             attack(3);
-        else attack(1);
+        else 
+            attack(1);
     }
     else if(!dir.second)
     {
         if(dir.first>0)
             attack(2);
-        else attack(4);
+        else 
+            attack(4);
     }
     else if(abs(dir.first) >= abs(dir.second))
     {
@@ -82,6 +88,7 @@ void mob::move(std::pair<int, int> Heropos)
             this->lookTo = 2; 
         }
     }
+    std::cout << "yep";
     init_pair(MobColor, COLOR_GREEN, COLOR_BLACK);
     this->position.first = (COLS + this->position.first + x)%COLS;
     this->position.second = (LINES + this->position.second+y)%LINES;
