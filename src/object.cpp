@@ -3,7 +3,10 @@
 object::~object()
 {
     for(int i = 0; i<this->flyControl.size(); i++)
+    {
+        this->flyControl[i] = NULL;
         delete this->flyControl[i];
+    }
 }
 
 void object::display(const int &x, const int &y,
@@ -32,8 +35,8 @@ void object::updateFlyingObj()
                 && flyControl[i]->currentPosition.second < LINES-4 && flyControl[i]->currentPosition.second>3)
         {
             attrset(flyControl[i]->color);
-            mvaddch(flyControl[i]->currentPosition.second,
-                    flyControl[i]->currentPosition.first, ' ');
+            int xInit = flyControl[i]->currentPosition.second;
+            int yInit = flyControl[i]->currentPosition.first;
             flyControl[i]->currentPosition.first += flyControl[i]->direction.first;
             flyControl[i]->currentPosition.second += flyControl[i]->direction.second;
             
@@ -104,6 +107,7 @@ void object::updateFlyingObj()
                     }
                 break;
             }
+            mvaddch(xInit, yInit, ' ');
         }
     }
 }

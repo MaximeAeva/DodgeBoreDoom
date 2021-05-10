@@ -52,7 +52,7 @@ class map{
         inline std::pair<int, int> getCurrentPosition(){return this->currentPosition;};
         room findRoom(std::pair<int, int> &position);
         void setCurrentRoom(std::pair<int, int> crtRoom);
-        void updateRoomNMobs(std::pair <int, int> heroPos);
+        void updateRoomNMobs(std::pair<int, int> heroPos);
 
         //Doors management
         door getDoorInPosition(room *r, const int &position);
@@ -63,10 +63,10 @@ class map{
         //Mobs management
         void genMobs(room *r);
         inline void killAll(){mobs.clear();};
+        std::vector<mob> mobs;
 
     private:
         void placeARoom(const int &number, const int &ind);
-        std::vector<mob*> mobs;
         std::vector<door> doors;
         std::pair<int, int> currentPosition;
         std::pair<int, int> max_size = {LINES, COLS};

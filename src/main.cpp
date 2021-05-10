@@ -58,22 +58,31 @@ int main(int argc, char *argv[])
     int av_tempo = 0;
     int dsh_tempo = 0;
     int mob_tempo = 0;
+    int obj_tempo = 0;
     gameMap.designRoom();
-    for (j = 0;;)
+    while(true)
     {
         att_tempo++;
         av_tempo++;
         dsh_tempo++;
         mob_tempo++;
+        obj_tempo++;
 
-        for(int i = 0; i<Vanessa.getBackPack().size(); i++)
-            Vanessa.getBackPack()[i]->updateFlyingObj();
+        if(mob_tempo >= 15)
+        {
+            for(int i = 0; i<Vanessa.getBackPack().size(); i++)
+            {
+                Vanessa.getBackPack()[i]->updateFlyingObj();
+                for(int j = 0; j<gameMap.mobs.size(); j++)
+                    gameMap.mobs[j].getBackPack()[0]->updateFlyingObj();
+            }
+            obj_tempo = 0;
+        }
         
         Vanessa.overlay();
-        if(mob_tempo >= 2000)
+        if(mob_tempo >= 20)
         {
-            std::pair<int, int> pos = Vanessa.getPosition();
-            gameMap.updateRoomNMobs(pos);                
+            gameMap.updateRoomNMobs(Vanessa.getPosition());                
             mob_tempo = 0;
         }
 

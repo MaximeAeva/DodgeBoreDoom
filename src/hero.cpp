@@ -7,7 +7,7 @@
 hero::hero()
 {
     this->life = 12;
-    this->currentLife = 12;
+    this->currentLife = 7;
     this->lookTo = 1;
     this->footPos = false;
     this->selectedObj = 0;
@@ -18,7 +18,10 @@ hero::hero()
 hero::~hero()
 {
     for(int i = 0; i<this->backPack.size(); i++)
+    {
+        this->backPack[i] = NULL;
         delete this->backPack[i];
+    }
 }
 
 void hero::initialize()

@@ -13,7 +13,7 @@ class mob{
         mob();
         ~mob();
         void place(const int &x, const int &y, const int &look = 0);
-        void move(std::pair<int, int> *Heropos);
+        void move(std::pair<int, int> Heropos);
         void attack(int dir);
         inline std::vector<object*> getBackPack(){return this->backPack;};
         inline std::pair<int, int> getPosition(){return this->position;};
