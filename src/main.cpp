@@ -67,12 +67,14 @@ int main(int argc, char *argv[])
     std::cout << "." << std::endl;
     while(true)
     {
+        //Initialize timers
         att_tempo++;
         av_tempo++;
         dsh_tempo++;
         mob_tempo++;
         obj_tempo++;
 
+        
         if(!(obj_tempo % 2))
             for(int i = 0; i<Vanessa.getBackPack().size(); i++)
                 Vanessa.getBackPack()[i].updateFlyingObj();

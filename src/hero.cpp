@@ -67,9 +67,9 @@ void hero::place(const int &x, const int &y, const int &look)
     this->position.second=y;
     mvaddch(y, x, 0x0273);
     mvaddch(y+1, x, 0x0245);
+    std::cout<< this->backPack.size()<<std::endl;
     this->backPack[this->selectedObj].display(this->position.first, 
             this->position.second, this->lookTo);
-    std::cout << "!";
 }
 
 /**

@@ -41,6 +41,7 @@ void initialize()
 void weapon::display(const int &x, const int &y,
          const int &look)
 {
+    std::cout<<"weapon display"<<std::endl;
     init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);
     init_pair(common, COLOR_RED, COLOR_BLACK);
     init_pair(supp, COLOR_YELLOW, COLOR_BLACK);

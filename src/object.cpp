@@ -1,4 +1,5 @@
 #include "object.hpp"
+#include <iostream>
 
 object::~object()
 {
@@ -12,13 +13,13 @@ object::~object()
 void object::display(const int &x, const int &y,
          const int &look)
 {
-    display(x, y, look);
+    //display(x, y, look);
 }
 
 void object::attack(const int &x, const int &y,
          const int &look)
 {
-    attack(x, y, look);
+    //attack(x, y, look);
 }
 
 void object::updateFlyingObj()
