@@ -5,7 +5,7 @@
 #include <vector>
 #include "weapon.hpp"
 #include "map.hpp"
-#include <PDCurses-3.8/curses.h>
+#include <PDCurses-3.9/curses.h>
 
 #define heroColor 0
 
@@ -18,8 +18,8 @@ class hero{
         void move(const int &look, map* gameMap);
         void attack(int dir);
         void overlay();
-        inline void dash(map* gameMap){for(int i = 0; i<3; i++) move(lookTo, gameMap);};
-        inline std::vector<object*> getBackPack(){return this->backPack;};
+        inline void dash(map* gameMap){for(int i = 0; i<5; i++) move(lookTo, gameMap);};
+        inline std::vector<object> getBackPack(){return this->backPack;};
         inline std::pair<int, int> getPosition(){return position;};
         int attackSpeed = 5;
         int dashSpeed = 10;
@@ -34,7 +34,7 @@ class hero{
         int currentLife;
         int force;
         int defense;
-        std::vector<object*> backPack;
+        std::vector<object> backPack;
 };
 
 #endif

@@ -8,7 +8,7 @@
 #define godLike 4
 #define legendary 5
 
-#include <PDCurses-3.8/curses.h>
+#include <PDCurses-3.9/curses.h>
 #include "mob.hpp"
 #include <utility>
 #include <vector>

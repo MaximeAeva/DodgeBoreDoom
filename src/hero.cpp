@@ -11,17 +11,13 @@ hero::hero()
     this->lookTo = 1;
     this->footPos = false;
     this->selectedObj = 0;
-    weapon *myWeapon = new weapon;
+    weapon myWeapon;
     this->backPack.push_back(myWeapon);
 }
 
 hero::~hero()
 {
-    for(int i = 0; i<this->backPack.size(); i++)
-    {
-        this->backPack[i] = NULL;
-        delete this->backPack[i];
-    }
+    backPack.clear();
 }
 
 void hero::initialize()
@@ -71,8 +67,9 @@ void hero::place(const int &x, const int &y, const int &look)
     this->position.second=y;
     mvaddch(y, x, 0x0273);
     mvaddch(y+1, x, 0x0245);
-    this->backPack[this->selectedObj]->display(this->position.first, 
+    this->backPack[this->selectedObj].display(this->position.first, 
             this->position.second, this->lookTo);
+    std::cout << "!";
 }
 
 /**
@@ -148,25 +145,25 @@ void hero::move(const int &look, map* myMap)
     {
         myMap->setCurrentRoom({r.position.first+1, r.position.second});
         for(int u = 0; u<this->getBackPack().size(); u++) 
-            this->getBackPack()[u]->killFlyingObj();
+            this->getBackPack()[u].killFlyingObj();
     }
     else if(this->position.first + x == -1)
     {
         myMap->setCurrentRoom({r.position.first-1, r.position.second});
         for(int u = 0; u<this->getBackPack().size(); u++) 
-            this->getBackPack()[u]->killFlyingObj();
+            this->getBackPack()[u].killFlyingObj();
     }
     else if(this->position.second + y == LINES)
     {
         myMap->setCurrentRoom({r.position.first, r.position.second+1});
         for(int u = 0; u<this->getBackPack().size(); u++) 
-            this->getBackPack()[u]->killFlyingObj();
+            this->getBackPack()[u].killFlyingObj();
     }
     else if(this->position.second + y == -1)
     {
         myMap->setCurrentRoom({r.position.first, r.position.second-1});
         for(int u = 0; u<this->getBackPack().size(); u++) 
-            this->getBackPack()[u]->killFlyingObj();
+            this->getBackPack()[u].killFlyingObj();
     }
     int k;
     if(this->position.first < 3) k = this->position.first;
@@ -176,7 +173,7 @@ void hero::move(const int &look, map* myMap)
     this->position.first = (COLS + this->position.first + x)%COLS;
     this->position.second = (LINES + this->position.second+y)%LINES;
     if(look) this->lookTo = look;
-    this->backPack[this->selectedObj]->display(this->position.first, 
+    this->backPack[this->selectedObj].display(this->position.first, 
             this->position.second, this->lookTo);
             
     attrset(COLOR_PAIR(heroColor));
@@ -219,7 +216,7 @@ void hero::move(const int &look, map* myMap)
  */
 void hero::attack(int dir)
 {
-    this->backPack[this->selectedObj]->attack(this->position.first, 
+    this->backPack[this->selectedObj].attack(this->position.first, 
             this->position.second, dir);
 }
 

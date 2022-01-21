@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <PDCurses-3.8/curses.h>
+#include <PDCurses-3.9/curses.h>
 #include <utility>
 #include <vector>
 
@@ -19,7 +19,7 @@ struct flyingObject{
 class object{
     public:
         object(){};
-        ~object();
+        virtual ~object();
         virtual void display(const int &x, const int &y,
          const int &look);
         virtual void attack(const int &x, const int &y,

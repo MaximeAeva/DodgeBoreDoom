@@ -1,0 +1,10 @@
+map
+    room
+        doors
+        livings
+            player
+            mobs
+        objects
+            weapons
+            loot
+            strongbox

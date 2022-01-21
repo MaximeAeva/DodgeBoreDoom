@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include <PDCurses-3.8/curses.h>
+#include <PDCurses-3.9/curses.h>
 #include "object.hpp"
 
 #define mainstream 0
@@ -21,7 +21,7 @@ class weapon : public object {
         ~weapon();
         void initialize();
         void display(const int &x, const int &y,
-         const int &look);
+         const int &look = 0);
         void attack(const int &x, const int &y,
          const int &look);
         inline int getId(){return id;};

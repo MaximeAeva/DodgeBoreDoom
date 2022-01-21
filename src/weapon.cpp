@@ -28,6 +28,11 @@ weapon::weapon()
     }
 }
 
+weapon::~weapon()
+{
+    id = 0;
+}
+
 void initialize()
 {
 
@@ -42,7 +47,6 @@ void weapon::display(const int &x, const int &y,
     init_pair(topTier, COLOR_GREEN, COLOR_BLACK);
     init_pair(godLike, COLOR_BLUE, COLOR_BLACK);
     init_pair(legendary, COLOR_CYAN, COLOR_BLACK);
-
     switch(this->id)
     {
         case 1:
@@ -181,4 +185,5 @@ void weapon::attack(const int &x, const int &y,
         break;
     }
 }
+
 

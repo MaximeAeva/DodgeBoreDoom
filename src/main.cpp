@@ -2,7 +2,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <PDCurses-3.8/curses.h>
+#include <PDCurses-3.9/curses.h>
 
 #include <stdlib.h>
 #include <windows.h>
@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
     seed = time((time_t *)0);
     srand(seed);
     
-
-    map gameMap(15);
+    std::cout << "Starting game ..." << std::endl;
+    map gameMap(5);
 
     if (has_colors())
     {
@@ -52,14 +52,19 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
+    std::cout << "Heroing ";
     hero Vanessa;
+    std::cout << ".";
     Vanessa.place(round(COLS/2), round(LINES/2));
+    std::cout << "." << std::endl;
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
     int mob_tempo = 0;
     int obj_tempo = 0;
+    std::cout << "Game Design";
     gameMap.designRoom();
+    std::cout << "." << std::endl;
     while(true)
     {
         att_tempo++;
@@ -68,19 +73,18 @@ int main(int argc, char *argv[])
         mob_tempo++;
         obj_tempo++;
 
-        if(mob_tempo >= 15)
-        {
+        if(!(obj_tempo % 2))
             for(int i = 0; i<Vanessa.getBackPack().size(); i++)
-            {
-                Vanessa.getBackPack()[i]->updateFlyingObj();
-                for(int j = 0; j<gameMap.mobs.size(); j++)
-                    gameMap.mobs[j].getBackPack()[0]->updateFlyingObj();
-            }
+                Vanessa.getBackPack()[i].updateFlyingObj();
+        if(!(obj_tempo % 4))
+        {
+            for(int i = 0; i<gameMap.mobs.size(); i++)
+                gameMap.mobs[i].getBackPack()[0].updateFlyingObj();
             obj_tempo = 0;
         }
-        
+
         Vanessa.overlay();
-        if(mob_tempo >= 20)
+        if(mob_tempo >= 8)
         {
             gameMap.updateRoomNMobs(Vanessa.getPosition());                
             mob_tempo = 0;

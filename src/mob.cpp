@@ -6,17 +6,13 @@ mob::mob()
     this->currentLife = 20;
     this->lookTo = 1;
     this->footPos = false;
-    weapon *myWeapon = new weapon;
+    weapon myWeapon;
     this->backPack.push_back(myWeapon);
 }
 
 mob::~mob()
 {
-    for(int i = 0; i<this->backPack.size(); i++)
-    {
-        this->backPack[i] = NULL;
-        delete this->backPack[i];
-    }
+    backPack.clear();
 }
 
 void mob::place(const int &x, const int &y, const int &look)
@@ -27,7 +23,7 @@ void mob::place(const int &x, const int &y, const int &look)
     this->position.second=y;
     mvaddch(y, x, 'A');
     mvaddch(y+1, x, 'A');
-    this->backPack[0]->display(this->position.first, 
+    this->backPack[0].display(this->position.first, 
             this->position.second, this->lookTo);
 }
 
@@ -98,7 +94,7 @@ void mob::move(std::pair<int, int> Heropos)
     init_pair(MobColor, COLOR_GREEN, COLOR_BLACK);
     this->position.first = (COLS + this->position.first + x)%COLS;
     this->position.second = (LINES + this->position.second+y)%LINES;
-    this->backPack[0]->display(this->position.first, 
+    this->backPack[0].display(this->position.first, 
             this->position.second, this->lookTo);
             
     attrset(COLOR_PAIR(MobColor));
@@ -141,6 +137,6 @@ void mob::move(std::pair<int, int> Heropos)
  */
 void mob::attack(int dir)
 {
-    this->backPack[0]->attack(this->position.first, 
+    this->backPack[0].attack(this->position.first, 
             this->position.second, dir);
 }
