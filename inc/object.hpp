@@ -21,9 +21,9 @@ class object{
         object(){};
         virtual ~object();
         virtual void display(const int &x, const int &y,
-         const int &look);
+         const int &look){};
         virtual void attack(const int &x, const int &y,
-         const int &look);
+         const int &look){};
         void updateFlyingObj();
         void addFlyingObject(const std::pair<int, int> &currentPosition,
                 const chtype &color,

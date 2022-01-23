@@ -77,11 +77,11 @@ int main(int argc, char *argv[])
         
         if(!(obj_tempo % 2))
             for(int i = 0; i<Vanessa.getBackPack().size(); i++)
-                Vanessa.getBackPack()[i].updateFlyingObj();
+                Vanessa.getBackPack()[i]->updateFlyingObj();
         if(!(obj_tempo % 4))
         {
             for(int i = 0; i<gameMap.mobs.size(); i++)
-                gameMap.mobs[i].getBackPack()[0].updateFlyingObj();
+                gameMap.mobs[i].getBackPack()[0]->updateFlyingObj();
             obj_tempo = 0;
         }
 

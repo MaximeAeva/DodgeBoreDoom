@@ -9,11 +9,12 @@ object::~object()
         delete this->flyControl[i];
     }
 }
-
+/*
 void object::display(const int &x, const int &y,
          const int &look)
 {
-    //display(x, y, look);
+    mvaddch(y, x+2, 'a');
+    std::cout<< "disp obj"<<std::endl;
 }
 
 void object::attack(const int &x, const int &y,
@@ -21,7 +22,7 @@ void object::attack(const int &x, const int &y,
 {
     //attack(x, y, look);
 }
-
+*/
 void object::updateFlyingObj()
 {
     init_pair(0, COLOR_WHITE, COLOR_BLACK);

@@ -1,0 +1,12 @@
+hero
+body ɲɳɳɲ
+legs1 ɅɅɅɅ
+legs2 ||||
+weapons
+sword1 \///
+sword2 <>⋀⋁
+bow1 ƭɟɟƭ
+bow2 ←→↑↓
+peak ↽⇁↾⇃
+bad ࡀࡀࡀࡀ
+rlud
