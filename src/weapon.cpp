@@ -8,9 +8,10 @@ float boxMuller(float mu, float sigma)
     return (sqrt(-2*log(a))*cos(2*3.141592*b))*sigma + mu;
 }
 
-weapon::weapon()
+weapon::weapon(unsigned int seed)
             :object()
 {
+    srand(seed);
     int id = rand() % 10 + 1;
     this->id = id;
     switch (id)

@@ -1,12 +1,28 @@
-hero
-body ɲɳɳɲ
-legs1 ɅɅɅɅ
-legs2 ||||
-weapons
-sword1 \///
-sword2 <>⋀⋁
-bow1 ƭɟɟƭ
-bow2 ←→↑↓
-peak ↽⇁↾⇃
-bad ࡀࡀࡀࡀ
+-hero
+--body .ɲ.ɳ.ɳ.ɲ.
+--legs1 .Ʌ.Ʌ.Ʌ.Ʌ.
+--legs2 .|.|.|.|.
+-weapons
+--dagger .⸸.⸸.⸸.⸸.∙.∙.∙.∙.
+--sword .\./././.<.>.⋀.⋁.
+--scepter .⚚.⚚.⚚.⚚.⚬.⚬.⚬.26AC.
+--bow .ƭ.ɟ.ɟ.ƭ.←.→.↑.↓.
+--peak .↽.⇁.↾.⇃.()23dc23dd
+--noluck .⏻.⏻.⏻.⏻.
+-object
+--closedchest ▋▋▅▅☲⚍
+--openedchest ▯▯▭▭
+--key ☥2625
+--potion .ό.ό.ό.ό.1F79
+-door
+.=======.=======
+.|  I  |.]     [
+.|  I  |.]     [
+====∥.∥====
+    ∥.∥
+    ∥.∥
+    ∥.∥       
+====∥.∥====
+-wall
+.░.▓.
 rlud

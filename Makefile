@@ -13,7 +13,9 @@ PROJ_SRC_LIST = main.cpp \
 				mob.cpp	\
 				map.cpp \
 				weapon.cpp \
-				object.cpp
+				object.cpp \
+				living.cpp \
+				display.cpp
 
 # objects
 PROJ_OBJ_LIST = $(PROJ_SRC_LIST:.cpp=.o)

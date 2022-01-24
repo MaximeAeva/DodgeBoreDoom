@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
+#include <ctime>
 #include <PDCurses-3.9/curses.h>
 #include "object.hpp"
 
@@ -17,7 +18,7 @@
 
 class weapon : public object {
     public:
-        weapon();
+        weapon(unsigned int seed = time(NULL));
         ~weapon();
         void initialize();
         void display(const int &x, const int &y,
@@ -27,10 +28,20 @@ class weapon : public object {
         inline int getId(){return id;};
 
     private:
+        // Like if there's NFT for weapons 
         int id;
-        bool footPos;
-        int lookTo;
+        // Does it throw something
+        weapon *flyingObj;
+        // Object damage
         float damage;
+        // Object defense
+        float defense;
+        // Is it rare ?
+        int secretLevel;
+        // Does it push back ennemies
+        int pushback;
+        // Does it contain power (fire ? Wind ?)
+        int power;
 };
 
 #endif

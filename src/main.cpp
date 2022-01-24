@@ -9,6 +9,7 @@
 #include <time.h>
 
 #include "hero.hpp"
+#include "display.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +53,14 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
+    srand(time(NULL));
+    int iSecret = rand() % 1400;
+
+    drawTexture(10, 10, std::string("hero"), std::string("body"), std::string("right"));
+    drawTexture(10, 10, std::string("hero"), std::string("legs"), std::string("open"));
+    drawTexture(10, 10, std::string("weapon"), std::string(std::to_string(iSecret)), std::string("right"));
+
+    /*
     std::cout << "Heroing ";
     hero Vanessa;
     std::cout << ".";
@@ -64,9 +73,10 @@ int main(int argc, char *argv[])
     int obj_tempo = 0;
     std::cout << "Game Design";
     gameMap.designRoom();
-    std::cout << "." << std::endl;
+    std::cout << "." << std::endl;*/
     while(true)
     {
+        /*
         //Initialize timers
         att_tempo++;
         av_tempo++;
@@ -92,7 +102,7 @@ int main(int argc, char *argv[])
             mob_tempo = 0;
         }
 
-        
+        */
         switch (getch())
         {
         case 'p':
@@ -109,7 +119,7 @@ int main(int argc, char *argv[])
                         r = LINES - 4;
                         c = COLS - 4;
             #endif
-        }
+        }/*
         if(GetAsyncKeyState(0x5A))   
         {
             if(att_tempo>10)
@@ -192,7 +202,8 @@ int main(int argc, char *argv[])
             flushinp();
         }
 
-        
+        */
         napms(10);
     }
+    
 }
