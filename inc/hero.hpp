@@ -10,9 +10,7 @@
 
 class living;
 
-#define heroColor 0
-
-class hero : public living{
+class hero : public living {
     public:
         hero();
         ~hero();

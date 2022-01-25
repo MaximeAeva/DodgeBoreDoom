@@ -4,7 +4,10 @@
  * @brief Construct a new hero::hero object
  * 
  */
-hero::hero() : living(){}
+hero::hero():living() 
+{
+    setTeam(1);
+}
 
 /**
  * @brief Destroy the hero::hero object
@@ -46,10 +49,34 @@ void hero::overlay()
             else k++;
         }
     }
-    attrset(heroColor);
 }
 
-void display()
+void hero::display()
 {
-    
+    init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);
+    init_pair(common, COLOR_RED, COLOR_BLACK);
+    init_pair(supp, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(topTier, COLOR_GREEN, COLOR_BLACK);
+    init_pair(godLike, COLOR_BLUE, COLOR_BLACK);
+    init_pair(legendary, COLOR_CYAN, COLOR_BLACK);
+    attrset(COLOR_PAIR(rare));
+    switch(look)
+    {
+        case 1: //right
+            drawTexture(position.second, position.first, std::string("hero"), std::string("body"), std::string("right"));
+            break;
+        case 2: //up
+            drawTexture(position.second, position.first, std::string("hero"), std::string("body"), std::string("up"));
+            break;
+        case 3: //left
+            drawTexture(position.second, position.first, std::string("hero"), std::string("body"), std::string("left"));
+            break;
+        case 4: //down (sad man ?)
+            drawTexture(position.second, position.first, std::string("hero"), std::string("body"), std::string("bottom"));
+            break;
+    }
+    if(footPos) drawTexture(position.second, position.first, std::string("hero"), std::string("legs"), std::string("open"));
+    else drawTexture(position.second, position.first, std::string("hero"), std::string("legs"));
+
+    if(backPack[selectedObj]!=NULL) backPack[selectedObj]->display(position.first, position.second, look);
 }

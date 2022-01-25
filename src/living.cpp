@@ -1,16 +1,39 @@
 #include "living.hpp"
 
+float living::boxMuller(float mu, float sigma, unsigned int seed)
+{
+    srand(seed);
+    float a = (rand() % 100 + 0.001)/float(100);
+    float b = (rand() % 100 + 0.001)/float(100);
+
+    return (sqrt(-2.0*log(a))*cos(2.0*3.141592*b))*sigma + mu;
+}
+
+
 /**
  * @brief Build a living creature
  * 
  */
-living::living() : life(20), currentLife(20), lookTo(1), footPos(false), selectedObj(0)
+living::living(unsigned int seed)
 {
-    // Create a weapon
+    srand(seed);
+    rare = floor(abs(boxMuller(0, 3, seed))/1.8);
+    attackSpeed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    dashSpeed = floor(abs(boxMuller(0, 2, seed)));
+    speed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    life = floor(abs(boxMuller(20, 33, seed)));
+    life %= int(100*rare/5.0);
+    life++;
+    currentLife = life - floor(abs(boxMuller(0, life/3, seed)));
+    resistance = floor(abs(boxMuller(20, 33, seed)));
+    resistance %= int(100*rare/5.0);
+    resistance++;
+    force = floor(abs(boxMuller(20, 33, seed)));
+    force %= int(100*rare/5.0);
+    force++;
+    bpSize = floor(abs(boxMuller(10, 1, seed)) + 1);
     weapon myWeapon;
-    // Create the backpack
     backPack = new object*[bpSize]();
-    // Put the weapon in the backpack
     backPack[0] = &myWeapon;
 }
 
@@ -39,8 +62,8 @@ living::~living()
  */
 void living::place(const int &x, const int &y)
 {
-    this->position.first=x;
-    this->position.second=y;
+    position.first=x;
+    position.second=y;
 }
 
 /**
@@ -62,5 +85,5 @@ void living::move(const int &x, const int &y)
 void living::attack(int dir)
 {
     if(backPack[selectedObj]!=NULL)
-        backPack[selectedObj]->attack(position.first, position.second, dir);
+        backPack[selectedObj]->use(position.first, position.second, dir);
 }

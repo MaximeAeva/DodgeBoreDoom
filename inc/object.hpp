@@ -3,7 +3,16 @@
 
 #include <PDCurses-3.9/curses.h>
 #include <utility>
+#include <ctime>
+#include <cmath>
 #include <vector>
+
+#define mainstream 0
+#define common 1
+#define supp 2
+#define topTier 3
+#define godLike 4
+#define legendary 5
 
 class weapon;
 
@@ -18,12 +27,12 @@ struct flyingObject{
 
 class object{
     public:
-        object(){};
+        object(unsigned int seed = time(NULL));
         virtual ~object();
         virtual void display(const int &x, const int &y,
-         const int &look){};
-        virtual void attack(const int &x, const int &y,
-         const int &look){};
+         const int &look);
+        virtual void use(const int &x, const int &y,
+         const int &look);
         void updateFlyingObj();
         void addFlyingObject(const std::pair<int, int> &currentPosition,
                 const chtype &color,
@@ -32,8 +41,14 @@ class object{
                 const int &look,
                 const float &dmg);
         void killFlyingObj();
+    protected:
+        //Handle flying objects
+        std::vector<flyingObject> flyControl;
+        // Is it rare ? (coefficient that apply on features)
+        int rare;
+
     private:
-        std::vector<flyingObject *> flyControl;
+        float boxMuller(float mu, float sigma, unsigned int seed);
 };
 
 #endif

@@ -7,13 +7,7 @@
 #include <ctime>
 #include <PDCurses-3.9/curses.h>
 #include "object.hpp"
-
-#define mainstream 0
-#define common 1
-#define supp 2
-#define topTier 3
-#define godLike 4
-#define legendary 5
+#include "display.hpp"
 
 
 class weapon : public object {
@@ -23,21 +17,20 @@ class weapon : public object {
         void initialize();
         void display(const int &x, const int &y,
          const int &look = 0);
-        void attack(const int &x, const int &y,
+        void use(const int &x, const int &y,
          const int &look);
         inline int getId(){return id;};
 
     private:
-        // Like if there's NFT for weapons 
+        float boxMuller(float mu, float sigma, unsigned int seed);
+        // Weapon NFT lol
         int id;
         // Does it throw something
-        weapon *flyingObj;
+        object *daughterObj;
         // Object damage
         float damage;
         // Object defense
         float defense;
-        // Is it rare ?
-        int secretLevel;
         // Does it push back ennemies
         int pushback;
         // Does it contain power (fire ? Wind ?)

@@ -320,8 +320,6 @@ void map::setCurrentRoom(std::pair<int, int> crtRoom)
 
 void map::updateRoomNMobs(std::pair<int, int> heroPos)
 {
-    for(int i = 0; i<mobs.size(); i++)
-        mobs[i].move(heroPos);
 }
 
 void map::genMobs(room *r)
@@ -331,6 +329,6 @@ void map::genMobs(room *r)
     for(int i = 0; i<r->mob_number; i++)
     {
         mobs.push_back(m);
-        mobs[i].place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));  
+        //mobs[i].place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));  
     }
 }

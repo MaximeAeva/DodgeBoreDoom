@@ -61,54 +61,6 @@ void drawTexture(const int &x, const int &y, std::string category, std::string s
             std::exit(EXIT_FAILURE);
         }
     }
-    else if(category=="flyingObject")
-    {
-        {
-        if(subcat=="dagger")
-        {
-            
-        }
-        else if(subcat=="sword")
-        {
-            if(position=="left")
-            {
-            }
-            else if(position=="right"||position=="up")
-            {
-            }
-            else
-            {
-            }
-        }
-        else if(subcat=="scepter")
-        {
-
-        }
-        else if(subcat=="bow")
-        {
-            if(position=="left")
-            {
-            }
-            else if(position=="right")
-            {
-            }
-            else if(position=="up")
-            {
-            }
-            else
-            {
-            }
-        }
-        else if(subcat=="peak")
-        {
-        }
-        else
-        {
-            std::cout<<"Problem on texture arguments"<<std::endl;
-            std::exit(EXIT_FAILURE);
-        }
-    }
-    }
     else if(category=="door")
     {
     }

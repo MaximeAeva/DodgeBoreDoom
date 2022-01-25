@@ -53,19 +53,15 @@ int main(int argc, char *argv[])
     r = LINES - 4;
     c = COLS - 4;
 
-    srand(time(NULL));
-    int iSecret = rand() % 1400;
-
-    drawTexture(10, 10, std::string("hero"), std::string("body"), std::string("right"));
-    drawTexture(10, 10, std::string("hero"), std::string("legs"), std::string("open"));
-    drawTexture(10, 10, std::string("weapon"), std::string(std::to_string(iSecret)), std::string("right"));
-
-    /*
+    
     std::cout << "Heroing ";
     hero Vanessa;
     std::cout << ".";
     Vanessa.place(round(COLS/2), round(LINES/2));
     std::cout << "." << std::endl;
+    Vanessa.display();
+    Vanessa.overlay();
+    /*
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
