@@ -1,5 +1,5 @@
 EXE  = DodgeBoreDoom
-DEBUG =  yes
+DEBUG =  no
 CXX = g++	
 
 # dir

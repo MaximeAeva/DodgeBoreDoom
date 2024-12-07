@@ -9,7 +9,6 @@ float living::boxMuller(float mu, float sigma, unsigned int seed)
     return (sqrt(-2.0*log(a))*cos(2.0*3.141592*b))*sigma + mu;
 }
 
-
 /**
  * @brief Build a living creature
  * 
@@ -33,6 +32,7 @@ living::living(unsigned int seed)
     force++;
     bpSize = floor(abs(boxMuller(10, 1, seed)) + 1);
     weapon myWeapon;
+    std::cout <<  " " << myWeapon.getId();
     backPack = new object*[bpSize]();
     backPack[0] = &myWeapon;
 }
