@@ -1,5 +1,5 @@
 EXE  = DodgeBoreDoom
-DEBUG =  no
+DEBUG =  yes
 CXX = g++	
 
 # dir
@@ -25,7 +25,7 @@ PROJ_SRC =		$(addprefix $(SRC_DIR)/, $(PROJ_SRC_LIST))
 PROJ_OBJ =		$(addprefix $(OBJ_DIR)/, $(PROJ_OBJ_LIST))
 
 ifeq ($(DEBUG),yes)
-CXXFLAGS = -std=c++11 #-Wall -Wextra -ansi -pedantic -g -Weffc++ 
+CXXFLAGS = -std=c++11 -ggdb #-Wall -Wextra -ansi -pedantic -g -Weffc++ 
 else
 CXXFLAGS = -std=c++11 -w -Wall -Werror -s -O2
 endif

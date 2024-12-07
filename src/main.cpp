@@ -16,8 +16,6 @@ int main(int argc, char *argv[])
     time_t seed;
     int x, y, j, r, c;
 
-
-
 #ifdef XCURSES
     Xinitscr(argc, argv);
 #else
@@ -49,12 +47,12 @@ int main(int argc, char *argv[])
     curs_set(0);
     timeout(0);
     keypad(stdscr, TRUE);
-    
+
     r = LINES - 4;
     c = COLS - 4;
 
     
-    std::cout << "Heroing ";
+    std::cout << "Create Hero ";
     hero Vanessa;
     std::cout << ".";
     Vanessa.place(round(COLS/2), round(LINES/2));

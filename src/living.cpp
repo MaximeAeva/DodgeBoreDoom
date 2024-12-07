@@ -21,14 +21,14 @@ living::living(unsigned int seed)
     dashSpeed = floor(abs(boxMuller(0, 2, seed)));
     speed = floor(abs(boxMuller(0, 3, seed)) + 1);
     life = floor(abs(boxMuller(20, 33, seed)));
-    life %= int(100*rare/5.0);
+    life %= int(100*(rare+1)/5.0);
     life++;
     currentLife = life - floor(abs(boxMuller(0, life/3, seed)));
     resistance = floor(abs(boxMuller(20, 33, seed)));
-    resistance %= int(100*rare/5.0);
+    resistance %= int(100*(rare+1)/5.0);
     resistance++;
     force = floor(abs(boxMuller(20, 33, seed)));
-    force %= int(100*rare/5.0);
+    force %= int(100*(rare+1)/5.0);
     force++;
     bpSize = floor(abs(boxMuller(10, 1, seed)) + 1);
     weapon myWeapon;
