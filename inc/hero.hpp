@@ -10,10 +10,10 @@
 
 class living;
 
-class hero : public living {
+class Hero : public Living {
     public:
-        hero();
-        ~hero();
+        Hero();
+        ~Hero();
         void overlay();
         void display();
 };

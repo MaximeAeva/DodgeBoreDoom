@@ -1,6 +1,6 @@
 #include "weapon.hpp"
 
-float weapon::boxMuller(float mu, float sigma, unsigned int seed)
+float Weapon::boxMuller(float mu, float sigma, unsigned int seed)
 {
     srand(seed);
     float a = (rand() % 100 + 0.001)/float(100);
@@ -9,12 +9,12 @@ float weapon::boxMuller(float mu, float sigma, unsigned int seed)
     return (sqrt(-2.0*log(a))*cos(2.0*3.141592*b))*sigma + mu;
 }
 
-weapon::weapon(unsigned int seed):object()
+Weapon::Weapon(unsigned int seed):Object()
 {
     srand(seed);
     id = floor(abs(boxMuller(0, 1400.0/3.0, seed)));
     if(rand()%100+1>=95){ 
-        weapon flyer;
+        Weapon flyer;
         daughterObj = &flyer;
     }
     damage = abs(boxMuller(0, 33, seed))*float(rare)/5.0;
@@ -25,7 +25,7 @@ weapon::weapon(unsigned int seed):object()
     }
 }
 
-weapon::~weapon()
+Weapon::~Weapon()
 {
     id = 0;
 }
@@ -35,7 +35,7 @@ void initialize()
 
 }
 
-void weapon::display(const int &x, const int &y,
+void Weapon::display(const int &x, const int &y,
          const int &look)
 {
     init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);
@@ -45,6 +45,7 @@ void weapon::display(const int &x, const int &y,
     init_pair(godLike, COLOR_BLUE, COLOR_BLACK);
     init_pair(legendary, COLOR_CYAN, COLOR_BLACK);
     attrset(COLOR_PAIR(rare));
+
     switch(look)
     {
         case 1: //right
@@ -63,7 +64,7 @@ void weapon::display(const int &x, const int &y,
     
 }
 
-void weapon::use(const int &x, const int &y,
+void Weapon::use(const int &x, const int &y,
          const int &look)
 {
     init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);

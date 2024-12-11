@@ -4,7 +4,7 @@
  * @brief Construct a new hero::hero object
  * 
  */
-hero::hero():living() 
+Hero::Hero():Living() 
 {
     setTeam(1);
 }
@@ -13,13 +13,13 @@ hero::hero():living()
  * @brief Destroy the hero::hero object
  * 
  */
-hero::~hero(){}
+Hero::~Hero(){}
 
 /**
  * @brief Display life
  * 
  */
-void hero::overlay()
+void Hero::overlay()
 {
     init_pair(11, COLOR_RED, COLOR_RED);
     init_pair(10, COLOR_BLACK, COLOR_BLACK);
@@ -51,7 +51,7 @@ void hero::overlay()
     }
 }
 
-void hero::display()
+void Hero::display()
 {
     
     init_pair(mainstream, COLOR_WHITE, COLOR_BLACK);
@@ -81,6 +81,6 @@ void hero::display()
     }
     if(footPos) drawTexture(position.second, position.first, std::string("hero"), std::string("legs"), std::string("open"));
     else drawTexture(position.second, position.first, std::string("hero"), std::string("legs"));
-
+    
     if(backPack[selectedObj]!=NULL) backPack[selectedObj]->display(position.first, position.second, look);
 }

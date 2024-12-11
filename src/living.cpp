@@ -1,6 +1,6 @@
 #include "living.hpp"
 
-float living::boxMuller(float mu, float sigma, unsigned int seed)
+float Living::boxMuller(float mu, float sigma, unsigned int seed)
 {
     srand(seed);
     float a = (rand() % 100 + 0.001)/float(100);
@@ -13,7 +13,7 @@ float living::boxMuller(float mu, float sigma, unsigned int seed)
  * @brief Build a living creature
  * 
  */
-living::living(unsigned int seed)
+Living::Living(unsigned int seed)
 {
     srand(seed);
     rare = floor(abs(boxMuller(0, 3, seed))/1.8);
@@ -30,18 +30,16 @@ living::living(unsigned int seed)
     force = floor(abs(boxMuller(20, 33, seed)));
     force %= int(100*(rare+1)/5.0);
     force++;
-    bpSize = floor(abs(boxMuller(10, 1, seed)) + 1);
-    weapon myWeapon;
-    std::cout <<  " " << myWeapon.getId();
-    backPack = new object*[bpSize]();
-    backPack[0] = &myWeapon;
+    bpSize = 3;//floor(abs(boxMuller(10, 1, seed)) + 1);
+    Weapon* myWeapon = new Weapon();
+    backPack.push_back(myWeapon);
 }
 
 /**
  * @brief Destroy life
  * 
  */
-living::~living()
+Living::~Living()
 {
     // Emptying the backpack
     for(int i = 0; i<bpSize; i++)
@@ -49,8 +47,6 @@ living::~living()
         delete backPack[i];
         backPack[i] = NULL;
     }
-    // Destroy backpack itself
-    delete [] backPack;
 }
 
 /**
@@ -60,7 +56,7 @@ living::~living()
  * @param y 
  * @param look 
  */
-void living::place(const int &x, const int &y)
+void Living::place(const int &x, const int &y)
 {
     position.first=x;
     position.second=y;
@@ -73,7 +69,7 @@ void living::place(const int &x, const int &y)
  * @param y 
  * @param look 
  */
-void living::move(const int &x, const int &y)
+void Living::move(const int &x, const int &y)
 {
     position = {position.first+x, position.second+y};
 }
@@ -82,7 +78,7 @@ void living::move(const int &x, const int &y)
  * @brief Attack !!
  * 
  */
-void living::attack(int dir)
+void Living::attack(int dir)
 {
     if(backPack[selectedObj]!=NULL)
         backPack[selectedObj]->use(position.first, position.second, dir);

@@ -10,10 +10,10 @@
 #include "display.hpp"
 
 
-class weapon : public object {
+class Weapon : public Object {
     public:
-        weapon(unsigned int seed = time(NULL));
-        ~weapon();
+        Weapon(unsigned int seed = time(NULL));
+        ~Weapon();
         void initialize();
         void display(const int &x, const int &y,
          const int &look = 0);
@@ -26,7 +26,7 @@ class weapon : public object {
         // Weapon NFT lol
         int id;
         // Does it throw something
-        object *daughterObj;
+        Object *daughterObj;
         // Object damage
         float damage;
         // Object defense

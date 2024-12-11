@@ -14,7 +14,7 @@
 #define godLike 4
 #define legendary 5
 
-class weapon;
+class Weapon;
 
 struct flyingObject{
     std::pair<int, int> currentPosition = {0, 0};
@@ -25,10 +25,10 @@ struct flyingObject{
     float dmg;
 };
 
-class object{
+class Object{
     public:
-        object(unsigned int seed = time(NULL));
-        virtual ~object();
+        Object(unsigned int seed = time(NULL));
+        virtual ~Object();
         virtual void display(const int &x, const int &y,
          const int &look);
         virtual void use(const int &x, const int &y,

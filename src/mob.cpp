@@ -1,9 +1,9 @@
 #include "mob.hpp"
 
-mob::mob()
+Mob::Mob()
 {
 }
 
-mob::~mob()
+Mob::~Mob()
 {
 }

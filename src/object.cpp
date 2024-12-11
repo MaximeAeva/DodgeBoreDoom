@@ -1,7 +1,7 @@
 #include "object.hpp"
 #include <iostream>
 
-float object::boxMuller(float mu, float sigma, unsigned int seed)
+float Object::boxMuller(float mu, float sigma, unsigned int seed)
 {
     srand(seed);
     float a = (rand() % 100 + 0.001)/float(100);
@@ -10,31 +10,31 @@ float object::boxMuller(float mu, float sigma, unsigned int seed)
     return (sqrt(-2.0*log(a))*cos(2.0*3.141592*b))*sigma + mu;
 }
 
-object::object(unsigned int seed)
+Object::Object(unsigned int seed)
 {
     srand(seed);
     rare = floor(abs(boxMuller(0, 3, seed))/1.8);
 }
 
-object::~object()
+Object::~Object()
 {
     flyControl.clear();
 }
 
-void object::display(const int &x, const int &y,
+void Object::display(const int &x, const int &y,
          const int &look)
 {
-    mvaddch(y, x+2, 'a');
     std::cout<< "disp obj"<<std::endl;
+    mvaddch(y, x+2, 'a');
 }
 
-void object::use(const int &x, const int &y,
+void Object::use(const int &x, const int &y,
          const int &look)
 {
     //attack(x, y, look);
 }
 
-void object::updateFlyingObj()
+void Object::updateFlyingObj()
 {
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
     init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -125,7 +125,7 @@ void object::updateFlyingObj()
     }
 }
 
-void object::addFlyingObject(const std::pair<int, int> &currentPosition, const chtype &color,
+void Object::addFlyingObject(const std::pair<int, int> &currentPosition, const chtype &color,
                 const std::pair<int, int> &direction, const int &id, const int &look, const float &dmg)
 {
     flyingObject ufo;
@@ -138,7 +138,7 @@ void object::addFlyingObject(const std::pair<int, int> &currentPosition, const c
     flyControl.push_back(ufo);
 }
 
-void object::killFlyingObj()
+void Object::killFlyingObj()
 {
     for(int i = 0; i<flyControl.size(); i++)
         mvaddch(flyControl[i].currentPosition.second,

@@ -8,10 +8,10 @@
 
 #define MobColor 0
 
-class mob{
+class Mob{
     public:
-        mob();
-        ~mob();
+        Mob();
+        ~Mob();
 
     private:
 };

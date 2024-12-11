@@ -39,11 +39,11 @@ struct door{
     std::pair<int, int> r2 = {0, 0};
 };
 
-class map{
+class Map{
     public:
         //general mapping 
-        map(const int &number_room);
-        ~map();
+        Map(const int &number_room);
+        ~Map();
         inline int getMapSize(){return this->rooms.size();};
 
         //Rooms management
@@ -63,7 +63,7 @@ class map{
         //Mobs management
         void genMobs(room *r);
         inline void killAll(){mobs.clear();};
-        std::vector<mob> mobs;
+        std::vector<Mob> mobs;
 
     private:
         void placeARoom(const int &number, const int &ind);

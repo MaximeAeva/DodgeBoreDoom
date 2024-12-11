@@ -15,20 +15,21 @@
 #define godLike 4
 #define legendary 5
 
-class hero;
-class mob;
+class Hero;
+class Mob;
 
-class living {
+class Living {
     public:
-        living(unsigned int seed = time(NULL));
-        ~living();
+        Living(unsigned int seed = time(NULL));
+        ~Living();
         void place(const int &x, const int &y);
         inline void setTeam(const int &t){team=t;};
         void move(const int &x, const int &y);
         virtual void display(){};
         void attack(int dir);
-        inline object **getBackPack(){return backPack;};
         inline std::pair<int, int> getPosition(){return position;};
+        // What's inside its backpack (Array of pointer to objects)
+        std::vector<Object*> backPack;
 
     protected:
         // Is this man rare ?
@@ -59,8 +60,8 @@ class living {
         int resistance;
         // Backpack size
         int bpSize;
-        // What's inside its backpack (Array of pointer to objects)
-        object **backPack;
+        
+
     private:
         float boxMuller(float mu, float sigma, unsigned int seed);
 };

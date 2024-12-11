@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     srand(seed);
     
     std::cout << "Starting game ..." << std::endl;
-    map gameMap(5);
+    Map gameMap(5);
 
     if (has_colors())
     {
@@ -50,16 +50,15 @@ int main(int argc, char *argv[])
 
     r = LINES - 4;
     c = COLS - 4;
-
     
     std::cout << "Create Hero ";
-    hero Vanessa;
+    Hero Vanessa ;
     std::cout << ".";
     Vanessa.place(round(COLS/2), round(LINES/2));
     std::cout << "." << std::endl;
     Vanessa.display();
     Vanessa.overlay();
-    /*
+    
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
@@ -67,10 +66,10 @@ int main(int argc, char *argv[])
     int obj_tempo = 0;
     std::cout << "Game Design";
     gameMap.designRoom();
-    std::cout << "." << std::endl;*/
+    std::cout << "." << std::endl;
     while(true)
     {
-        /*
+
         //Initialize timers
         att_tempo++;
         av_tempo++;
@@ -80,23 +79,25 @@ int main(int argc, char *argv[])
 
         
         if(!(obj_tempo % 2))
-            for(int i = 0; i<Vanessa.getBackPack().size(); i++)
-                Vanessa.getBackPack()[i]->updateFlyingObj();
+            for(int i = 0; i<Vanessa.backPack.size(); i++)
+                Vanessa.backPack[i]->updateFlyingObj();
+        /*
         if(!(obj_tempo % 4))
         {
             for(int i = 0; i<gameMap.mobs.size(); i++)
-                gameMap.mobs[i].getBackPack()[0]->updateFlyingObj();
+                gameMap.mobs[i].backPack[0]->updateFlyingObj();
             obj_tempo = 0;
         }
+        */
 
-        Vanessa.overlay();
+        
         if(mob_tempo >= 8)
         {
             gameMap.updateRoomNMobs(Vanessa.getPosition());                
             mob_tempo = 0;
         }
 
-        */
+        
         switch (getch())
         {
         case 'p':
@@ -113,7 +114,7 @@ int main(int argc, char *argv[])
                         r = LINES - 4;
                         c = COLS - 4;
             #endif
-        }/*
+        }
         if(GetAsyncKeyState(0x5A))   
         {
             if(att_tempo>10)
@@ -150,6 +151,7 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
+        /*
         if(GetAsyncKeyState(0x45))   
         {
             if(dsh_tempo>20)
@@ -159,11 +161,12 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
+        */
         if(GetAsyncKeyState(VK_UP))   
         {
             if(av_tempo>2)
             {
-                Vanessa.move(2, &gameMap);
+                Vanessa.move(0, 1);
                 av_tempo = 0;
             }
             flushinp();
@@ -172,7 +175,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(4, &gameMap);
+                Vanessa.move(0, -1);
                 av_tempo = 0;
             }
             flushinp();
@@ -181,7 +184,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(1, &gameMap);
+                Vanessa.move(2, 0);
                 av_tempo = 0;
             }
             flushinp();
@@ -190,13 +193,13 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(3, &gameMap);
+                Vanessa.move(-2, 0);
                 av_tempo = 0;
             }
             flushinp();
         }
-
-        */
+        //Vanessa.overlay();
+        //Vanessa.display();
         napms(10);
     }
     return(0);
