@@ -311,7 +311,7 @@ door Map::getDoorInPosition(room *r, const int &position)
 
 void Map::setCurrentRoom(std::pair<int, int> crtRoom)
 {
-    killAll();
+    //killAll();
     wclear(stdscr);
     this->currentPosition = crtRoom;
     std::cout << "room : " << currentPosition.first << ", " << currentPosition.second << std::endl;
@@ -325,7 +325,7 @@ void Map::updateRoomNMobs(std::pair<int, int> heroPos)
 void Map::genMobs(room *r)
 {
     std::cout << "mob number: " << r->mob_number << std::endl;
-    Mob m;
+    Mob* m = new Mob();
     for(int i = 0; i<r->mob_number; i++)
     {
         mobs.push_back(m);

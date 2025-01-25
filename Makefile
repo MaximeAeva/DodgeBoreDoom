@@ -9,10 +9,7 @@ OBJ_DIR =       obj
 
 # sources
 PROJ_SRC_LIST = main.cpp \
-				hero.cpp \
-				mob.cpp	\
 				map.cpp \
-				weapon.cpp \
 				object.cpp \
 				living.cpp \
 				display.cpp

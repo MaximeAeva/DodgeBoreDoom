@@ -5,15 +5,15 @@
 -weapons
 --dagger .⸸.⸸.⸸.⸸.∙.∙.∙.∙.
 --sword .\./././.<.>.⋀.⋁.
---scepter .⚚.⚚.⚚.⚚.⚬.⚬.⚬.26AC.
+--scepter .⚚.⚚.⚚.⚚.⚬.⚬.⚬.⚬.
 --bow .ƭ.ɟ.ɟ.ƭ.←.→.↑.↓.
---peak .↽.⇁.↾.⇃.()23dc23dd
+--peak .↽.⇁.↾.⇃.
 --noluck .⏻.⏻.⏻.⏻.
 -object
---closedchest ▋▋▅▅☲⚍
---openedchest ▯▯▭▭
---key ☥2625
---potion .ό.ό.ό.ό.1F79
+--closedchest .▋.▋.▅.▅.☲.⚍.
+--openedchest .▯.▯.▭.▭.
+--key .☥.
+--potion .ό.ό.ό.ό.
 -door
 .=======.=======
 .|  I  |.]     [

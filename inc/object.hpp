@@ -2,10 +2,14 @@
 #define OBJECT_H
 
 #include <PDCurses-3.9/curses.h>
+#include <iostream>
+#include <cstdlib>
 #include <utility>
 #include <ctime>
 #include <cmath>
 #include <vector>
+
+#include "display.hpp"
 
 #define mainstream 0
 #define common 1
@@ -13,8 +17,6 @@
 #define topTier 3
 #define godLike 4
 #define legendary 5
-
-class Weapon;
 
 struct flyingObject{
     std::pair<int, int> currentPosition = {0, 0};
@@ -49,6 +51,33 @@ class Object{
 
     private:
         float boxMuller(float mu, float sigma, unsigned int seed);
+};
+
+class Weapon : public Object {
+    public:
+        Weapon(unsigned int seed = time(NULL));
+        ~Weapon();
+        void initialize();
+        void display(const int &x, const int &y,
+         const int &look = 0);
+        void use(const int &x, const int &y,
+         const int &look);
+        inline int getId(){return id;};
+
+    private:
+        float boxMuller(float mu, float sigma, unsigned int seed);
+        // Weapon NFT lol
+        int id;
+        // Does it throw something
+        Object *daughterObj;
+        // Object damage
+        float damage;
+        // Object defense
+        float defense;
+        // Does it push back ennemies
+        int pushback;
+        // Does it contain power (fire ? Wind ?)
+        int power;
 };
 
 #endif

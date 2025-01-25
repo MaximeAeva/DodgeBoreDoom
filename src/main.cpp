@@ -3,59 +3,27 @@
 #include <utility>
 #include <algorithm>
 #include <PDCurses-3.9/curses.h>
-
 #include <stdlib.h>
 #include <windows.h>
 #include <time.h>
 
-#include "hero.hpp"
+#include "living.hpp"
 #include "display.hpp"
+#include "map.hpp"
 
 int main(int argc, char *argv[])
 {
     time_t seed;
-    int x, y, j, r, c;
-
-#ifdef XCURSES
-    Xinitscr(argc, argv);
-#else
-    initscr();
-#endif
     seed = time((time_t *)0);
     srand(seed);
+
+    screenInit();
     
     std::cout << "Starting game ..." << std::endl;
     Map gameMap(5);
-
-    if (has_colors())
-    {
-        short bg = COLOR_BLACK;
-
-        start_color();
-
-#if defined(NCURSES_VERSION) || (defined(PDC_BUILD) && PDC_BUILD > 3000)
-        if (use_default_colors() == OK)
-            bg = -1;
-#endif
-        init_pair(1, COLOR_RED, bg);
-        init_pair(2, COLOR_BLUE, bg);
-        init_pair(3, COLOR_WHITE, bg);
-    }
-
-    nl();
-    noecho();
-    curs_set(0);
-    timeout(0);
-    keypad(stdscr, TRUE);
-
-    r = LINES - 4;
-    c = COLS - 4;
     
-    std::cout << "Create Hero ";
-    Hero Vanessa ;
-    std::cout << ".";
-    Vanessa.place(round(COLS/2), round(LINES/2));
-    std::cout << "." << std::endl;
+    Hero Vanessa;
+    Vanessa.place(int(COLS/2), int(LINES/2));
     Vanessa.display();
     Vanessa.overlay();
     
@@ -64,9 +32,9 @@ int main(int argc, char *argv[])
     int dsh_tempo = 0;
     int mob_tempo = 0;
     int obj_tempo = 0;
-    std::cout << "Game Design";
+    
     gameMap.designRoom();
-    std::cout << "." << std::endl;
+
     while(true)
     {
 
@@ -81,6 +49,7 @@ int main(int argc, char *argv[])
         if(!(obj_tempo % 2))
             for(int i = 0; i<Vanessa.backPack.size(); i++)
                 Vanessa.backPack[i]->updateFlyingObj();
+
         /*
         if(!(obj_tempo % 4))
         {
@@ -88,8 +57,7 @@ int main(int argc, char *argv[])
                 gameMap.mobs[i].backPack[0]->updateFlyingObj();
             obj_tempo = 0;
         }
-        */
-
+        
         
         if(mob_tempo >= 8)
         {
@@ -97,24 +65,23 @@ int main(int argc, char *argv[])
             mob_tempo = 0;
         }
 
-        
+        */
         switch (getch())
         {
-        case 'p':
-        case 'P':
-            curs_set(1);
-            endwin();
-            return EXIT_SUCCESS;
-        #ifdef KEY_RESIZE
-            break;
-        case KEY_RESIZE:
-            # ifdef PDCURSES
+            case 'p':
+            case 'P':
+                curs_set(1);
+                endwin();
+                return EXIT_SUCCESS;
+                break;
+            #ifdef KEY_RESIZE    
+                case KEY_RESIZE:
+                    # ifdef PDCURSES
                         resize_term(0, 0);
-            # endif
-                        r = LINES - 4;
-                        c = COLS - 4;
+                    # endif
             #endif
         }
+        
         if(GetAsyncKeyState(0x5A))   
         {
             if(att_tempo>10)
@@ -151,17 +118,8 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
-        /*
-        if(GetAsyncKeyState(0x45))   
-        {
-            if(dsh_tempo>20)
-            {
-                Vanessa.dash(&gameMap);
-                dsh_tempo = 0;
-            }
-            flushinp();
-        }
-        */
+        
+
         if(GetAsyncKeyState(VK_UP))   
         {
             if(av_tempo>2)
@@ -198,9 +156,12 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
-        //Vanessa.overlay();
-        //Vanessa.display();
+        
+        Vanessa.overlay();
+        Vanessa.display();
         napms(10);
+        
     }
+
     return(0);
 }

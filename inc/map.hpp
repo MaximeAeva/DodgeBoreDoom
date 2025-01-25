@@ -1,6 +1,14 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <PDCurses-3.9/curses.h>
+#include <utility>
+#include <vector>
+#include <cmath>
+#include <iostream>
+
+#include "living.hpp"
+
 #define mainstream 0
 #define common 1
 #define supp 2
@@ -8,16 +16,16 @@
 #define godLike 4
 #define legendary 5
 
-#include <PDCurses-3.9/curses.h>
-#include "mob.hpp"
-#include <utility>
-#include <vector>
-#include <cmath>
-#include <iostream>
-
+/**
+ * @brief A room in the map
+ * 
+ * @param neighboors 
+ * @param position 
+ * @param mob_number 
+ * 
+ */
 struct room{
-    std::vector<int> neighboors;
-    
+    std::vector<int> neighboors; 
     std::pair<int, int> position = {0, 0};
     int mob_number = 0;
     int chest_number = 0;
@@ -62,8 +70,9 @@ class Map{
 
         //Mobs management
         void genMobs(room *r);
-        inline void killAll(){mobs.clear();};
-        std::vector<Mob> mobs;
+        std::vector<Living*> mobs;
+        //inline void killAll(){mobs.clear();};
+        
 
     private:
         void placeARoom(const int &number, const int &ind);
