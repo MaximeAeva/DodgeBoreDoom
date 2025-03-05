@@ -1,109 +1,121 @@
 #include "map.hpp"
 
-Map::Map(const int &room_number)
+template <typename T,typename U>                                                   
+std::pair<T,U> operator+(const std::pair<T,U> & l,const std::pair<T,U> & r) {   
+    return {l.first+r.first,l.second+r.second};                                    
+}  
+
+template <typename T,typename U>                                                   
+bool operator==(std::pair<T,U> & l, std::pair<T,U> & r) {   
+    return l.first==r.first && l.second==r.second;                                    
+} 
+
+/**
+ * @brief Return the coordinate to apply to go in direction of the neighboor
+ * 
+ * @param n neighboors vector (size 4)
+ * @return std::pair<int, int> (x, y) to apply
+ */
+inline std::pair<int, int> neighboors2position(std::vector<bool> n) {return {-1*n[0]+n[2], -1*n[3]+n[1]};}
+
+/**
+ * @brief Construct a new Map:: Map object
+ * 
+ * @param roomNumber number of rooms in the maze
+ */
+Map::Map(const int &roomNumber): _roomNumber(roomNumber)
 {
-    this->currentPosition = {0, 0};//original position
-    std::vector<int> v;
-    for(int i = 0; i<4; i++) v.push_back(0);
-    room r;
-    r.neighboors = v;
-    this->rooms.push_back(r);
-    while(this->rooms.size()<room_number)
-        placeARoom(rand() %4 + 1, rand()%this->rooms.size());
+    Room r({0, 0});
+    _rooms.push_back(r);
+    while(_rooms.size()<_roomNumber)
+        placeARoom(rand() %(4 + 1), rand() %_rooms.size());
 }
 
+/**
+ * @brief Destroy the Map:: Map object
+ * 
+ */
 Map::~Map()
 {
-    this->rooms.clear();
-    this->doors.clear();
-    this->mobs.clear();
+    _rooms.clear();
+    _doors.clear();
 }
 
+/**
+         * @brief Add a room to _rooms (if space available)
+         * 
+         * @param number Neighboor desired position
+         * @param ind Cell position in _rooms
+         */
 void Map::placeARoom(const int &number, const int &ind)
 {
-    int i = 0;
-    std::vector<int> freePlace;//check free space around
-    std::vector<int> neighb;//neighboors
-    room r;
-    while(i<number)
-    {
-        freePlace.clear();
-        for(int k = 0; k<4; k++)
-            if(!this->rooms[ind].neighboors[k]) freePlace.push_back(k);
-        if(freePlace.empty()) break;//If no space, check elsewhere
-        int rd = rand() % freePlace.size();// else pick one of those randomly
-        std::pair<int, int> p = this->rooms[ind].position;//Parent position
-        switch(freePlace[rd])
+    Room* r = getRoom(ind);
+    if (!r->neighboors[number])
+    { 
+        // Say there is a new neighboor
+        r->neighboors[number] = 1;
+        
+        // Create a fake vector neighboor
+        std::vector<bool> dir = {0, 0, 0, 0};
+        dir[number] = 1;
+        // Create and push the new room
+        std::pair<int, int> p0 = getPosition(*r); //get position of the gen cell
+        std::pair<int, int> p1 = p0 + neighboors2position(dir); //p1 is the new cell position
+        Room r1(p1);// Create the new room at p1
+        for(int k = 0; k<4; k++)//find neighboors
         {
-            case 0 :
-                p.first++;
-            break;
-            case 1:
-                p.second--;
-            break;
-            case 2:
-                p.first--;
-            break;
-            case 3:
-                p.second++;
-            break;
-        }//New position carried by p
-        neighb.clear();
-        for(int j = 0; j<4; j++) neighb.push_back(0);
-        for(int n = 0; n<this->rooms.size(); n++)
-        { 
-            if(abs(this->rooms[n].position.first - p.first)+
-                abs(this->rooms[n].position.second - p.second)==1)
+            dir = {0, 0, 0, 0};//initialize
+            dir[k] = 1;//choose direction
+            int i=0;
+            while(i<_rooms.size())
             {
-                if(this->rooms[n].position.first > p.first)
+                r = getRoom(i);//Check room in _rooms
+                if(r->position == (p1 + neighboors2position(dir)))// If there is a room at the position
                 {
-                    neighb[0]++;
-                    if(!this->rooms[n].neighboors[2]) this->rooms[n].neighboors[2]++;
-                    door d(rand()%6, rand()%2, p, this->rooms[n].position);
-                    this->doors.push_back(d);
+                    r->neighboors[(k+2)%4] = 1;//Set a neighboor for neighboor cell
+                    r1.neighboors[k]=1;//Set a neighboor for itself
+                    Door d = Door(0, rand()%2, r->position, r1.position);//Create a door
+                    _doors.push_back(d);//Add the door to the map
+                    break;
                 }
-                else if(this->rooms[n].position.second > p.second)
-                {
-                    neighb[3]++;
-                    if(!this->rooms[n].neighboors[1]) this->rooms[n].neighboors[1]++;
-                    door d(rand()%6, rand()%2, p, this->rooms[n].position);
-                    this->doors.push_back(d);
-                }
-                else if(this->rooms[n].position.first < p.first)
-                {
-                    neighb[2]++;
-                    if(!this->rooms[n].neighboors[0]) this->rooms[n].neighboors[0]++;
-                    door d(rand()%6, rand()%2, p, this->rooms[n].position);
-                    this->doors.push_back(d);
-                }
-                else
-                {
-                    neighb[1]++;
-                    if(!this->rooms[n].neighboors[3]) this->rooms[n].neighboors[3]++;
-                    door d(rand()%6, rand()%2, p, this->rooms[n].position);
-                    this->doors.push_back(d);
-                }
+                i++;
             }
+         
         }
-        
-        r.neighboors = neighb;
-        r.chest_number = rand()%(1+(p.first+p.second)/4);
-        r.mob_number = rand()%(1+2*(abs(p.first)+abs(p.second)))+2;
-        r.position = p;
-        this->rooms.push_back(r);
-        i++;        
+        _rooms.push_back(r1);
+
     }
-        
+    delete r;
 }
 
-void Map::designRoom()
+/**
+ * @brief Get room from its position
+ * 
+ * @param position 
+ * @return Room* 
+ */
+Room* Map::getRoom(std::pair<int, int> &position)
 {
-    room r = findRoom(currentPosition);
-    genMobs(&r);
+    for (int i = 0; i++; i<_rooms.size())
+    {
+        if(_rooms[i].position==position) return &_rooms[i];
+    }
+    return nullptr;
+}
+
+/**
+ * @brief Define a room (spawn mobs and call display functions)
+ * 
+ */
+void Map::setRoom()
+{
+    Room* r = getRoom(_currentPosition);
+    setMobs(r);
+    /*
     attrset(COLOR_WHITE);
     for(int i = 0; i<COLS; i++)
     {
-        if(r.neighboors[1])//there's a door
+        if(r->neighboors[1])//there's a door
         {
             if(i<COLS/2-2 || i>COLS/2+2)//Avoid the door
             {
@@ -118,7 +130,7 @@ void Map::designRoom()
             mvaddch(1, i, 0x2591);
             mvaddch(2, i, 0x2591);
         }
-        if(r.neighboors[3])//there's a door
+        if(r->neighboors[3])//there's a door
         {
             if(i<COLS/2-2 || i>COLS/2+2)//Avoid the door
             {
@@ -161,13 +173,15 @@ void Map::designRoom()
     }
     for(int i = 0; i<4; i++)
     {
-        if(r.neighboors[i])
+        if(r->neighboors[i])
         {   
             doorDisplay(i);
         }
     }
+        */
 }
 
+/*
 void Map::doorDisplay(const int &position)
 {
     init_color(150, 150, 100, 600);
@@ -177,15 +191,15 @@ void Map::doorDisplay(const int &position)
     init_pair(topTier, COLOR_BLACK, COLOR_GREEN);
     init_pair(godLike, COLOR_BLACK, COLOR_BLUE);
     init_pair(legendary, COLOR_BLACK, COLOR_CYAN);
-    room r = findRoom(currentPosition);
-    door d = getDoorInPosition(&r, position);
+    Room r = getRoom(_currentPosition);
+    Door d = getDoorInPosition(&r, position);
     attrset(COLOR_PAIR(d.id));
 
     int row = floor(LINES/2);
     int col = floor(COLS/2);
     if(position == 0)
     {
-        if(d.state)
+        if(d._state)
         {
             mvaddstr(row-2, COLS-5, "     ");
             mvaddstr(row+2, COLS-5, "     ");
@@ -250,39 +264,32 @@ void Map::doorDisplay(const int &position)
     }
     attrset(COLOR_WHITE);
 }
+*/
 
-room Map::findRoom(std::pair<int, int> &position)
+Door Map::getCommonDoor(Room *r1, Room *r2)
 {
-    for(int i = 0; i<this->rooms.size(); i++)
-        if(this->rooms[i].position == position)
-            return this->rooms[i];
-    std::cout << "not found" << std::endl;
-}
-
-door Map::getCommonDoor(room *r1, room *r2)
-{
-    for(int i = 0; i<this->doors.size(); i++)
+    for(int i = 0; i<_doors.size(); i++)
     {
-        if((this->doors[i].r1 == r1->position && this->doors[i].r2 == r2->position )
-            || (this->doors[i].r1 == r2->position && this->doors[i].r2 == r1->position ))
-            return this->doors[i];
+        if((_doors[i]._r1 == r1->position && _doors[i]._r2 == r2->position )
+            || (_doors[i]._r1 == r2->position && _doors[i]._r2 == r1->position ))
+            return _doors[i];
     }
 }
 
-std::vector<door*> Map::getRoomDoors(room *r)
+std::vector<Door*> Map::getRoomDoors(Room *r)
 {
-    std::vector<door*> v;
-    for(int i = 0; i<this->doors.size(); i++)
+    std::vector<Door*> v;
+    for(int i = 0; i<_doors.size(); i++)
     {
-        if(this->doors[i].r1 == r->position 
-                || this->doors[i].r2 == r->position) 
-            v.push_back(&this->doors[i]);
+        if(_doors[i]._r1 == r->position 
+                || _doors[i]._r2 == r->position) 
+            v.push_back(&_doors[i]);
         if(v.size()==4) break;
     }
     return v;
 }
 
-door Map::getDoorInPosition(room *r, const int &position)
+Door Map::getDoorInPosition(Room *r, const int &position)
 {
     std::pair<int, int> p = r->position;
     
@@ -304,8 +311,8 @@ door Map::getDoorInPosition(room *r, const int &position)
          std::cout << "hum" << position << std::endl;
          break;
     }
-    room rr = findRoom(p);
-    door d = getCommonDoor(r, &rr);
+    Room* rr = getRoom(p);
+    Door d = getCommonDoor(r, rr);
     return d;
 }
 
@@ -313,22 +320,23 @@ void Map::setCurrentRoom(std::pair<int, int> crtRoom)
 {
     //killAll();
     wclear(stdscr);
-    this->currentPosition = crtRoom;
-    std::cout << "room : " << currentPosition.first << ", " << currentPosition.second << std::endl;
-    designRoom();
+    _currentPosition = crtRoom;
+    std::cout << "room : " << _currentPosition.first << ", " << _currentPosition.second << std::endl;
+    setRoom();
 }
 
-void Map::updateRoomNMobs(std::pair<int, int> heroPos)
+/**
+ * @brief Add mobs to the current room
+ * 
+ * @param r pointer to the room
+ */
+void Map::setMobs(Room* r)
 {
-}
-
-void Map::genMobs(room *r)
-{
-    std::cout << "mob number: " << r->mob_number << std::endl;
+    std::cout << "mob number: " << r->mobNumber << std::endl;
     Mob* m = new Mob();
-    for(int i = 0; i<r->mob_number; i++)
+    for(int i = 0; i<r->mobNumber; i++)
     {
-        mobs.push_back(m);
+        r->mobs.push_back(m);
         //mobs[i].place(rand()%(COLS/2)+(COLS/4), rand()%(LINES/2)+(LINES/4));  
     }
 }

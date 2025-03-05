@@ -17,13 +17,14 @@ int main(int argc, char *argv[])
     seed = time((time_t *)0);
     srand(seed);
 
+    //Screen initialisation
     screenInit();
     
-    std::cout << "Starting game ..." << std::endl;
-    Map gameMap(5);
+    // Creating map
+    Map gameMap(3);
     
     Hero Vanessa;
-    Vanessa.place(int(COLS/2), int(LINES/2));
+    Vanessa.setposition(int(COLS/2), int(LINES/2));
     Vanessa.display();
     Vanessa.overlay();
     
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     int mob_tempo = 0;
     int obj_tempo = 0;
     
-    gameMap.designRoom();
+    gameMap.setRoom();
 
     while(true)
     {
@@ -47,8 +48,8 @@ int main(int argc, char *argv[])
 
         
         if(!(obj_tempo % 2))
-            for(int i = 0; i<Vanessa.backPack.size(); i++)
-                Vanessa.backPack[i]->updateFlyingObj();
+            for(int i = 0; i<Vanessa.getbackpack().size(); i++)
+                Vanessa.getbackpack()[i]->updateFlyingObj();
 
         /*
         if(!(obj_tempo % 4))
@@ -156,10 +157,12 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
-        
+
+        erase();
         Vanessa.overlay();
         Vanessa.display();
         napms(10);
+        
         
     }
 

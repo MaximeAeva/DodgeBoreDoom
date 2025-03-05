@@ -17,69 +17,87 @@
 #define legendary 5
 
 /**
- * @brief A room in the map
+ * @brief A Room in the map
  * 
  * @param neighboors 
  * @param position 
  * @param mob_number 
  * 
  */
-struct room{
-    std::vector<int> neighboors; 
+struct Room{
+    Room(std::pair<int, int> pos):position(pos) {};
+    // Neighboors from ouest to south == 0 to 3
+    std::vector<bool> neighboors = {0, 0, 0, 0}; 
+    // position of the Room in the map X, Y, starting from 0,0
     std::pair<int, int> position = {0, 0};
-    int mob_number = 0;
-    int chest_number = 0;
+    // mob number in the Room
+    int mobNumber = rand()%(1+2*(abs(position.first)+abs(position.second)))+2;
+    //Mobs on the Room
+    std::vector<Living*> mobs;
+    // Chest number in the Room
+    int chest_number = rand()%(1+(position.first+position.second)/4);
+    // Is the Room secret ? 
     bool secret = false;
+    // Seed of the Room
     int buildSeed = rand();
+    //Destructor for pointers
+    ~Room(){
+        for (auto m : mobs){delete m;}
+        mobs.clear();
+    }
 };
 
-struct door{
-    door(int id, int st, std::pair<int, int> r1, std::pair<int, int> r2)
-    {
-        this->id = id;
-        this->state = st;
-        this->r1 = r1;
-        this->r2 = r2;    
-    }
-    int id;
-    bool state;
-    std::pair<int, int> r1 = {0, 0};
-    std::pair<int, int> r2 = {0, 0};
+/**
+ * @brief Door between 2 rooms
+ * 
+ */
+struct Door{
+    //Door Constructor (id, Room 1 coord, Room 2 coord)
+    Door(int id, bool st, std::pair<int, int> r1, std::pair<int, int> r2) : _id(id), _state(st), _r1(r1), _r2(r2) {};
+    // Id of the Door (to know the associate key)
+    int _id;
+    // True if open, flase if closed
+    bool _state;
+    // First Room position
+    std::pair<int, int> _r1 = {0, 0};
+    // Second Room position
+    std::pair<int, int> _r2 = {0, 0};
 };
 
 class Map{
     public:
         //general mapping 
-        Map(const int &number_room);
+        Map(const int &roomNumber);
         ~Map();
-        inline int getMapSize(){return this->rooms.size();};
+        
+        int getRoomNumber(){return _roomNumber;};
+        Room* getRoom(const int &i){return &_rooms[i];};
+        Room* getRoom(std::pair<int, int> &position);
+        std::pair<int, int> getCurrentPosition(){return _currentPosition;};
+        std::pair<int, int> getPosition(const Room &r){return r.position;}
 
-        //Rooms management
-        inline room getRoom(const int &i){return this->rooms[i];};
-        void designRoom();
-        inline std::pair<int, int> getCurrentPosition(){return this->currentPosition;};
-        room findRoom(std::pair<int, int> &position);
+        void setRoomNumber(const int &x) { _roomNumber = x; };
+        void setRoom();
+        void setMobs(Room* r);        
+        
         void setCurrentRoom(std::pair<int, int> crtRoom);
-        void updateRoomNMobs(std::pair<int, int> heroPos);
 
         //Doors management
-        door getDoorInPosition(room *r, const int &position);
-        door getCommonDoor(room *r, room *r2);
-        std::vector<door*> getRoomDoors(room *r);
+        Door getDoorInPosition(Room *r, const int &position);
+        Door getCommonDoor(Room *r, Room *r2);
+        std::vector<Door*> getRoomDoors(Room *r);
         void doorDisplay(const int &position);
-
-        //Mobs management
-        void genMobs(room *r);
-        std::vector<Living*> mobs;
-        //inline void killAll(){mobs.clear();};
         
 
     private:
         void placeARoom(const int &number, const int &ind);
-        std::vector<door> doors;
-        std::pair<int, int> currentPosition;
-        std::pair<int, int> max_size = {LINES, COLS};
-        std::vector<room> rooms;
+        // Number of rooms in the map
+        int _roomNumber;
+        std::vector<Room> _rooms;
+        std::vector<Door> _doors;
+        std::pair<int, int> _currentPosition = {0, 0};
+        std::pair<int, int> _max_size = {LINES, COLS};
+        
 };
 
 #endif
