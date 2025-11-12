@@ -19,65 +19,63 @@
 #define legendary 5
 
 struct flyingObject{
-    std::pair<int, int> currentPosition = {0, 0};
-    chtype color = COLOR_WHITE;
-    std::pair<int, int> direction = {0, 0};
-    int id = 0;
-    int look = 0;
-    float dmg;
+    flyingObject(std::pair<int, int> pos = {0, 0}, 
+                    std::pair<int, int> dir = {0, 0},
+                    float dmg = 0):_position(pos), 
+                                _direction(dir),
+                                _dmg(dmg) {};
+
+    std::pair<int, int> _position;
+    std::pair<int, int> _direction;
+    float _dmg;
+    int _look = 0;
 };
 
 class Object{
     public:
         Object(unsigned int seed = time(NULL));
         virtual ~Object();
-        virtual void display(const int &x, const int &y,
-         const int &look);
+
         virtual void use(const int &x, const int &y,
          const int &look);
+
         void updateFlyingObj();
-        void addFlyingObject(const std::pair<int, int> &currentPosition,
-                const chtype &color,
-                const std::pair<int, int> &direction,
-                const int &id,
-                const int &look,
-                const float &dmg);
-        void killFlyingObj();
+        void set_flyControl(const std::pair<int, int> &pos,
+                            const std::pair<int, int> &dir,
+                            const float &dmg);
+
     protected:
         //Handle flying objects
-        std::vector<flyingObject> flyControl;
+        std::vector<flyingObject> _flyControl;
         // Is it rare ? (coefficient that apply on features)
-        int rare;
+        int _rare;
 
-    private:
-        float boxMuller(float mu, float sigma, unsigned int seed);
 };
 
 class Weapon : public Object {
     public:
         Weapon(unsigned int seed = time(NULL));
-        ~Weapon();
+        ~Weapon(){};
         void initialize();
         void display(const int &x, const int &y,
          const int &look = 0);
         void use(const int &x, const int &y,
          const int &look);
-        inline int getId(){return id;};
+        inline int getId(){return _id;};
 
     private:
-        float boxMuller(float mu, float sigma, unsigned int seed);
-        // Weapon NFT lol
-        int id;
-        // Does it throw something
-        Object *daughterObj;
+        // Weapon id
+        int _id;
+        //Could it use flyingObject
+        bool _throw;
         // Object damage
-        float damage;
+        float _damage;
         // Object defense
-        float defense;
+        float _defense;
         // Does it push back ennemies
-        int pushback;
+        int _pushback;
         // Does it contain power (fire ? Wind ?)
-        int power;
+        int _power;
 };
 
 #endif

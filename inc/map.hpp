@@ -18,6 +18,7 @@
 #define godLike 4
 #define legendary 5
 
+struct Room;
 
 /**
  * @brief  
@@ -29,9 +30,10 @@ struct Door{
         Door(bool st=true) : _id(++counter), _state(st) {};
 
         //Setter
-
+        void set_rooms(Room* r1, Room* r2){_rooms = {r1, r2};};
         //Getter
         int get_id(){return _id;};
+        std::pair<Room*, Room*> get_rooms(){return _rooms;};
     
     private:    
         static int counter;
@@ -40,9 +42,8 @@ struct Door{
         // True if open, flase if closed
         bool _state;
         //Rooms connected by the door
-        std::pair<int, int> _roomId = {0, 0};
+        std::pair<Room*, Room*> _rooms;
 };
-
 
 /**
  * @brief A Room in the map
@@ -68,12 +69,14 @@ struct Room{
 
         void set_position(std::pair<int, int> pos){_position = pos;};
         void set_neighboors(int i){_neighboors[i] = !_neighboors[i];};
+        void set_doors(int i, Door* d){_doors[i] = d;}
 
         //Getter
 
         std::pair<int, int> get_position(){return _position;};
         std::vector<bool> get_neighboors(){return _neighboors;};
         int get_id(){return _id;};
+        std::vector<Door*> get_doors(){return _doors;};
 
     private:
         
@@ -109,18 +112,19 @@ class Map{
         //Set
         void set_RoomNumber(const int &x) { _roomNumber = x; };
         void add_room(Room r){ _rooms.push_back(r); };
+        void add_door(Room &r1, int index1, Room &r2, int index2);
 
         //Get
         int get_roomNumber(){ return _roomNumber; };
         Room get_room(int i){return _rooms[i];};
+        Door get_door(int i){return _doors[i];};
         
 
     private:
         int _roomNumber;
         std::vector<Room> _rooms;
+        std::vector<Door> _doors;
         std::pair<int, int> _currentPosition = {0, 0};
-
-        
 };
 
 #endif

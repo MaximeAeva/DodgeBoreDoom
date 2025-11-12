@@ -1,15 +1,10 @@
 #include "living.hpp"
+#include "miscellaneous.hpp"
+
+
+
 
 // LIVING  #################################################################################################
-
-float Living::boxMuller(float mu, float sigma, unsigned int seed)
-{
-    srand(seed);
-    float a = (rand() % 100 + 0.001)/float(100);
-    float b = (rand() % 100 + 0.001)/float(100);
-
-    return (sqrt(-2.0*log(a))*cos(2.0*3.141592*b))*sigma + mu;
-}
 
 /**
  * @brief Build a living creature
@@ -33,8 +28,7 @@ Living::Living(unsigned int seed)
     force %= int(100*(rare+1)/5.0);
     force++;
     bpSize = 1 + floor(boxMuller(5, 5, seed));//floor(abs(boxMuller(10, 1, seed)) + 1);
-    Weapon* myWeapon = new Weapon();
-    addbackpack(myWeapon);
+    addbackpack(new Weapon());
 }
 
 /**
@@ -44,11 +38,9 @@ Living::Living(unsigned int seed)
 Living::~Living()
 {
     // Emptying the backpack
-    for(int i = 0; i<bpSize; i++)
-    {
-        delete backpack[i];
-        backpack[i] = NULL;
-    }
+    for(Object* o : backpack) delete o;
+    backpack.clear();
+
 }
 
 /**
@@ -147,7 +139,7 @@ void Hero::overlay()
 void Hero::display()
 {
     attrset(COLOR_PAIR(rare));
-    
+
     switch(look)
     {
         case 1: //right
@@ -168,7 +160,7 @@ void Hero::display()
     if(footPos%2) drawTexture(position.first, position.second, std::string("hero"), std::string("legs"), std::string("open"));
     else drawTexture(position.first, position.second, std::string("hero"), std::string("legs"));
     
-    if(backpack[selectedObj]!=NULL) backpack[selectedObj]->display(position.first, position.second, look);
+    //if(backpack[selectedObj]!=NULL) backpack[selectedObj]->display(position.first, position.second, look);
 }
 
 // MOB  #################################################################################################

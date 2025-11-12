@@ -11,6 +11,8 @@
 #include "display.hpp"
 #include "map.hpp"
 
+
+
 int main(int argc, char *argv[])
 {
     time_t seed;
@@ -18,33 +20,37 @@ int main(int argc, char *argv[])
     srand(seed);
 
     //Screen initialisation
-    //screenInit();
+    screenInit();
  
     // Creating map
-    Map gameMap(3);
-    Room r = gameMap.get_room(0);
-    std::cout << r.get_position().first << "; " << r.get_position().second;
-    r = gameMap.get_room(1);
-    std::cout << r.get_position().first << "; " << r.get_position().second;
-    r = gameMap.get_room(2);
-    std::cout << r.get_position().first << "; " << r.get_position().second;
+    Map gameMap(5);
+
+    Room r;
+    Door d;
+
+    for(int i = 0; i<5; i++){
+        r = gameMap.get_room(i);
+        std::cout << r.get_position().first << "; " << r.get_position().second << std::endl;
+        std::cout << r.get_neighboors()[0]<< "; " <<r.get_neighboors()[1]<< "; " <<r.get_neighboors()[2]<< "; " <<r.get_neighboors()[3]<< std::endl;
+    }
+
+    d = gameMap.get_door(0);
+    std::cout << d.get_rooms().first->get_position().first << ", " << d.get_rooms().first->get_position().second;
+    std::cout << " : ";
+    std::cout << d.get_rooms().second->get_position().first << ", " << d.get_rooms().second->get_position().second;
+    std::cout << std::endl;
     
-    std::cout << "here";
-    return 0;
-}
-/*
-    Hero Vanessa;
-    Vanessa.setposition(int(COLS/2), int(LINES/2));
-    Vanessa.display();
-    Vanessa.overlay();
+
+    Hero hero;
+    hero.setposition(int(COLS/2), int(LINES/2));
+    hero.display();
+    hero.overlay();
     
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
     int mob_tempo = 0;
     int obj_tempo = 0;
-    
-    gameMap.setRoom();
 
     while(true)
     {
@@ -79,7 +85,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                Vanessa.attack(2);
+                hero.attack(2);
                 att_tempo = 0;
             }
             flushinp();
@@ -88,7 +94,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                Vanessa.attack(3);
+                hero.attack(3);
                 att_tempo = 0;
             }
             flushinp();
@@ -97,7 +103,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                Vanessa.attack(4);
+                hero.attack(4);
                 att_tempo = 0;
             }
             flushinp();
@@ -106,7 +112,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                Vanessa.attack(1);
+                hero.attack(1);
                 att_tempo = 0;
             }
             flushinp();
@@ -117,7 +123,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(0, 1);
+                hero.move(0, -1);
                 av_tempo = 0;
             }
             flushinp();
@@ -126,7 +132,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(0, -1);
+                hero.move(0, 1);
                 av_tempo = 0;
             }
             flushinp();
@@ -135,7 +141,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(2, 0);
+                hero.move(2, 0);
                 av_tempo = 0;
             }
             flushinp();
@@ -144,20 +150,19 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                Vanessa.move(-2, 0);
+                hero.move(-2, 0);
                 av_tempo = 0;
             }
             flushinp();
         }
 
         erase();
-        Vanessa.overlay();
-        Vanessa.display();
-        napms(10);
+        hero.overlay();
+        hero.display();
+        napms(50);
         
         
     }
 
     return(0);
 }
-*/

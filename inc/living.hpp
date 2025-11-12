@@ -90,10 +90,7 @@ class Living {
         int bpSize;
         // Backpack
         std::vector<Object*> backpack;
-        
 
-    private:
-        float boxMuller(float mu, float sigma, unsigned int seed);
 };
 
 class Hero : public Living {
