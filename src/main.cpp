@@ -18,11 +18,21 @@ int main(int argc, char *argv[])
     srand(seed);
 
     //Screen initialisation
-    screenInit();
-    
+    //screenInit();
+ 
     // Creating map
     Map gameMap(3);
+    Room r = gameMap.get_room(0);
+    std::cout << r.get_position().first << "; " << r.get_position().second;
+    r = gameMap.get_room(1);
+    std::cout << r.get_position().first << "; " << r.get_position().second;
+    r = gameMap.get_room(2);
+    std::cout << r.get_position().first << "; " << r.get_position().second;
     
+    std::cout << "here";
+    return 0;
+}
+/*
     Hero Vanessa;
     Vanessa.setposition(int(COLS/2), int(LINES/2));
     Vanessa.display();
@@ -47,26 +57,8 @@ int main(int argc, char *argv[])
         obj_tempo++;
 
         
-        if(!(obj_tempo % 2))
-            for(int i = 0; i<Vanessa.getbackpack().size(); i++)
-                Vanessa.getbackpack()[i]->updateFlyingObj();
 
-        /*
-        if(!(obj_tempo % 4))
-        {
-            for(int i = 0; i<gameMap.mobs.size(); i++)
-                gameMap.mobs[i].backPack[0]->updateFlyingObj();
-            obj_tempo = 0;
-        }
         
-        
-        if(mob_tempo >= 8)
-        {
-            gameMap.updateRoomNMobs(Vanessa.getPosition());                
-            mob_tempo = 0;
-        }
-
-        */
         switch (getch())
         {
             case 'p':
@@ -168,3 +160,4 @@ int main(int argc, char *argv[])
 
     return(0);
 }
+*/
