@@ -1,28 +1,30 @@
--hero
---body .ɲ.ɳ.ɳ.ɲ.
---legs1 .Ʌ.Ʌ.Ʌ.Ʌ.
---legs2 .|.|.|.|.
--weapons
---dagger .⸸.⸸.⸸.⸸.∙.∙.∙.∙.
---sword .\./././.<.>.⋀.⋁.
---scepter .⚚.⚚.⚚.⚚.⚬.⚬.⚬.⚬.
---bow .ƭ.ɟ.ɟ.ƭ.←.→.↑.↓.
---peak .↽.⇁.↾.⇃.
---noluck .⏻.⏻.⏻.⏻.
--object
---closedchest .▋.▋.▅.▅.☲.⚍.
---openedchest .▯.▯.▭.▭.
---key .☥.
---potion .ό.ό.ό.ό.
--door
-.=======.=======
-.|  I  |.]     [
-.|  I  |.]     [
-====∥.∥====
-    ∥.∥
-    ∥.∥
-    ∥.∥       
-====∥.∥====
--wall
-.░.▓.
-rlud
+main:map,class:map,roomNumber:10
+main:living,class:hero,name:Jean,display:ɳɳɲɲɅɅɅɅ||||,force:5,team:1
+main:living,class:mob,name:ennemy,display:⏻⏻⏻⏻→↑←↓....
+main:object,class:weapon,name:dagger,display:⸸⸸⸸⸸∙∙∙∙
+main:object,class:weapon,name:sword,display://\\>⋀<⋁
+main:object,class:weapon,name:scepter,display:⚚⚚⚚⚚⚬⚬⚬⚬
+main:object,class:weapon,name:bow,display:ɟɟƭƭ→↑←↓
+main:object,class:weapon,name:peak,display:⇁↾↽⇃
+main:object,class:weapon,name:noluck,display:⏻⏻⏻⏻
+main:object,class:heal,name:potion,display:όόόό
+main:chest,class:chest,name:standardChest,display:▋▋▅▅▯▯▭▭
+main:object,class:object,name:key,display:☥
+END
+
+Map parameters
+    class [map]
+    properties 
+        roomNumber
+
+Object parameters
+    class [object, weapon, heal]
+    display
+    name
+    properties [rare, damage, defense, pushback, power]
+
+Living parameters
+    class [hero, mob]
+    display
+    name
+    properties [rare, life, force, bpSize, team]

@@ -1,10 +1,5 @@
 #include "object.hpp"
-#include "miscellaneous.hpp"
 
-template <typename T,typename U>                                                   
-std::pair<T,U> operator+(const std::pair<T,U> & l,const std::pair<T,U> & r) {   
-    return {l.first+r.first,l.second+r.second};                                    
-} 
 
 
 // OBJECT  #################################################################################################
@@ -15,46 +10,6 @@ Object::Object(unsigned int seed)
 {
     srand(seed);
     _rare = floor(abs(boxMuller(0, 3, seed))/1.8);
-}
-
-Object::~Object()
-{
-    _flyControl.clear();
-}
-
-void Object::use(const int &x, const int &y,
-         const int &look)
-{
-    //attack(x, y, look);
-}
-
-void Object::updateFlyingObj()
-{
-
-    std::pair<int, int> ufoTest;
-    for(flyingObject ufo : _flyControl)
-    {
-        ufoTest = {0, 0};
-        ufoTest = ufo._position+ufo._direction;
-        if(ufoTest.first< COLS-1 && ufoTest.first>1
-                && ufoTest.second < LINES-1 && ufoTest.second>1) ufo._position = ufoTest;
-       
-    }
-}
-
-void Object::set_flyControl(const std::pair<int, int> &pos,
-                            const std::pair<int, int> &dir,
-                            const float &dmg)
-{
-    _flyControl.push_back(flyingObject(pos, dir, dmg));
-}
-
-// WEAPON  #################################################################################################
-
-Weapon::Weapon(unsigned int seed):Object()
-{
-    srand(seed);
-    _id = floor(abs(boxMuller(0, 1400.0/3.0, seed)));
     _throw = rand()%100+1>=95;
     _damage = abs(boxMuller(0, 33, seed))*float(_rare)/5.0;
     _defense = abs(boxMuller(0, 33, seed))*float(_rare)/5.0;
@@ -64,17 +19,62 @@ Weapon::Weapon(unsigned int seed):Object()
     }
 }
 
-void initialize()
+Object::Object(Object_parms o, unsigned int seed)
 {
-
+    srand(seed);
+    _name = o._name;
+    _rare = o._rare;
+    _throw = rand()%100+1>=95;
+    _damage = o._damage;
+    _defense = o._defense;
+    _pushback = o._pushback;
+    _power = o._power;
 }
 
-
-
-void Weapon::use(const int &x, const int &y,
-         const int &look)
+Object::~Object()
 {
-    
+    _subObject.clear();
+}
+
+void Object::update_subObject()
+{
+
+    std::pair<int, int> subTest;
+    for(SubObject sub : _subObject)
+    {
+        subTest = {0, 0};
+        subTest = sub._position+sub._direction;
+        if(subTest.first< COLS-1 && subTest.first>1
+                && subTest.second < LINES-1 && subTest.second>1) sub._position = subTest;
+       
+    }
+}
+
+void Object::set_subObject(const std::pair<int, int> &pos,
+                            const std::pair<int, int> &dir,
+                            const float &dmg)
+{
+    _subObject.push_back(SubObject(pos, dir, dmg));
+}
+
+// Weapon  #################################################################################################
+/**
+ * @brief 
+ * 
+ * @param pos 
+ * @param dir 
+ * @param t 1:distance, 2:AOE, 3:
+ */
+void Weapon::use(std::pair<int, int> &pos,
+                std::pair<int, int> &dir, int t)
+{
+    switch(t){
+        case 1:
+            set_subObject(pos, dir, _damage);
+            break;
+        default:
+            set_subObject(pos, dir, _damage);
+    }
 }
 
 

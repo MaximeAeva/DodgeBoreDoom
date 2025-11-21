@@ -1,8 +1,4 @@
 #include "living.hpp"
-#include "miscellaneous.hpp"
-
-
-
 
 // LIVING  #################################################################################################
 
@@ -13,22 +9,48 @@
 Living::Living(unsigned int seed)
 {
     srand(seed);
-    rare = floor(abs(boxMuller(0, 3, seed))/1.8);
-    attackSpeed = floor(abs(boxMuller(0, 3, seed)) + 1);
-    dashSpeed = floor(abs(boxMuller(0, 2, seed)));
-    speed = floor(abs(boxMuller(0, 3, seed)) + 1);
-    life = floor(abs(boxMuller(20, 33, seed)));
-    life %= int(100*(rare+1)/5.0);
-    life++;
-    currentLife = life - floor(abs(boxMuller(0, life/3, seed)));
-    resistance = floor(abs(boxMuller(20, 33, seed)));
-    resistance %= int(100*(rare+1)/5.0);
-    resistance++;
-    force = floor(abs(boxMuller(20, 33, seed)));
-    force %= int(100*(rare+1)/5.0);
-    force++;
-    bpSize = 1 + floor(boxMuller(5, 5, seed));//floor(abs(boxMuller(10, 1, seed)) + 1);
-    addbackpack(new Weapon());
+    _rare = floor(abs(boxMuller(0, 3, seed))/1.8);
+    _attackSpeed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    _dashSpeed = floor(abs(boxMuller(0, 2, seed)));
+    _speed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    _life = floor(abs(boxMuller(20, 33, seed)));
+    _life %= int(100*(_rare+1)/5.0);
+    _life++;
+    _currentLife = _life - floor(abs(boxMuller(0, _life/3, seed)));
+    _resistance = floor(abs(boxMuller(20, 33, seed)));
+    _resistance %= int(100*(_rare+1)/5.0);
+    _resistance++;
+    _force = floor(abs(boxMuller(20, 33, seed)));
+    _force %= int(100*(_rare+1)/5.0);
+    _force++;
+    _bpSize = 1 + floor(boxMuller(5, 5, seed));//floor(abs(boxMuller(10, 1, seed)) + 1);
+    add_backpack(Weapon());
+}
+
+/**
+ * @brief Construct a new Living:: Living object according to design.txt
+ * 
+ * @param seed 
+ * @param l 
+ */
+Living::Living(Living_parms l, unsigned int seed)
+{
+    srand(seed);
+    _name = l._name;
+    _rare = l._rare;
+    _team = l._team;
+    _attackSpeed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    _dashSpeed = floor(abs(boxMuller(0, 2, seed)));
+    _speed = floor(abs(boxMuller(0, 3, seed)) + 1);
+    _life = l._life;
+    _currentLife = _life - floor(abs(boxMuller(0, _life/3, seed)));
+    _resistance = floor(abs(boxMuller(20, 33, seed)));
+    _resistance %= int(100*(_rare+1)/5.0);
+    _resistance++;
+    _force = l._force;
+    _bpSize = l._bpSize;//floor(abs(boxMuller(10, 1, seed)) + 1);
+    add_backpack(Weapon(object_roll_dice("weapon")));
+    _selectedObj = &_backpack[0];
 }
 
 /**
@@ -37,23 +59,9 @@ Living::Living(unsigned int seed)
  */
 Living::~Living()
 {
-    // Emptying the backpack
-    for(Object* o : backpack) delete o;
-    backpack.clear();
-
+    _backpack.clear();
 }
 
-/**
- * @brief Entering the maze
- * 
- * @param x 
- * @param y 
- */
-void Living::setposition(const int &x, const int &y)
-{
-    position.first=x;
-    position.second=y;
-}
 
 /**
  * @brief Move the living
@@ -62,113 +70,29 @@ void Living::setposition(const int &x, const int &y)
  * @param y 
  * @param look 
  */
-void Living::move(const int &x, const int &y)
+void Living::move(std::pair<int, int> vector)
 {
-    position = {position.first+x, position.second+y};
-    footPos = !footPos;
+    _position = _position + vector;
 }
 
 /**
  * @brief Attack !!
  * 
  */
-void Living::attack(int dir)
+void Living::attack(std::pair<int, int> dir)
 {
-    if(backpack[selectedObj]!=NULL)
-        backpack[selectedObj]->use(position.first, position.second, dir);
+    if(_selectedObj!=nullptr)
+        _selectedObj->use(_position, dir);
 }
 
-void Living::addbackpack(Object* o)
+void Living::add_backpack(Object o)
 {
-    if(getbpSize()>backpack.size()) backpack.push_back(o);
+    if(get_bpSize()>_backpack.size()) _backpack.push_back(o);
 }
 
 // HERO #################################################################################################
 
-/**
- * @brief Construct a new hero::hero object
- * 
- */
-Hero::Hero():Living() 
-{
-    setteam(1);
-}
 
-/**
- * @brief Destroy the hero::hero object
- * 
- */
-Hero::~Hero(){}
 
-/**
- * @brief Display life
- * 
- */
-void Hero::overlay()
-{
-    init_pair(11, COLOR_RED, COLOR_RED);
-    init_pair(10, COLOR_BLACK, COLOR_BLACK);
-    attrset(COLOR_PAIR(10));
-    int k = 5; 
-    int l = 0;
-    for(int i = 1; i<life+1; i++)
-    {
-        mvaddch(l,k,' ');
-        if((i%2)) l = (l+1)%2;
-        else 
-        {
-            if(!(i%4)) k+=2;
-            else k++;
-        }
-    }
-    attrset(COLOR_PAIR(11));
-    k = 5;
-    l = 0;
-    for(int i = 1; i<currentLife+1; i++)
-    {
-        mvaddch(l,k,' ');
-        if((i%2)) l = (l+1)%2;
-        else 
-        {
-            if(!(i%4)) k+=2;
-            else k++;
-        }
-    }
-}
-
-void Hero::display()
-{
-    attrset(COLOR_PAIR(rare));
-
-    switch(look)
-    {
-        case 1: //right
-            drawTexture(position.first, position.second, std::string("hero"), std::string("body"), std::string("right"));
-            break;
-        case 2: //up
-            drawTexture(position.first, position.second, std::string("hero"), std::string("body"), std::string("up"));
-            break;
-        case 3: //left
-            drawTexture(position.first, position.second, std::string("hero"), std::string("body"), std::string("left"));
-            break;
-        case 4: //down (sad man ?)
-            drawTexture(position.first, position.second, std::string("hero"), std::string("body"), std::string("bottom"));
-            break;
-        default:
-            drawTexture(position.first, position.second, std::string("hero"), std::string("body"), std::string("right"));
-    }
-    if(footPos%2) drawTexture(position.first, position.second, std::string("hero"), std::string("legs"), std::string("open"));
-    else drawTexture(position.first, position.second, std::string("hero"), std::string("legs"));
-    
-    //if(backpack[selectedObj]!=NULL) backpack[selectedObj]->display(position.first, position.second, look);
-}
 
 // MOB  #################################################################################################
-
-Mob::Mob():Living()
-{
-}
-
-Mob::~Mob()
-{
-}

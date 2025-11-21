@@ -8,6 +8,7 @@
 #include <PDCurses-3.9/curses.h>
 
 #include "object.hpp"
+#include "miscellaneous.hpp"
 
 #define mainstream 0
 #define common 1
@@ -19,94 +20,89 @@
 class Living {
     public:
         Living(unsigned int seed = time(NULL));
+        Living(Living_parms l, unsigned int seed = time(NULL));
         ~Living();
 
-        int getRare() const { return rare; };
-        int getattackSpeed() const { return attackSpeed; };
-        int getdashSpeed() const { return dashSpeed; };
-        int getspeed() const { return speed; };
-        int getteam() const { return team; };
-        std::pair<int, int> getposition() const { return position; };
-        int getselectedObj() const { return selectedObj; };
-        bool getfootPos() const { return footPos; };
-        int getlook() const { return look; };
-        int getlife() const { return life; };
-        int getcurrentLife() const { return currentLife; };
-        int getforce() const { return force; };
-        int getresistance() const { return resistance; };
-        int getbpSize() const { return bpSize; };
-        std::vector<Object*> getbackpack() const { return backpack; };
+        void set_name(std::string name){ _name = name; };
+        void set_rare(const int &x) { _rare = x; };
+        void set_attackSpeed(const int &x) { _attackSpeed = x; };
+        void set_dashSpeed(const int &x) { _dashSpeed = x; };
+        void set_speed(const int &x) { _speed = x; };
+        void set_team(const int &x) { _team = x; };
+        void set_position(std::pair<int, int> p) { _position = p; };;
+        void set_selectedObj(Object &o) { _selectedObj = &o; };
+        void set_look(const int &x) { _look = x; };
+        void set_life(const int &x) { _life = x; };
+        void set_currentLife(const int &x) { _currentLife = x; };
+        void set_force(const int &x) { _force = x; };
+        void set_resistance(const int &x) { _resistance = x; };
+        void set_bpSize(const int &x) { _bpSize = x; };
+        void add_backpack(Object o);
 
-        void setRare(const int &x) { rare = x; };
-        void setattackSpeed(const int &x) { attackSpeed = x; };
-        void setdashSpeed(const int &x) { dashSpeed = x; };
-        void setspeed(const int &x) { speed = x; };
-        void setteam(const int &x) { team = x; };
-        void setposition(const int &x, const int &y);
-        void setselectedObj(const int &x) { selectedObj = x; };
-        void setfootPos(const int &x) { footPos = x; };
-        void setlook(const int &x) { look = x; };
-        void setlife(const int &x) { life = x; };
-        void setcurrentLife(const int &x) { currentLife = x; };
-        void setforce(const int &x) { force = x; };
-        void setresistance(const int &x) { resistance = x; };
-        void setbpSize(const int &x) { bpSize = x; };
-        void addbackpack(Object* o);
+        std::string get_name(){ return _name;};
+        int get_rare() const { return _rare; };
+        int get_attackSpeed() const { return _attackSpeed; };
+        int get_dashSpeed() const { return _dashSpeed; };
+        int get_speed() const { return _speed; };
+        int get_team() const { return _team; };
+        std::pair<int, int> get_position() const { return _position; };
+        Object* get_selectedObj() const { return _selectedObj; };
+        int get_look() const { return _look; };
+        int get_life() const { return _life; };
+        int get_currentLife() const { return _currentLife; };
+        int get_force() const { return _force; };
+        int get_resistance() const { return _resistance; };
+        int get_bpSize() const { return _bpSize; };
+        std::vector<Object> get_backpack() const { return _backpack; };
 
-        void move(const int &x, const int &y);
-        virtual void display(){};
-        void attack(int dir);
-        // What's inside its backpack (Array of pointer to objects)
-        
+
+        void move(std::pair<int, int> vector);
+        void attack(std::pair<int, int> dir);        
 
     protected:
-        // Is this man rare ?
-        int rare;
+        std::string _name;
+        // Is this man _rare ?
+        int _rare;
         // Attack speed
-        int attackSpeed;
+        int _attackSpeed;
         // A quick brown fox dashes through the lazy dog
-        int dashSpeed;
+        int _dashSpeed;
         // Living speed
-        int speed;
+        int _speed;
         // What is its politics
-        int team = 0;
-        // Living position on map
-        std::pair<int, int> position;
+        int _team = 0;
+        // Living _position on map
+        std::pair<int, int> _position;
         // Current handed object
-        int selectedObj = 0;
-        // Animation on foot
-        bool footPos = false;
-        // Where does it look ?
-        int look = 1;
+        Object* _selectedObj = nullptr;
+        // Where does it _look ?
+        int _look = 1;
         // Maximum available life
-        int life;
+        int _life;
         // Current health state
-        int currentLife;
-        // Force bonus 
-        int force;
+        int _currentLife;
+        // _force bonus 
+        int _force;
         // Defense bonus
-        int resistance;
-        // Backpack maximum size
-        int bpSize;
-        // Backpack
-        std::vector<Object*> backpack;
+        int _resistance;
+        // _backpack maximum size
+        int _bpSize;
+        // _backpack
+        std::vector<Object> _backpack;
 
 };
 
 class Hero : public Living {
     public:
-        Hero();
-        ~Hero();
-        void overlay();
-        void display();
+        Hero():Living(){_team=1;};
+        Hero(Living_parms l, unsigned int seed = time(NULL)):Living(l, seed){};
+
 };
 
 class Mob : public Living {
     public:
-        Mob();
-        ~Mob();
-
-    private:
+        Mob():Living(){};
+        Mob(Living_parms l, unsigned int seed = time(NULL)):Living(l, seed){};
 };
 
 #endif

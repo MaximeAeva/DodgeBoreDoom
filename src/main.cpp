@@ -10,6 +10,7 @@
 #include "living.hpp"
 #include "display.hpp"
 #include "map.hpp"
+#include "miscellaneous.hpp"
 
 
 
@@ -19,32 +20,24 @@ int main(int argc, char *argv[])
     seed = time((time_t *)0);
     srand(seed);
 
+    loadDesign();
+
     //Screen initialisation
-    screenInit();
+    //screenInit();
  
     // Creating map
     Map gameMap(5);
-
-    Room r;
-    Door d;
-
-    for(int i = 0; i<5; i++){
-        r = gameMap.get_room(i);
-        std::cout << r.get_position().first << "; " << r.get_position().second << std::endl;
-        std::cout << r.get_neighboors()[0]<< "; " <<r.get_neighboors()[1]<< "; " <<r.get_neighboors()[2]<< "; " <<r.get_neighboors()[3]<< std::endl;
-    }
-
-    d = gameMap.get_door(0);
-    std::cout << d.get_rooms().first->get_position().first << ", " << d.get_rooms().first->get_position().second;
-    std::cout << " : ";
-    std::cout << d.get_rooms().second->get_position().first << ", " << d.get_rooms().second->get_position().second;
-    std::cout << std::endl;
     
+    //Create a hero
+    Hero hero(living_find("hero"));
+    std::cout << hero.get_name() << std::endl;
+    std::cout << hero.get_selectedObj()->get_name() << std::endl;
 
-    Hero hero;
-    hero.setposition(int(COLS/2), int(LINES/2));
-    hero.display();
-    hero.overlay();
+    Mob m(living_find("mob"));
+    std::cout << m.get_name() << std::endl;
+    std::cout << m.get_selectedObj()->get_name() << std::endl;
+
+    hero.set_position({int(COLS/2), int(LINES/2)});
     
     int att_tempo = 0;
     int av_tempo = 0;
@@ -52,7 +45,7 @@ int main(int argc, char *argv[])
     int mob_tempo = 0;
     int obj_tempo = 0;
 
-    while(true)
+    while(true)//Main loop
     {
 
         //Initialize timers
@@ -85,7 +78,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack(2);
+                hero.attack({1, 0});
                 att_tempo = 0;
             }
             flushinp();
@@ -94,7 +87,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack(3);
+                hero.attack({0, -1});
                 att_tempo = 0;
             }
             flushinp();
@@ -103,7 +96,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack(4);
+                hero.attack({-1, 0});
                 att_tempo = 0;
             }
             flushinp();
@@ -112,7 +105,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack(1);
+                hero.attack({0, 1});
                 att_tempo = 0;
             }
             flushinp();
@@ -123,7 +116,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move(0, -1);
+                hero.move({0, -1});
                 av_tempo = 0;
             }
             flushinp();
@@ -132,7 +125,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move(0, 1);
+                hero.move({0, 1});
                 av_tempo = 0;
             }
             flushinp();
@@ -141,7 +134,7 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move(2, 0);
+                hero.move({2, 0});
                 av_tempo = 0;
             }
             flushinp();
@@ -150,15 +143,13 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move(-2, 0);
+                hero.move({-2, 0});
                 av_tempo = 0;
             }
             flushinp();
         }
 
         erase();
-        hero.overlay();
-        hero.display();
         napms(50);
         
         

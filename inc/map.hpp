@@ -57,10 +57,7 @@ struct Room{
     public:
         //General
         Room(std::pair<int, int> pos={0, 0}) : _position(pos), _id(++counter) {};
-        ~Room(){
-                    for (auto m : mobs){delete m;}
-                    mobs.clear();
-            };
+        ~Room(){mobs.clear();};
 
         // return neighboors number (0 - 4)
         int neighboors_number(){return _neighboors[0]+_neighboors[1]+_neighboors[2]+_neighboors[3];};
@@ -91,7 +88,7 @@ struct Room{
         // mob number in the Room
         int _mobNumber = rand()%(1+2*(abs(_position.first)+abs(_position.second)))+2;
         //Mobs on the Room
-        std::vector<Living*> mobs;
+        std::vector<Living> mobs;
         // Chest number in the Room
         int chest_number = rand()%(1+(_position.first+_position.second)/4);
         // Is the Room secret ? 
@@ -105,6 +102,7 @@ class Map{
     public:
         //General 
         Map(const int &roomNumber);
+        Map(Map_parms m);
         ~Map();
 
         void mapping();

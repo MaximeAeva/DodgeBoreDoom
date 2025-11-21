@@ -19,4 +19,4 @@ void drawTexture(const int &x, const int &y, std::string category,
 void screenInit();
 
 
-#endif DISPLAY_H
+#endif
