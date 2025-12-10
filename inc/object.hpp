@@ -9,7 +9,6 @@
 #include <cmath>
 #include <vector>
 
-#include "display.hpp"
 #include "miscellaneous.hpp"
 
 #define mainstream 0
@@ -52,6 +51,7 @@ class Object{
         void set_subObject(const std::pair<int, int> &pos,
                             const std::pair<int, int> &dir,
                             const float &dmg);
+        void set_position(std::pair<int, int> p){_position = p;};
         void set_rare(int value){_rare = value;};
         void set_throw(bool b){_throw = b;};
         void set_damage(int dmg){_damage = dmg;};
@@ -60,8 +60,10 @@ class Object{
         void set_power(int pwr){_power = pwr;};
         void set_objectType(int t){_objectType = t;};
         void set_name(std::string name){_name = name;};
+        void set_look(std::pair<int, int> l){_look = l;};
 
         std::vector<SubObject> get_subObject(){return _subObject;};
+        std::pair<int, int> get_position(){return _position;};
         int get_rare(){return _rare;};
         bool get_throw(){return _throw;};
         int get_damage(){return _damage;};
@@ -70,6 +72,7 @@ class Object{
         int get_power(){return _power;};
         int get_objectType(){return _objectType;};
         std::string get_name(){return _name;};
+        std::pair<int, int> get_look(){return _look;};
 
     protected:
         //Object name
@@ -78,6 +81,8 @@ class Object{
         int _objectType;
         //Handle flying objects
         std::vector<SubObject> _subObject;
+        //Position on map
+        std::pair<int, int> _position;
         // Is it rare ? (coefficient that apply on features)
         int _rare;
         //does it use SubObjects ?
@@ -90,6 +95,8 @@ class Object{
         int _pushback;
         // Does it contain power (fire ? Wind ?)
         int _power;
+        //Look
+        std::pair<int, int> _look = {-1, 0};
 
 };
 

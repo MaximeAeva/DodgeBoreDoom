@@ -20,25 +20,20 @@ int main(int argc, char *argv[])
     seed = time((time_t *)0);
     srand(seed);
 
+    // Upload design.txt file
     loadDesign();
-
-    //Screen initialisation
-    //screenInit();
  
     // Creating map
     Map gameMap(5);
     
+    // Create a display
+    Display dsp;
+
     //Create a hero
     Hero hero(living_find("hero"));
-    std::cout << hero.get_name() << std::endl;
-    std::cout << hero.get_selectedObj()->get_name() << std::endl;
+    hero.set_position({int(LINES/2), int(COLS/2)});
 
-    Mob m(living_find("mob"));
-    std::cout << m.get_name() << std::endl;
-    std::cout << m.get_selectedObj()->get_name() << std::endl;
 
-    hero.set_position({int(COLS/2), int(LINES/2)});
-    
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
@@ -47,7 +42,7 @@ int main(int argc, char *argv[])
 
     while(true)//Main loop
     {
-
+        
         //Initialize timers
         att_tempo++;
         av_tempo++;
@@ -116,7 +111,8 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move({0, -1});
+                dsp.erase_living(hero);
+                hero.move({-1, 0});
                 av_tempo = 0;
             }
             flushinp();
@@ -125,7 +121,8 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move({0, 1});
+                dsp.erase_living(hero);
+                hero.move({1, 0});
                 av_tempo = 0;
             }
             flushinp();
@@ -134,7 +131,8 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move({2, 0});
+                dsp.erase_living(hero);
+                hero.move({0, 2});
                 av_tempo = 0;
             }
             flushinp();
@@ -143,14 +141,16 @@ int main(int argc, char *argv[])
         {
             if(av_tempo>2)
             {
-                hero.move({-2, 0});
+                dsp.erase_living(hero);
+                hero.move({0, -2});
                 av_tempo = 0;
             }
             flushinp();
         }
 
-        erase();
-        napms(50);
+        dsp.draw_living(hero);
+        refresh();
+        napms(20);
         
         
     }

@@ -17,18 +17,20 @@ Object::Object(unsigned int seed)
     if(rand()%100+1==95 || rand()%100+1<10){ 
         _power = rand()%2+1;
     }
+    _position = {rand()%COLS+1, rand()%LINES+1};
 }
 
 Object::Object(Object_parms o, unsigned int seed)
 {
     srand(seed);
     _name = o._name;
-    _rare = o._rare;
+    _rare = rand()%5+1;
     _throw = rand()%100+1>=95;
     _damage = o._damage;
     _defense = o._defense;
     _pushback = o._pushback;
     _power = o._power;
+    _position = {rand()%COLS+1, rand()%LINES+1};
 }
 
 Object::~Object()

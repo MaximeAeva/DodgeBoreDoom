@@ -1,5 +1,5 @@
 main:map,class:map,roomNumber:10
-main:living,class:hero,name:Jean,display:ɳɳɲɲɅɅɅɅ||||,force:5,team:1
+main:living,class:hero,name:Jean,display:aaaabcdebcde,force:5,team:1,rare:2
 main:living,class:mob,name:ennemy,display:⏻⏻⏻⏻→↑←↓....
 main:object,class:weapon,name:dagger,display:⸸⸸⸸⸸∙∙∙∙
 main:object,class:weapon,name:sword,display://\\>⋀<⋁

@@ -24,7 +24,9 @@ Living::Living(unsigned int seed)
     _force %= int(100*(_rare+1)/5.0);
     _force++;
     _bpSize = 1 + floor(boxMuller(5, 5, seed));//floor(abs(boxMuller(10, 1, seed)) + 1);
-    add_backpack(Weapon());
+    add_backpack(Weapon(object_roll_dice("weapon")));
+    _selectedObj = &_backpack[0];
+    _selectedObj->set_position(_position+_look);
 }
 
 /**
@@ -51,6 +53,7 @@ Living::Living(Living_parms l, unsigned int seed)
     _bpSize = l._bpSize;//floor(abs(boxMuller(10, 1, seed)) + 1);
     add_backpack(Weapon(object_roll_dice("weapon")));
     _selectedObj = &_backpack[0];
+    _selectedObj->set_position(_position+_look);
 }
 
 /**
@@ -73,6 +76,15 @@ Living::~Living()
 void Living::move(std::pair<int, int> vector)
 {
     _position = _position + vector;
+    //Ensure not living the map
+    _position.first = _position.first <= 0 ? 1 : _position.first;
+    _position.first = _position.first >= LINES ? LINES-1 : _position.first;
+    _position.second = _position.second <= 0 ? 1 : _position.second;
+    _position.second = _position.second >= COLS ? COLS-1 : _position.second;
+    //Change look
+    _look = unit(vector);
+    _selectedObj->set_position(_position+_look);
+    _selectedObj->set_look(_look);
 }
 
 /**

@@ -181,6 +181,19 @@ bool isContiguous(const std::pair<T,U> & l, const std::pair<T,U> & r) {
     return (l.first==r.first && abs(l.second-r.second)==1) || (l.second==r.second && abs(l.first-r.first)==1);                                  
 } 
 
+template <typename T,typename U>                                                   
+std::pair<T,U> unit(const std::pair<T,U> & l) {   
+    return {l.first ? l.first/abs(l.first) : 0, l.second ? l.second/abs(l.second) : 0};                                  
+} 
+
+template <typename T,typename U>                                                   
+int lookValue(const std::pair<T,U> & l) {   
+    std::vector<std::pair<int, int>> d = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
+    for(int i = 0; i<d.size(); ++i) if(unit(l)==d[i]) return i;
+    return -1;                                  
+}
+
+
 /**
  * @brief Load design.txt file and parse parameters to structures
  * 
@@ -265,7 +278,7 @@ inline Living_parms living_roll_dice(std::string c, unsigned int seed = time(NUL
  * @param seed 
  * @return Object_parms 
  */
-inline Object_parms object_find(std::string c = "", std::string n = "", unsigned int seed = time(NULL)){
+inline Object_parms object_find(std::string c = "", std::string n = ""){
     std::vector<Object_parms> v;
     for(Object_parms o : OBJECTS_P)
         if(o._class == c  || o._name == n) return o;
@@ -273,7 +286,15 @@ inline Object_parms object_find(std::string c = "", std::string n = "", unsigned
     return Object_parms();
 }
 
-inline Living_parms living_find(std::string c = "", std::string n = "", unsigned int seed = time(NULL)){
+/**
+ * @brief Find a living according to class or name
+ * 
+ * @param c 
+ * @param n 
+ * @param seed 
+ * @return Living_parms 
+ */
+inline Living_parms living_find(std::string c = "", std::string n = ""){
     std::vector<Living_parms> v;
     for(Living_parms l : LIVING_P)
         if(l._class == c  || l._name == n) return l;

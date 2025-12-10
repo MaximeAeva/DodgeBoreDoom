@@ -57,7 +57,7 @@ struct Room{
     public:
         //General
         Room(std::pair<int, int> pos={0, 0}) : _position(pos), _id(++counter) {};
-        ~Room(){mobs.clear();};
+        ~Room(){_mobs.clear();};
 
         // return neighboors number (0 - 4)
         int neighboors_number(){return _neighboors[0]+_neighboors[1]+_neighboors[2]+_neighboors[3];};
@@ -66,7 +66,8 @@ struct Room{
 
         void set_position(std::pair<int, int> pos){_position = pos;};
         void set_neighboors(int i){_neighboors[i] = !_neighboors[i];};
-        void set_doors(int i, Door* d){_doors[i] = d;}
+        void set_doors(int i, Door* d){_doors[i] = d;};
+        void set_mobs(Mob &m){_mobs.push_back(&m);};
 
         //Getter
 
@@ -74,6 +75,7 @@ struct Room{
         std::vector<bool> get_neighboors(){return _neighboors;};
         int get_id(){return _id;};
         std::vector<Door*> get_doors(){return _doors;};
+        std::vector<Mob*> get_mobs(){return _mobs;};
 
     private:
         
@@ -88,7 +90,7 @@ struct Room{
         // mob number in the Room
         int _mobNumber = rand()%(1+2*(abs(_position.first)+abs(_position.second)))+2;
         //Mobs on the Room
-        std::vector<Living> mobs;
+        std::vector<Mob*> _mobs;
         // Chest number in the Room
         int chest_number = rand()%(1+(_position.first+_position.second)/4);
         // Is the Room secret ? 
@@ -122,6 +124,7 @@ class Map{
         int _roomNumber;
         std::vector<Room> _rooms;
         std::vector<Door> _doors;
+        std::vector<Living> _livings;
         std::pair<int, int> _currentPosition = {0, 0};
 };
 

@@ -31,7 +31,7 @@ class Living {
         void set_team(const int &x) { _team = x; };
         void set_position(std::pair<int, int> p) { _position = p; };;
         void set_selectedObj(Object &o) { _selectedObj = &o; };
-        void set_look(const int &x) { _look = x; };
+        void set_look(std::pair<int, int> x) { _look = x; };
         void set_life(const int &x) { _life = x; };
         void set_currentLife(const int &x) { _currentLife = x; };
         void set_force(const int &x) { _force = x; };
@@ -47,7 +47,7 @@ class Living {
         int get_team() const { return _team; };
         std::pair<int, int> get_position() const { return _position; };
         Object* get_selectedObj() const { return _selectedObj; };
-        int get_look() const { return _look; };
+        std::pair<int, int> get_look() const { return _look; };
         int get_life() const { return _life; };
         int get_currentLife() const { return _currentLife; };
         int get_force() const { return _force; };
@@ -76,7 +76,7 @@ class Living {
         // Current handed object
         Object* _selectedObj = nullptr;
         // Where does it _look ?
-        int _look = 1;
+        std::pair<int, int> _look = {-1, 0};
         // Maximum available life
         int _life;
         // Current health state
