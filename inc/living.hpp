@@ -37,7 +37,7 @@ class Living {
         void set_force(const int &x) { _force = x; };
         void set_resistance(const int &x) { _resistance = x; };
         void set_bpSize(const int &x) { _bpSize = x; };
-        void add_backpack(Object o);
+        void add_backpack(Object* o);
 
         std::string get_name(){ return _name;};
         int get_rare() const { return _rare; };
@@ -53,11 +53,12 @@ class Living {
         int get_force() const { return _force; };
         int get_resistance() const { return _resistance; };
         int get_bpSize() const { return _bpSize; };
-        std::vector<Object> get_backpack() const { return _backpack; };
+        std::vector<Object*> get_backpack() const { return _backpack; };
 
 
         void move(std::pair<int, int> vector);
-        void attack(std::pair<int, int> dir);        
+        void attack(std::pair<int, int> dir);
+        void update_backpack();       
 
     protected:
         std::string _name;
@@ -88,7 +89,7 @@ class Living {
         // _backpack maximum size
         int _bpSize;
         // _backpack
-        std::vector<Object> _backpack;
+        std::vector<Object*> _backpack;
 
 };
 

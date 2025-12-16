@@ -24,8 +24,8 @@ Living::Living(unsigned int seed)
     _force %= int(100*(_rare+1)/5.0);
     _force++;
     _bpSize = 1 + floor(boxMuller(5, 5, seed));//floor(abs(boxMuller(10, 1, seed)) + 1);
-    add_backpack(Weapon(object_roll_dice("weapon")));
-    _selectedObj = &_backpack[0];
+    add_backpack(new Weapon(object_roll_dice("weapon")));
+    _selectedObj = _backpack[0];
     _selectedObj->set_position(_position+_look);
 }
 
@@ -51,8 +51,8 @@ Living::Living(Living_parms l, unsigned int seed)
     _resistance++;
     _force = l._force;
     _bpSize = l._bpSize;//floor(abs(boxMuller(10, 1, seed)) + 1);
-    add_backpack(Weapon(object_roll_dice("weapon")));
-    _selectedObj = &_backpack[0];
+    add_backpack(new Weapon(object_roll_dice("weapon")));
+    _selectedObj = _backpack[0];
     _selectedObj->set_position(_position+_look);
 }
 
@@ -62,7 +62,9 @@ Living::Living(Living_parms l, unsigned int seed)
  */
 Living::~Living()
 {
-    _backpack.clear();
+    for (auto obj : _backpack) {
+    delete obj;
+}
 }
 
 
@@ -97,10 +99,14 @@ void Living::attack(std::pair<int, int> dir)
         _selectedObj->use(_position, dir);
 }
 
-void Living::add_backpack(Object o)
+void Living::add_backpack(Object* o)
 {
     if(get_bpSize()>_backpack.size()) _backpack.push_back(o);
 }
+
+void Living::update_backpack(){ 
+    for(Object* o : _backpack) o->update_subObject(); 
+} 
 
 // HERO #################################################################################################
 

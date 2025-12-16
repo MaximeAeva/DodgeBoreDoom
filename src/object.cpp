@@ -17,7 +17,7 @@ Object::Object(unsigned int seed)
     if(rand()%100+1==95 || rand()%100+1<10){ 
         _power = rand()%2+1;
     }
-    _position = {rand()%COLS+1, rand()%LINES+1};
+    _position = {rand()%LINES+1, rand()%COLS+1};
 }
 
 Object::Object(Object_parms o, unsigned int seed)
@@ -30,7 +30,7 @@ Object::Object(Object_parms o, unsigned int seed)
     _defense = o._defense;
     _pushback = o._pushback;
     _power = o._power;
-    _position = {rand()%COLS+1, rand()%LINES+1};
+    _position = {0, 0};
 }
 
 Object::~Object()
@@ -40,15 +40,13 @@ Object::~Object()
 
 void Object::update_subObject()
 {
-
     std::pair<int, int> subTest;
-    for(SubObject sub : _subObject)
+    for(SubObject& sub : _subObject)
     {
         subTest = {0, 0};
         subTest = sub._position+sub._direction;
-        if(subTest.first< COLS-1 && subTest.first>1
-                && subTest.second < LINES-1 && subTest.second>1) sub._position = subTest;
-       
+        if(subTest.first< LINES-1 && subTest.first>1
+                && subTest.second < COLS-1 && subTest.second>1) sub._position = subTest;
     }
 }
 
@@ -68,9 +66,9 @@ void Object::set_subObject(const std::pair<int, int> &pos,
  * @param t 1:distance, 2:AOE, 3:
  */
 void Weapon::use(std::pair<int, int> &pos,
-                std::pair<int, int> &dir, int t)
+                std::pair<int, int> &dir)
 {
-    switch(t){
+    switch(_objectType){
         case 1:
             set_subObject(pos, dir, _damage);
             break;

@@ -1,3 +1,5 @@
+#define PDC_WIDE
+
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -33,7 +35,6 @@ int main(int argc, char *argv[])
     Hero hero(living_find("hero"));
     hero.set_position({int(LINES/2), int(COLS/2)});
 
-
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
@@ -49,7 +50,7 @@ int main(int argc, char *argv[])
         dsh_tempo++;
         mob_tempo++;
         obj_tempo++;
-
+        dsp.erase_living(hero);
         
 
         
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
             #endif
         }
         
-        if(GetAsyncKeyState(0x5A))   
+        if(GetAsyncKeyState(0x5A))    
         {
             if(att_tempo>10)
             {
@@ -148,6 +149,7 @@ int main(int argc, char *argv[])
             flushinp();
         }
 
+        hero.update_backpack();
         dsp.draw_living(hero);
         refresh();
         napms(20);

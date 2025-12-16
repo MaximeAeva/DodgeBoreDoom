@@ -45,7 +45,7 @@ class Object{
         virtual ~Object();
 
         virtual void use(std::pair<int, int> &pos,
-                            std::pair<int, int> &dir){};
+                            std::pair<int, int> &dir){}
 
         void update_subObject();
         void set_subObject(const std::pair<int, int> &pos,
@@ -105,12 +105,9 @@ class Weapon : public Object {
         Weapon():Object(){};
         Weapon(Object_parms o, unsigned int seed = time(NULL)):Object(o, seed){};
         ~Weapon(){};
-
-        void display(const int &x, const int &y,
-         const int &look = 0);
-        virtual void use(std::pair<int, int> &pos,
-                            std::pair<int, int> &dir,
-                            int t);       
+        
+        void use(std::pair<int, int> &pos,
+                            std::pair<int, int> &dir) override;       
 };
 
 #endif

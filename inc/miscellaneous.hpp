@@ -166,6 +166,11 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r) {
     return {l.first-r.first,l.second-r.second};                                    
 }  
 
+template <typename T,typename U>    
+std::pair<T,U> operator*(const int i,const std::pair<T,U> & r) {   
+    return {r.first*i,r.second*i};                                    
+}  
+
 /**
  * @brief Check if pairs are next to each other
  * 

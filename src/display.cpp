@@ -22,12 +22,14 @@ Display::Display(){
                 if (use_default_colors() == OK)
                     bg = -1;
         #endif
+        
         init_pair(1, COLOR_WHITE, COLOR_BLACK);
         init_pair(2, COLOR_RED, COLOR_BLACK);
         init_pair(3, COLOR_YELLOW, COLOR_BLACK);
         init_pair(4, COLOR_GREEN, COLOR_BLACK);
         init_pair(5, COLOR_BLUE, COLOR_BLACK);
         init_pair(6, COLOR_CYAN, COLOR_BLACK);
+        init_pair(12, COLOR_BLACK, COLOR_RED);
     }
 
     nl();
@@ -83,10 +85,23 @@ void Display::draw_object(Object &o){
     mvaddch(o.get_position().first, o.get_position().second, op._display[dspIdx]);
 
     attroff(COLOR_PAIR(o.get_rare()));
- }
+
+    if(o.get_subObject().size()){
+        dspIdx += 4;
+        attron(COLOR_PAIR(12));
+            for(SubObject so: o.get_subObject())
+                mvaddch(so._position.first, so._position.second, op._display[dspIdx]);
+        attroff(COLOR_PAIR(12));
+    }
+
+}
 
  void Display::erase_object(Object &o){
     chtype ch = ' ' | COLOR_PAIR(1);
-     mvaddch(o.get_position().first, o.get_position().second, ch);
+    mvaddch(o.get_position().first, o.get_position().second, ch);
+    if(o.get_subObject().size()){
+        for(SubObject so: o.get_subObject())
+            mvaddch(so._position.first, so._position.second, ch);
+    }
  }
 
