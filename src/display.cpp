@@ -6,7 +6,7 @@ Display::Display(){
     #ifdef XCURSES
         Xinitscr(argc, argv);
     #else
-        initscr();
+        //initscr();
         int row, col;
         getmaxyx(stdscr, row, col);
         wresize(stdscr, row-1, col-1);
@@ -87,10 +87,9 @@ void Display::draw_object(Object &o){
     attroff(COLOR_PAIR(o.get_rare()));
 
     if(o.get_subObject().size()){
-        dspIdx += 4;
         attron(COLOR_PAIR(12));
             for(SubObject so: o.get_subObject())
-                mvaddch(so._position.first, so._position.second, op._display[dspIdx]);
+                mvaddch(so._position.first, so._position.second, op._display[so._look+4]);
         attroff(COLOR_PAIR(12));
     }
 

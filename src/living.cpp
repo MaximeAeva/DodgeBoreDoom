@@ -62,9 +62,8 @@ Living::Living(Living_parms l, unsigned int seed)
  */
 Living::~Living()
 {
-    for (auto obj : _backpack) {
-    delete obj;
-}
+    for (auto obj : _backpack) 
+        delete obj;
 }
 
 

@@ -8,6 +8,13 @@ int Room::counter = 0;
 
 //###################   ROOM    ##################
 
+Room::~Room(){
+    for(Door *d : _doors)
+        delete d;
+    for (auto lvg : _livings) 
+        delete lvg;
+}
+
 //###################   DOOR    ##################
 //###################   MAP     ##################
 
@@ -33,6 +40,8 @@ Map::Map(Map_parms m): _roomNumber(m._roomNumber){
 Map::~Map(){
     _rooms.clear();
     //_doors.clear();
+    for (auto lvg : _livings) 
+        delete lvg;
 }
 
 /**
@@ -81,6 +90,11 @@ void Map::mapping(){
         _rooms[currentRoom].set_position(_rooms[baseRoom].get_position()+displacement[numbers[i]]);//Place current room
         
         add_door(_rooms[baseRoom], numbers[i], _rooms[currentRoom], (numbers[i]+2)%4);
+        //Add mobs according to room number (progressiv difficulty)
+        for (int mobIdx = 0; mobIdx<_rooms[currentRoom].get_mobNumber(); mobIdx++){
+            _livings.push_back(new Mob(living_roll_dice("mob")));
+            _rooms[currentRoom].set_livings(*_livings.back());
+        }
 
         for(int k=0; k<currentRoom; k++) if(k!=baseRoom) cpy_rooms.push_back(&_rooms[k]);//Create a copy
         

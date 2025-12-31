@@ -30,7 +30,7 @@ struct SubObject{
     std::pair<int, int> _position;
     std::pair<int, int> _direction;
     float _dmg;
-    int _look = 0;
+    int _look = lookValue(_direction);
 };
 
 struct Chest{

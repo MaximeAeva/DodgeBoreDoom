@@ -35,6 +35,11 @@ int main(int argc, char *argv[])
     Hero hero(living_find("hero"));
     hero.set_position({int(LINES/2), int(COLS/2)});
 
+    gameMap.set_livings(hero);
+
+    dsp.draw_living(hero);
+    dsp.draw_object(*hero.get_selectedObj());
+
     int att_tempo = 0;
     int av_tempo = 0;
     int dsh_tempo = 0;
@@ -50,7 +55,11 @@ int main(int argc, char *argv[])
         dsh_tempo++;
         mob_tempo++;
         obj_tempo++;
-        dsp.erase_living(hero);
+        if(av_tempo!=0)
+        {
+            dsp.erase_object(*hero.get_selectedObj());
+        }   
+        hero.update_backpack();
         
 
         
@@ -74,7 +83,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack({1, 0});
+                hero.attack({-1, 0});
                 att_tempo = 0;
             }
             flushinp();
@@ -92,7 +101,7 @@ int main(int argc, char *argv[])
         {
             if(att_tempo>10)
             {
-                hero.attack({-1, 0});
+                hero.attack({1, 0});
                 att_tempo = 0;
             }
             flushinp();
@@ -114,6 +123,7 @@ int main(int argc, char *argv[])
             {
                 dsp.erase_living(hero);
                 hero.move({-1, 0});
+                dsp.draw_living(hero);
                 av_tempo = 0;
             }
             flushinp();
@@ -124,6 +134,7 @@ int main(int argc, char *argv[])
             {
                 dsp.erase_living(hero);
                 hero.move({1, 0});
+                dsp.draw_living(hero);
                 av_tempo = 0;
             }
             flushinp();
@@ -134,6 +145,7 @@ int main(int argc, char *argv[])
             {
                 dsp.erase_living(hero);
                 hero.move({0, 2});
+                dsp.draw_living(hero);
                 av_tempo = 0;
             }
             flushinp();
@@ -144,13 +156,17 @@ int main(int argc, char *argv[])
             {
                 dsp.erase_living(hero);
                 hero.move({0, -2});
+                dsp.draw_living(hero);
                 av_tempo = 0;
             }
             flushinp();
         }
+        if(av_tempo!=0)
+        {
+            dsp.draw_object(*hero.get_selectedObj());
+        } 
 
-        hero.update_backpack();
-        dsp.draw_living(hero);
+        
         refresh();
         napms(20);
         

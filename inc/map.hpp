@@ -57,7 +57,7 @@ struct Room{
     public:
         //General
         Room(std::pair<int, int> pos={0, 0}) : _position(pos), _id(++counter) {};
-        ~Room(){_mobs.clear();};
+        ~Room();
 
         // return neighboors number (0 - 4)
         int neighboors_number(){return _neighboors[0]+_neighboors[1]+_neighboors[2]+_neighboors[3];};
@@ -67,7 +67,7 @@ struct Room{
         void set_position(std::pair<int, int> pos){_position = pos;};
         void set_neighboors(int i){_neighboors[i] = !_neighboors[i];};
         void set_doors(int i, Door* d){_doors[i] = d;};
-        void set_mobs(Mob &m){_mobs.push_back(&m);};
+        void set_livings(Living &m){_livings.push_back(&m);};
 
         //Getter
 
@@ -75,7 +75,8 @@ struct Room{
         std::vector<bool> get_neighboors(){return _neighboors;};
         int get_id(){return _id;};
         std::vector<Door*> get_doors(){return _doors;};
-        std::vector<Mob*> get_mobs(){return _mobs;};
+        std::vector<Living*> get_livings(){return _livings;};
+        int get_mobNumber(){return _mobNumber;};
 
     private:
         
@@ -90,7 +91,7 @@ struct Room{
         // mob number in the Room
         int _mobNumber = rand()%(1+2*(abs(_position.first)+abs(_position.second)))+2;
         //Mobs on the Room
-        std::vector<Mob*> _mobs;
+        std::vector<Living*> _livings;
         // Chest number in the Room
         int chest_number = rand()%(1+(_position.first+_position.second)/4);
         // Is the Room secret ? 
@@ -113,18 +114,20 @@ class Map{
         void set_RoomNumber(const int &x) { _roomNumber = x; };
         void add_room(Room r){ _rooms.push_back(r); };
         void add_door(Room &r1, int index1, Room &r2, int index2);
+        void set_livings(Living &l){ _livings.push_back(&l); };;
 
         //Get
         int get_roomNumber(){ return _roomNumber; };
         Room get_room(int i){return _rooms[i];};
         Door get_door(int i){return _doors[i];};
+        Living* get_livings(int i){return _livings[i];};
         
 
     private:
         int _roomNumber;
         std::vector<Room> _rooms;
         std::vector<Door> _doors;
-        std::vector<Living> _livings;
+        std::vector<Living*> _livings;
         std::pair<int, int> _currentPosition = {0, 0};
 };
 
