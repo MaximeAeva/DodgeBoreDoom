@@ -6,7 +6,7 @@ Display::Display(){
     #ifdef XCURSES
         Xinitscr(argc, argv);
     #else
-        //initscr();
+        initscr();
         int row, col;
         getmaxyx(stdscr, row, col);
         wresize(stdscr, row-1, col-1);

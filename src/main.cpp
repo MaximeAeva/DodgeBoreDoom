@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     Hero hero(living_find("hero"));
     hero.set_position({int(LINES/2), int(COLS/2)});
 
-    gameMap.set_livings(hero);
+    //gameMap.set_livings(hero);
 
     dsp.draw_living(hero);
     dsp.draw_object(*hero.get_selectedObj());
