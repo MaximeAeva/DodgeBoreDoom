@@ -9,13 +9,13 @@ int Room::counter = 0;
 //###################   ROOM    ##################
 
 Room::~Room(){
-    for(Door *d : _doors)
-        delete d;
-    for (auto lvg : _livings) 
-        delete lvg;
+    _doors.clear();
+    _livings.clear();
 }
 
 //###################   DOOR    ##################
+
+
 //###################   MAP     ##################
 
 /**
@@ -39,9 +39,11 @@ Map::Map(Map_parms m): _roomNumber(m._roomNumber){
  */
 Map::~Map(){
     _rooms.clear();
+    _doors.clear();
     //_doors.clear();
     for (auto lvg : _livings) 
         delete lvg;
+    _livings.clear();
 }
 
 /**
@@ -78,6 +80,7 @@ void Map::mapping(){
     int baseRoom = 0, i = 0, j = 0, k = 0;//Loop constant
 
     for(int currentRoom = 1; currentRoom<_roomNumber; currentRoom++){
+        i = 0;
         std::shuffle(numbers.begin(), numbers.end(), g);//Neighboor random check order
         while(true){//choice baseroom which is able to welcome a new room
             baseRoom = rand()%currentRoom;//choose among previous rooms
@@ -114,4 +117,5 @@ void Map::mapping(){
             cpy_rooms.clear();
         }
     }
+    _currentRoom = &_rooms[0];
 }

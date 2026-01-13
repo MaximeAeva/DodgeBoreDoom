@@ -114,13 +114,17 @@ class Map{
         void set_RoomNumber(const int &x) { _roomNumber = x; };
         void add_room(Room r){ _rooms.push_back(r); };
         void add_door(Room &r1, int index1, Room &r2, int index2);
-        void set_livings(Living &l){ _livings.push_back(&l); };;
+        void set_livings(Living &l){ _livings.push_back(&l); };
+        void set_currentPosition(std::pair<int, int> &c){ _currentPosition = c;};
+        void set_currentRoom(Room &r){ _currentRoom = &r;};
 
         //Get
         int get_roomNumber(){ return _roomNumber; };
-        Room get_room(int i){return _rooms[i];};
-        Door get_door(int i){return _doors[i];};
-        Living* get_livings(int i){return _livings[i];};
+        std::vector<Room> get_rooms(){return _rooms;};
+        std::vector<Door> get_doors(){return _doors;};
+        std::vector<Living*> get_livings(){return _livings;};
+        std::pair<int, int> get_currentPosition(){return _currentPosition;};
+        Room* get_currentRoom(){return _currentRoom;};
         
 
     private:
@@ -129,6 +133,7 @@ class Map{
         std::vector<Door> _doors;
         std::vector<Living*> _livings;
         std::pair<int, int> _currentPosition = {0, 0};
+        Room* _currentRoom = nullptr;
 };
 
 #endif

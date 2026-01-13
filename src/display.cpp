@@ -6,7 +6,7 @@ Display::Display(){
     #ifdef XCURSES
         Xinitscr(argc, argv);
     #else
-        //initscr();
+        initscr();
         int row, col;
         getmaxyx(stdscr, row, col);
         wresize(stdscr, row-1, col-1);
@@ -30,6 +30,8 @@ Display::Display(){
         init_pair(5, COLOR_BLUE, COLOR_BLACK);
         init_pair(6, COLOR_CYAN, COLOR_BLACK);
         init_pair(12, COLOR_BLACK, COLOR_RED);
+        init_pair(21, COLOR_BLACK, COLOR_BLACK);
+        init_pair(22, COLOR_WHITE, COLOR_WHITE);
     }
 
     nl();
@@ -95,12 +97,37 @@ void Display::draw_object(Object &o){
 
 }
 
- void Display::erase_object(Object &o){
+void Display::erase_object(Object &o){
     chtype ch = ' ' | COLOR_PAIR(1);
     mvaddch(o.get_position().first, o.get_position().second, ch);
     if(o.get_subObject().size()){
         for(SubObject so: o.get_subObject())
             mvaddch(so._position.first, so._position.second, ch);
     }
+ }
+
+void Display::draw_map(Map &m){
+    attron(COLOR_PAIR(22));
+    for(int i = 0; i<COLS; ++i){
+        mvaddch(0, i, '=');
+        mvaddch(LINES-2, i, '=');
+    }
+    for(int i = 0; i<LINES; ++i){ 
+        mvaddch(i, 0, '=');
+        mvaddch(i, COLS-2, '=');
+    }
+
+    attroff(COLOR_PAIR(22));
+    attron(COLOR_PAIR(21));
+    std::vector<Door> doors = m.get_doors();
+    std::vector<std::pair<int, int>> coord = {{int(LINES/2), COLS-2}, 
+                                                {0, int(COLS/2)}, 
+                                                    {int(LINES/2), 0}, 
+                                                        {LINES-2, int(COLS/2)}};
+    std::vector<Door*> d = m.get_currentRoom()->get_doors();
+    for(int i = 0; i<4; ++i){
+        if(d[i]) mvaddch(coord[i].first, coord[i].second, '=');
+    }
+    attroff(COLOR_PAIR(21));
  }
 

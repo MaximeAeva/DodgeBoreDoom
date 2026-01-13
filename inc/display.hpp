@@ -9,6 +9,7 @@
 #include "miscellaneous.hpp"
 #include "living.hpp"
 #include "object.hpp"
+#include "map.hpp"
 
 #define mainstream 0
 #define common 1
@@ -23,7 +24,7 @@ class Display{
 
         void draw_living(Living &l);
         void draw_object(Object &o);
-        void draw_map();
+        void draw_map(Map &m);
         void draw_overlay(); 
 
         void erase_living(Living &l);
