@@ -87,22 +87,47 @@ void Display::draw_object(Object &o){
     mvaddch(o.get_position().first, o.get_position().second, op._display[dspIdx]);
 
     attroff(COLOR_PAIR(o.get_rare()));
-
+    /*
     if(o.get_subObject().size()){
         attron(COLOR_PAIR(12));
             for(SubObject so: o.get_subObject())
                 mvaddch(so._position.first, so._position.second, op._display[so._look+4]);
         attroff(COLOR_PAIR(12));
     }
-
+    */
 }
 
 void Display::erase_object(Object &o){
     chtype ch = ' ' | COLOR_PAIR(1);
     mvaddch(o.get_position().first, o.get_position().second, ch);
+    /*
     if(o.get_subObject().size()){
         for(SubObject so: o.get_subObject())
             mvaddch(so._position.first, so._position.second, ch);
+    }
+    */
+ }
+
+void Display::draw_subobject(Object &o){
+    Object_parms op = object_find("", o.get_name());
+    if(o.get_subObject().size()){
+        attron(COLOR_PAIR(12));
+            for(SubObject so: o.get_subObject()){
+                if(so._end) continue;
+                mvaddch(so._position.first, so._position.second, op._display[so._look+4]);
+            }
+        attroff(COLOR_PAIR(12));
+    }
+
+}
+
+void Display::erase_subobject(Object &o){
+    chtype ch = ' ' | COLOR_PAIR(1);
+    if(o.get_subObject().size()){
+        for(SubObject so: o.get_subObject()){
+            if(so._end) continue;
+            mvaddch(so._position.first, so._position.second, ch);
+        }
     }
  }
 
@@ -118,6 +143,7 @@ void Display::draw_map(Map &m){
     }
 
     attroff(COLOR_PAIR(22));
+
     attron(COLOR_PAIR(21));
     std::vector<Door> doors = m.get_doors();
     std::vector<std::pair<int, int>> coord = {{int(LINES/2), COLS-2}, 

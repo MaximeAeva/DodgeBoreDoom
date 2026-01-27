@@ -43,10 +43,14 @@ void Object::update_subObject()
     std::pair<int, int> subTest;
     for(SubObject& sub : _subObject)
     {
-        subTest = {0, 0};
-        subTest = sub._position+sub._direction;
-        if(subTest.first< LINES-1 && subTest.first>1
-                && subTest.second < COLS-1 && subTest.second>1) sub._position = subTest;
+        if(sub._end) continue;
+        std::pair<int, int> p = sub._position;
+        sub._position = sub._position + sub._direction;
+        sub._position.first = sub._position.first <= 0 ? 1 : sub._position.first;
+        sub._position.first = sub._position.first >= LINES-1 ? LINES-2 : sub._position.first;
+        sub._position.second = sub._position.second <= 0 ? 1 : sub._position.second;
+        sub._position.second = sub._position.second >= COLS-2 ? COLS-3 : sub._position.second;
+        if(p.first != sub._position.first || p.second != sub._position.second) sub._end!=sub._end;
     }
 }
 

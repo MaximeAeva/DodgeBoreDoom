@@ -35,11 +35,8 @@ int main(int argc, char *argv[])
     Hero hero(living_find("hero"));
     hero.set_position({int(LINES/2), int(COLS/2)});
 
-<<<<<<< HEAD
-=======
     //gameMap.set_livings(hero);
 
->>>>>>> 59e9fe3b176c105ce004994a1af9e436691e916b
     dsp.draw_living(hero);
     dsp.draw_map(gameMap);
 
@@ -58,10 +55,12 @@ int main(int argc, char *argv[])
         dsh_tempo++;
         mob_tempo++;
         obj_tempo++;
+        
         if(av_tempo!=0)
         {
-            dsp.erase_object(*hero.get_selectedObj());
+            dsp.erase_subobject(*hero.get_selectedObj());
         }   
+        
         hero.update_backpack();
         
 
@@ -84,38 +83,22 @@ int main(int argc, char *argv[])
         
         if(GetAsyncKeyState(0x5A))    
         {
-            if(att_tempo>10)
-            {
-                hero.attack({-1, 0});
-                att_tempo = 0;
-            }
+            hero.attack({-1, 0});
             flushinp();
         }
         if(GetAsyncKeyState(0x51))   
         {
-            if(att_tempo>10)
-            {
-                hero.attack({0, -1});
-                att_tempo = 0;
-            }
+            hero.attack({0, -1});
             flushinp();
         }
         if(GetAsyncKeyState(0x53))   
         {
-            if(att_tempo>10)
-            {
-                hero.attack({1, 0});
-                att_tempo = 0;
-            }
+            hero.attack({1, 0});
             flushinp();
         }
         if(GetAsyncKeyState(0x44))   
         {
-            if(att_tempo>10)
-            {
-                hero.attack({0, 1});
-                att_tempo = 0;
-            }
+            hero.attack({0, 1});
             flushinp();
         }
         
@@ -164,14 +147,11 @@ int main(int argc, char *argv[])
             }
             flushinp();
         }
-        if(av_tempo!=0)
-        {
-            dsp.draw_object(*hero.get_selectedObj());
-        } 
 
+        dsp.draw_subobject(*hero.get_selectedObj());
         
         refresh();
-        napms(20);
+        napms(10);
         
         
     }

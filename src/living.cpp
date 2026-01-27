@@ -79,9 +79,9 @@ void Living::move(std::pair<int, int> vector)
     _position = _position + vector;
     //Ensure not living the map
     _position.first = _position.first <= 0 ? 1 : _position.first;
-    _position.first = _position.first >= LINES ? LINES-1 : _position.first;
+    _position.first = _position.first >= LINES ? LINES-2 : _position.first;
     _position.second = _position.second <= 0 ? 1 : _position.second;
-    _position.second = _position.second >= COLS ? COLS-1 : _position.second;
+    _position.second = _position.second >= COLS ? COLS-3 : _position.second;
     //Change look
     _look = unit(vector);
     _selectedObj->set_position(_position+_look);

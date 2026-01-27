@@ -90,6 +90,8 @@ class Living {
         int _bpSize;
         // _backpack
         std::vector<Object*> _backpack;
+        // Alive ?
+        bool _alive = true;
 
 };
 

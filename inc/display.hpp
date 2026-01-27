@@ -24,11 +24,13 @@ class Display{
 
         void draw_living(Living &l);
         void draw_object(Object &o);
+        void draw_subobject(Object &o);
         void draw_map(Map &m);
         void draw_overlay(); 
 
         void erase_living(Living &l);
         void erase_object(Object &o);
+        void erase_subobject(Object &o);
 
 };
 

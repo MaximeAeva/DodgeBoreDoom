@@ -31,6 +31,7 @@ struct SubObject{
     std::pair<int, int> _direction;
     float _dmg;
     int _look = lookValue(_direction);
+    bool _end = false;
 };
 
 struct Chest{
@@ -97,6 +98,7 @@ class Object{
         int _power;
         //Look
         std::pair<int, int> _look = {-1, 0};
+        
 
 };
 
