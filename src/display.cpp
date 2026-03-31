@@ -40,6 +40,7 @@ Display::Display(){
     curs_set(0);
     timeout(0);
     keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
 }
 
 /**

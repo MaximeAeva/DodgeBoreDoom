@@ -56,101 +56,73 @@ int main(int argc, char *argv[])
         mob_tempo++;
         obj_tempo++;
         
-        if(av_tempo!=0)
-        {
-            dsp.erase_subobject(*hero.get_selectedObj());
-        }   
-        
+        dsp.erase_subobject(*hero.get_selectedObj());
         hero.update_backpack();
-        
-
-        
-        switch (getch())
-        {
-            case 'p':
-            case 'P':
-                curs_set(1);
-                endwin();
-                return EXIT_SUCCESS;
-                break;
-            #ifdef KEY_RESIZE    
-                case KEY_RESIZE:
-                    # ifdef PDCURSES
-                        resize_term(0, 0);
-                    # endif
-            #endif
-        }
-        
-        if(GetAsyncKeyState(0x5A))    
-        {
-            hero.attack({-1, 0});
-            flushinp();
-        }
-        if(GetAsyncKeyState(0x51))   
-        {
-            hero.attack({0, -1});
-            flushinp();
-        }
-        if(GetAsyncKeyState(0x53))   
-        {
-            hero.attack({1, 0});
-            flushinp();
-        }
-        if(GetAsyncKeyState(0x44))   
-        {
-            hero.attack({0, 1});
-            flushinp();
-        }
-        
-
-        if(GetAsyncKeyState(VK_UP))   
-        {
-            if(av_tempo>2)
-            {
-                dsp.erase_living(hero);
-                hero.move({-1, 0});
-                dsp.draw_living(hero);
-                av_tempo = 0;
-            }
-            flushinp();
-        }
-        if(GetAsyncKeyState(VK_DOWN))   
-        {
-            if(av_tempo>2)
-            {
-                dsp.erase_living(hero);
-                hero.move({1, 0});
-                dsp.draw_living(hero);
-                av_tempo = 0;
-            }
-            flushinp();
-        }
-        if(GetAsyncKeyState(VK_RIGHT))
-        {
-            if(av_tempo>2)
-            {
-                dsp.erase_living(hero);
-                hero.move({0, 2});
-                dsp.draw_living(hero);
-                av_tempo = 0;
-            }
-            flushinp();
-        }
-        if(GetAsyncKeyState(VK_LEFT))
-        {
-            if(av_tempo>2)
-            {
-                dsp.erase_living(hero);
-                hero.move({0, -2});
-                dsp.draw_living(hero);
-                av_tempo = 0;
-            }
-            flushinp();
-        }
-
         dsp.draw_subobject(*hero.get_selectedObj());
+
+        int ch = getch();
+        if (ch != ERR)
+        {
+            switch (ch)
+            {
+                case KEY_UP:
+                    dsp.erase_living(hero);
+                    hero.move({-1, 0});
+                    dsp.draw_living(hero);
+                    av_tempo = 0;
+                break;
+                case KEY_DOWN:
+                    dsp.erase_living(hero);
+                    hero.move({1, 0});
+                    dsp.draw_living(hero);
+                    av_tempo = 0;
+                break;
+                case KEY_RIGHT:
+                    dsp.erase_living(hero);
+                    hero.move({0, 2});
+                    dsp.draw_living(hero);
+                    av_tempo = 0;
+                break;
+                case KEY_LEFT:
+                    dsp.erase_living(hero);
+                    hero.move({0, -2});
+                    dsp.draw_living(hero);
+                    av_tempo = 0;
+                break;
+                case 'Z':
+                case 'z':
+                    hero.attack({-1, 0});
+                break;
+                case 'S':
+                case 's':
+                    hero.attack({1, 0});
+                break;
+                case 'D':
+                case 'd':
+                    hero.attack({0, 1});
+                break;
+                case 'Q':
+                case 'q':
+                    hero.attack({0, -1});
+                break;
+
+                case 'p':
+                case 'P':
+                    curs_set(1);
+                    endwin();
+                    return EXIT_SUCCESS;
+                    break;
+                #ifdef KEY_RESIZE    
+                    case KEY_RESIZE:
+                        # ifdef PDCURSES
+                            resize_term(0, 0);
+                        # endif
+                #endif
+            }
+        }
         
         refresh();
+        flushinp();
         napms(10);
         
         
